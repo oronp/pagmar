@@ -53,7 +53,6 @@ class Pagmar:
 
     def background_creator_with_emotion(self) -> turtle.Screen:
         screen = turtle.Screen()
-        # screen.bgcolor('white')
         screen.bgpic(os.path.join(os.getcwd(), 'files', 'background_image.gif'))
         screen.setup(1.0, 1.0)
         screen.update()
@@ -65,9 +64,8 @@ class Pagmar:
         emotions = list(emotions.values())
         dot_x_location, dot_y_location = self.axis_center
 
-        for angle, emotion in enumerate(emotions):
-            dot_y_location += emotion * math.sin(angle * 60) * 4
-            dot_x_location += emotion * math.cos(angle * 60) * 4
+        dot_x_location += emotions[0]*4 - emotions[3]*4 + emotions[5]*2
+        dot_y_location += emotions[2]*4 - emotions[4]*4 - emotions[5]*2
 
         # plot must be int because it presents a pixel location.
         dot_x_location = int(dot_x_location)

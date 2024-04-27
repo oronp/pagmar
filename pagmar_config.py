@@ -8,7 +8,7 @@ ID2LABEL = {
     6: "happy"
 }
 
-ORDERED_EMOTIONS_ANGLES = ['happy', 'neutral', 'angry', 'sad', 'fear', 'disgust']
+ORDERED_EMOTIONS_ANGLES = ['fear', 'disgust', 'sad', 'neutral', 'happy', 'angry']
 
 COLORS = {
     "red": (255, 0, 0),
