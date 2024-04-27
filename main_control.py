@@ -53,7 +53,7 @@ class Pagmar:
         dot_x_location = int(dot_x_location)
         dot_y_location = int(dot_y_location)
         # In case you want to plot the dot.
-        cv2.circle(self.background, (dot_x_location, dot_y_location), 1, pagmar_config.COLORS['black'], -1)
+        # cv2.circle(self.background, (dot_x_location, dot_y_location), 1, pagmar_config.COLORS['black'], -1)
 
         return dot_x_location, dot_y_location
 
