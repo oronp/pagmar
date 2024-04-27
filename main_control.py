@@ -11,7 +11,7 @@ import tools
 class Pagmar:
     def __init__(self, camera_number: int = 0):
         self.line_drawer = turtle.Turtle(visible=False)
-        self.line_drawer.speed(0.55)
+        self.line_drawer.speed(6)
         self.line_drawer.color(pagmar_config.COLORS['black'])
 
         self.camera_number = camera_number
@@ -97,4 +97,4 @@ class Pagmar:
 
 
 if __name__ == '__main__':
-    Pagmar(0).video_looper()
+    Pagmar(1).video_looper()
