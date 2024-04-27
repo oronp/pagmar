@@ -8,6 +8,8 @@ ID2LABEL = {
     6: "happy"
 }
 
+ORDERED_EMOTIONS_ANGLES = ['happy', 'neutral', 'angry', 'sad', 'fear', 'disgust']
+
 COLORS = {
     "red": (255, 0, 0),
     "green": (0, 255, 0),

@@ -1,10 +1,9 @@
 import cv2
-import torch
-import pagmar_config
-from transformers import AutoModelForImageClassification, AutoFeatureExtractor
+import math
 from deepface import DeepFace
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+import pagmar_config
+import tools
 
 
 class Pagmar:
@@ -13,7 +12,7 @@ class Pagmar:
         self.cap = self.init_cam()
         self.background, self.image_shape = self.background_creator('white')
 
-        self.axis_center = (self.image_shape[1]//2, self.image_shape[0]//2)  # (X,Y)
+        self.axis_center = (self.image_shape[1] // 2, self.image_shape[0] // 2)  # (X,Y)
         self.previous_dot = None
 
     def init_cam(self) -> cv2.VideoCapture:
@@ -23,21 +22,13 @@ class Pagmar:
             raise Exception("Camera could not be opened")
         return cap
 
-    # TODO: seems to be deprecated
-    # def init_emotions_model(self) -> tuple:
-    #     huggingface_model = AutoModelForImageClassification.from_pretrained(self.emotions_model_name)
-    #     huggingface_model.to(device)
-    #     extractor = AutoFeatureExtractor.from_pretrained(self.emotions_model_name)
-    #
-    #     return huggingface_model, extractor
-
     @staticmethod
     def emotions_predict(inputs) -> dict:
         try:
             analysis = DeepFace.analyze(inputs, actions=['emotion'], enforce_detection=False)
             return analysis[0]['emotion']
         except Exception as e:
-            print(f"Error in emotion analysis: {e}")
+            # TODO: send to no detection function
             return "No Face Detected"
 
     def background_creator(self, background_color: str):
@@ -51,29 +42,27 @@ class Pagmar:
         return background, frame.shape[:2]
 
     def plot_emotions_dot(self, emotions: dict) -> tuple:
+        emotions = tools.order_emotions_dict(emotions)
         emotions = list(emotions.values())
+        dot_x_location, dot_y_location = self.axis_center
 
-        angry_value = int(emotions[0] * 2)  # Y axis
-        disgust_value = int(emotions[1] * 3)
-        fear_value = int(emotions[2] * 3)
-        sad_value = int(emotions[4] * 3)   # X axis
-        happy_value = int(emotions[3] * 3)   # X axis
-        surprised_value = int(emotions[5] * 2)   # Y axis
-        neutral_value = int(emotions[6] * 2)   # Y axis
+        for angle, emotion in enumerate(emotions):
+            dot_y_location += emotion * math.sin(angle * 60) * 2
+            dot_x_location += emotion * math.cos(angle * 60) * 2
 
-        dot_x_location = self.axis_center[0] - sad_value + happy_value
-        dot_y_location = self.axis_center[1] - angry_value + neutral_value
-
-        cv2.circle(self.background, (dot_x_location, dot_y_location), 2, (0, 0, 0), -1)
+        dot_x_location = int(dot_x_location)
+        dot_y_location = int(dot_y_location)
+        # In case you want to plot the dot.
+        cv2.circle(self.background, (dot_x_location, dot_y_location), 1, pagmar_config.COLORS['black'], -1)
 
         return dot_x_location, dot_y_location
 
     def connect_dots(self, dot: tuple) -> None:
-        cv2.line(self.background, self.previous_dot, dot, (0, 0, 0), 2)
+        cv2.line(self.background, self.previous_dot, dot, (0, 0, 0), 1)
 
     def video_looper(self) -> None:
         # plot the center of the graph [debug]
-        cv2.circle(self.background, (self.axis_center[0], self.axis_center[1]), 5, (100, 100, 1000), -1)
+        cv2.circle(self.background, (self.axis_center[0], self.axis_center[1]), 5, pagmar_config.COLORS['gray'], -1)
 
         while True:
             ret, frame = self.cap.read()
@@ -97,15 +86,6 @@ class Pagmar:
         # When everything is done, release the capture
         self.cap.release()
         cv2.destroyAllWindows()
-
-    @staticmethod
-    def normalize_numbers(numbers_list: list) -> list:
-        min_val = min(numbers_list)
-        max_val = max(numbers_list)
-        range_val = max_val - min_val
-
-        normalized_numbers = [(x - min_val) / range_val for x in numbers_list]
-        return normalized_numbers
 
 
 if __name__ == '__main__':
