@@ -16,11 +16,9 @@ class Pagmar:
 
         self.camera_number = camera_number
         self.cap = self.init_cam()
-        # self.background, self.image_shape = self.background_creator('white')
 
         self.screen = self.background_creator_with_emotion()
 
-        # self.axis_center = (self.image_shape[1] // 2, self.image_shape[0] // 2)  # (X,Y)
         self.axis_center = (0, 0)
         self.previous_dot = None
 
