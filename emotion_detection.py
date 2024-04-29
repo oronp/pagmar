@@ -1,5 +1,6 @@
 import cv2
 from deepface import DeepFace
+import tools
 
 
 class Pagmar:
@@ -28,9 +29,25 @@ class Pagmar:
         # TODO: something here?
         return {'status': False}
 
+    def plot_emotions_dot(self, emotions: dict) -> tuple:
+        emotions = tools.order_emotions_dict(emotions)
+        emotions = list(emotions.values())
+        dot_x_location, dot_y_location = self.axis_center
+
+        dot_x_location += emotions[0]*4 - emotions[3]*4 + emotions[5]*2 + emotions[1]*2
+        dot_y_location += emotions[2]*4 - emotions[4]*4 - emotions[5]*2 + emotions[1]*2
+
+        # plot must be int because it presents a pixel location.
+        dot_x_location = int(dot_x_location)
+        dot_y_location = int(dot_y_location)
+
+        return dot_x_location, dot_y_location
+
     def get_emotions(self) -> None:
         ret, frame = self.cap.read()
         emotions_json = self.emotions_predict(frame)
+        if emotions_json['status']:
+            emotions_json['axis_dots'] = self.plot_emotions_dot(emotions_json['values'])
         # Get emotions out of the image by model inference.
         return emotions_json
 

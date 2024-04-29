@@ -10,7 +10,6 @@ CORS(app)  # Enable CORS for the entire app
 @app.route('/get-emotions')
 def get_emotions():
     emotions = model.get_emotions()
-    print(emotions)
     return jsonify(emotions)
 
 
