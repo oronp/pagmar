@@ -10,9 +10,7 @@ import tools
 
 class Pagmar:
     def __init__(self, camera_number: int = 0):
-        self.line_drawer = turtle.Turtle(visible=False)
-        self.line_drawer.speed(6)
-        self.line_drawer.color(pagmar_config.COLORS['black'])
+        self.line_drawer = self.init_turtle_drawer(speed=6, color=pagmar_config.COLORS['black'])
 
         self.camera_number = camera_number
         self.cap = self.init_cam()
@@ -20,7 +18,6 @@ class Pagmar:
         self.screen = self.background_creator_with_emotion()
 
         self.axis_center = (0, 0)
-        self.previous_dot = None
 
     def init_cam(self) -> cv2.VideoCapture:
         cap = cv2.VideoCapture(self.camera_number)  # 0 is usually the default camera
@@ -29,13 +26,20 @@ class Pagmar:
             raise Exception("Camera could not be opened")
         return cap
 
-    @staticmethod
-    def emotions_predict(inputs) -> dict:
+    def init_turtle_drawer(self, speed: int, color) -> turtle.Turtle:
+        line_drawer = turtle.Turtle(visible=False)
+        line_drawer.speed(speed)
+        line_drawer.color(color)
+        line_drawer.pensize(1)
+
+        return line_drawer
+
+    def emotions_predict(self, inputs) -> dict:
         try:
-            analysis = DeepFace.analyze(inputs, actions=['emotion'], enforce_detection=False)
+            analysis = DeepFace.analyze(inputs, actions=['emotion'])
             return analysis[0]['emotion']
-        except Exception as e:
-            # TODO: send to no detection function
+        except ValueError as e:
+            self.no_face_detection_drawer()
             return "No Face Detected"
 
     def background_creator(self, background_color: str):
@@ -57,13 +61,16 @@ class Pagmar:
 
         return screen
 
+    def no_face_detection_drawer(self):
+        pass
+
     def plot_emotions_dot(self, emotions: dict) -> tuple:
         emotions = tools.order_emotions_dict(emotions)
         emotions = list(emotions.values())
         dot_x_location, dot_y_location = self.axis_center
 
-        dot_x_location += emotions[0]*4 - emotions[3]*4 + emotions[5]*2
-        dot_y_location += emotions[2]*4 - emotions[4]*4 - emotions[5]*2
+        dot_x_location += emotions[0]*4 - emotions[3]*4 + emotions[5]*2 + emotions[1]*2
+        dot_y_location += emotions[2]*4 - emotions[4]*4 - emotions[5]*2 + emotions[1]*2
 
         # plot must be int because it presents a pixel location.
         dot_x_location = int(dot_x_location)
@@ -81,16 +88,16 @@ class Pagmar:
             # Get emotions out of the image by model inference.
             emotions = self.emotions_predict(frame)
 
+            if isinstance(emotions, str):
+                continue
+
             current_dot = self.plot_emotions_dot(emotions)
 
-            if self.previous_dot:
-                self.draw_line_between_dots(current_dot)
-
-            self.previous_dot = current_dot
+            self.draw_line_between_dots(current_dot)
 
             self.screen.listen()  # Listen to keyboard events
             self.screen.onkeypress(self.screen.bye, "q")
 
 
 if __name__ == '__main__':
-    Pagmar(1).video_looper()
+    Pagmar(0).video_looper()
