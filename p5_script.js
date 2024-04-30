@@ -4,7 +4,7 @@ var points = [];
 
 
 function preload(){
-    bgImage = loadImage('files/background_image.jpg')
+    bgImage = loadImage('files/background.png')
 }
 
 function fetchEmotions() {
@@ -21,8 +21,8 @@ function fetchEmotions() {
 setInterval(fetchEmotions, 250); // Update 4 times a second
 
 function setup() {
-    let screen_ratio = [1920, 1080]
-    createCanvas(screen_ratio[0], screen_ratio[1]);
+    let screen_ratio = [1080, 1080]
+    createCanvas(screen_ratio[0], screen_ratio[1])
     screen_center = [screen_ratio[0]/2, screen_ratio[1]/2]
     points.push(screen_center)
 }
@@ -32,34 +32,12 @@ function draw() {
     // background('white');
     image(bgImage, 0, 0, width, height)
 
-    fill("white")
+    fill("black")
     noStroke()
 
+
     if (!emotions.status) return
-
-    neutral = emotions.values.neutral
-    text("neutral " + neutral, 20, 20)
-
-    happy = emotions.values.happy
-    text("happy " + happy, 20, 40)
-
-    sad = emotions.values.sad
-    text("sad " + sad, 20, 60)
-
-    angry = emotions.values.angry
-    text("angry " + angry, 20, 80)
-
-    fearful = emotions.values.fear
-    text("fearful " + fearful, 20, 100)
-
-    disgusted = emotions.values.disgust
-    text("disgusted " + disgusted, 20, 120)
-
-    surprised = emotions.values.surprise
-    text("surprised " + surprised, 20, 140)
-
     dots_locations = emotions.axis_dots
-    text("dots locations " + dots_locations, 20, 160)
 
     draw_line(dots_locations)
 }

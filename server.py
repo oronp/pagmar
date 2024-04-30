@@ -3,7 +3,7 @@ from flask_cors import CORS  # Import CORS
 
 from emotion_detection import Pagmar
 
-model = Pagmar(camera_number=0)
+model = Pagmar(camera_number=1)
 app = Flask(__name__)
 CORS(app)  # Enable CORS for the entire app
 
