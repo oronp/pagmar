@@ -2,6 +2,11 @@ var screen_center = [0, 0];
 let emotions = {status: false};
 var points = [];
 
+
+function preload(){
+    bgImage = loadImage('files/background_image.jpg')
+}
+
 function fetchEmotions() {
     fetch('http://127.0.0.1:5000/get-emotions')
         .then(response => response.json())
@@ -24,7 +29,8 @@ function setup() {
 
 // Draw everything
 function draw() {
-    background('black');
+    // background('white');
+    image(bgImage, 0, 0, width, height)
 
     fill("white")
     noStroke()
@@ -65,7 +71,7 @@ function draw_line(current_dots) {
         console.log(current_dots);
     }
 
-    stroke(255);
+    stroke(0);
     strokeWeight(1);
     strokeJoin(ROUND)
 
