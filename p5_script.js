@@ -29,17 +29,20 @@ function setup() {
 
 // Draw everything
 function draw() {
-    // background('white');
-    image(bgImage, 0, 0, width, height)
+    background('white');
+    //image(bgImage, 0, 0, width, height)
 
     fill("black")
     noStroke()
 
 
-    if (!emotions.status) return
-    dots_locations = emotions.axis_dots
-
-    draw_line(dots_locations)
+    if (!emotions.status){
+        no_face_detection()
+    }
+    else {
+        dots_locations = emotions.axis_dots
+        draw_line(dots_locations)
+    }
 }
 
 function draw_line(current_dots) {
@@ -71,4 +74,10 @@ function draw_line(current_dots) {
     }
 
     endShape();
+}
+
+function no_face_detection(){
+    // This area is a spacial place where you can put the code you want to do whatever you want to do in your code later.
+    text('no face detection', 20, 20, 20)
+    // This is the end of the function -> you can replace everything between those comments.
 }
