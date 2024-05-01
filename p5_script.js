@@ -29,7 +29,9 @@ function setup() {
 
 // Draw everything
 function draw() {
+    // background as a color:
     background('white');
+    // background as an image:
     //image(bgImage, 0, 0, width, height)
 
     fill("black")
