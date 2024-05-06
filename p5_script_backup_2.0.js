@@ -8,7 +8,7 @@ speedEase = 0.05
 
 
 function preload(){
-    bgImage = loadImage("files/BackgroundP5.png")
+    bgImage = loadImage('files/background.png')
 }
 
 function fetchEmotions() {
@@ -29,7 +29,7 @@ function setup() {
     angleMode(DEGREES)
     screen_center = [screen_ratio[0]/2, screen_ratio[1]/2]
     points.push(screen_center)
-    background(bgImage);
+    background(255);
 
     position = createVector(width/2,height/2)
     direction = createVector(0,1)
