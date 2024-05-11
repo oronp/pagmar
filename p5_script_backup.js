@@ -1,11 +1,10 @@
 var screen_center = [0, 0];
 let emotions = {status: false};
 var points = [];
-
+let angle = 0;
 
 directionEase = 0.1
 speedEase = 0.05
-
 
 function preload(){
     bgImage = loadImage("files/BackgroundP5.png")
@@ -25,21 +24,18 @@ setInterval(fetchEmotions, 250); // Update 4 times a second
 
 function setup() {
     let screen_ratio = [1080, 1080]
-    createCanvas(screen_ratio[0], screen_ratio[1])
-    angleMode(DEGREES)
+    createCanvas(screen_ratio[0], screen_ratio[1], WEBGL); // Set up 3D canvas
     screen_center = [screen_ratio[0]/2, screen_ratio[1]/2]
     points.push(screen_center)
     background(bgImage);
-
-    position = createVector(width/2,height/2)
-    direction = createVector(0,1)
-
-    splashSize = 0
+    noFill();
 }
 
 // Draw everything
 function draw() {
-    // translate(-width/2,-height/2)
+    translate(-width/2,-height/2); // Center the scene
+    rotateY(angle); // Rotate around Y-axis for a 3D effect
+    angle += 0.01; // Increment rotation angle
 
     if (!emotions.status){
         no_face_detection()
@@ -66,7 +62,6 @@ function newTest(current_dots){
     direction = p5.Vector.lerp(direction, dirToTarget, directionEase)
     direction.rotate(random(-50,50))
 
-    // nextPosition = p5.Vector.lerp(position,nextTarget, .05)
     moving = p5.Vector.mult(direction, lengthToTarget * speedEase)
     nextPosition = p5.Vector.add(position, moving)
 
@@ -106,12 +101,10 @@ function draw_line(current_dots) {
         curveVertex(points[0][0], points[0][1]);  // Repeat the first point for control
     }
 
-    // Pass through all points with curveVertex
     for (let i = 0; i < points.length; i++) {
         curveVertex(points[i][0], points[i][1]);
     }
 
-    // Add the last point again to act as the control point
     if (points.length > 1) {
         curveVertex(points[points.length - 1][0], points[points.length - 1][1]);
     }
@@ -120,13 +113,9 @@ function draw_line(current_dots) {
 }
 
 function no_face_detection(){
-    // This area is a spacial place where you can put the code you want to do whatever you want to do in your code later.
-    // text('no face detection', 20, 20, 20)
-    // This is the end of the function -> you can replace everything between those comments.
     fill(0,10)
     noStroke()
     splashSize = splashSize + 0.1
-    // circle(position.x,position.y, splashSize)
 
     translate(position.x,position.y)
     beginShape();
@@ -142,4 +131,3 @@ function no_face_detection(){
     endShape(CLOSE);
     resetMatrix()
 }
-
