@@ -43,7 +43,7 @@ class Pagmar:
 
         return dot_x_location, dot_y_location
 
-    def get_emotions(self) -> None:
+    def get_emotions(self) -> dict:
         ret, frame = self.cap.read()
         emotions_json = self.emotions_predict(frame)
         if emotions_json['status']:
