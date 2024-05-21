@@ -1,39 +1,70 @@
-let points = []; // Declare points array in the global scope
-
-let target, pos, dir, z; // Declare target, pos, dir, and z variables in the global scope
-
-let creatingHole = false; // start with no hole
+// ----------------------------------------------------
+// ----------------- boring Variables -----------------
+// ----------------------------------------------------
+let points = []; 
+let target, pos, dir, z;
+let creatingHole = false;
 let holeCircles = []
-let holeSize = 0
-
-const directionEase = 0.1
-const speedEase = 0.05
 
 
+// -------------------------------------------------------
+// ----------------- important Constants -----------------
+// -------------------------------------------------------
+const direction_ease = 0.1
+const speed_ease = 0.05
+const hole_grow_speed = 0.1
+const hole_depth_scale = 10
+
+const top_camera_angle = 45
+const camera_ease_time = 3
+const camera_zoom_out = 1.5
+
+// -----------------------------------------------------
+// ----------------- Fetching Emotions -----------------
+// -----------------------------------------------------
 function fetchEmotions() {
     fetch('http://127.0.0.1:5000/get-emotions')
-        .then(response => response.json())
-        .then(data => {
-            if (data.status) {
-                creatingHole = false
-                const newTargetData = data.axis_dots;
-                target = createVector(newTargetData[0], newTargetData[1]);
-            } else {
-                if (!creatingHole) {
-                    creatingHole = true
-                    holeSize = 2
-                }
-            }
+        .then(response => {
+            response.json()
+                .then(data => {
+                    if (data.status) {
+                        creatingHole = false
+                        const newTargetData = data.axis_dots;
+                        target = createVector(newTargetData[0], newTargetData[1]);
+                    } else {
+                        if (!creatingHole) {
+                            creatingHole = true
+                            holeCircles.push({
+                                x: pos.x, y: pos.y, z: pos.z,
+                                size: 2,
+                            })
+                        }
+                    }
+                })
+                .catch(console.error);
         })
-        .catch(console.error);
 }
-
 setInterval(fetchEmotions, 250); // Update 4 times a second
 
-
+// ------------------------------------------------
+// ----------------- Setup -----------------
+// ------------------------------------------------
 function setup() {
-    createCanvas(800, 800, WEBGL);
+    createCanvas(windowWidth, windowHeight, WEBGL);
     angleMode(DEGREES);
+
+    frontCam = createCamera();
+    frontCam.ortho()
+    // frontCam.perspective(.2, 1, 0,1000000);
+    // frontCam.setPosition(0,0,150000)
+
+    topCam = createCamera();
+    topCam.set(frontCam)
+    topCam.tilt(top_camera_angle)
+    const frontCamPos = createVector(frontCam.eyeY, frontCam.eyeZ).rotate(top_camera_angle)
+    topCam.setPosition(0, frontCamPos.x * camera_zoom_out, frontCamPos.y * camera_zoom_out)
+    
+    setCamera(frontCam)
 
     pos = createVector(0, 0);
     dir = createVector(1, 0);
@@ -42,47 +73,64 @@ function setup() {
 }
 
 
+// ----------------------------------------------------
+// ----------------- Camera Switching -----------------
+// ----------------------------------------------------
+function keyPressed() {
+    if (key === '1') {
+        // hit 1 on the keyboard to switch top top camera
+        // transition from front to top camera in 1 second
+        showCamera(frontCam, topCam, camera_ease_time)
+    } else if (key === '2') {
+        // hit 2 on the keyboard to switch to front camera
+        // transition from top to front camera in 2 seconds
+        showCamera(topCam, frontCam, camera_ease_time)
+    }
+}
 
+async function showCamera(cam1, cam2, secs) {
+    const newCam = createCamera()
+    newCam.set(cam1)
+    setCamera(newCam)
+    const startTime = performance.now()
+    while (performance.now() - startTime < secs * 1000) {
+        const t = (performance.now() - startTime) / (secs * 1000)
+        newCam.slerp(cam1, cam2, easeInOutQuad(t))
+        await new Promise(r => setTimeout(r, 0))
+    }
+    setCamera(cam2)
+}
+
+// ------------------------------------------------
+// ----------------- Main Drawing -----------------
+// ------------------------------------------------
 function draw() {
     background(220);
-    orbitControl();
 
     if (creatingHole) {
-        fill(0, 10);
-        noStroke();
-        holeCircles.push({
-            x: pos.x, y: pos.y, z: z,
-            angleX: random(360), angleY: random(360), angleZ: random(360),
-            size: holeSize
-        });
-        holeSize += 1;
+        const latestHole = holeCircles[holeCircles.length - 1]
+        latestHole.size += hole_grow_speed
     } else {
         // Movement logic, incorporating direction noise and easing
         const dirToTarget = p5.Vector.sub(target, pos).normalize();
-        dir = p5.Vector.lerp(dir, dirToTarget, directionEase);
+        dir = p5.Vector.lerp(dir, dirToTarget, direction_ease);
         dir.rotate(random(-50, 50)); // Add randomness to the direction
 
         const distToTarget = target.dist(pos);
-        const moveSize = distToTarget * speedEase;
+        const moveSize = distToTarget * speed_ease;
 
         pos.add(p5.Vector.mult(dir, moveSize));
         z = noise(frameCount / 30) * 100; // Add noise-based variability to z
 
         // Store current position for drawing
-        points.push({ x: pos.x, y: pos.y, z: z });
+        const thickness = noise(frameCount / 30) * 2;
+        points.push({ x: pos.x, y: pos.y, z, thickness })
     }
 
     // Draw lines between consecutive points with varying stroke weight
     stroke(0);
     for (let i = 0; i < points.length - 1; i++) {
-        let ovi_kav = noise(frameCount / 30 + i) * 2; // Use noise to vary the stroke weight
-        strokeWeight(ovi_kav); // Set the stroke weight based on noise value
-
-        // Drawing the line with noise implementation
-        let startLine = p5.Vector.add(
-            createVector(points[i].x, points[i].y, points[i].z),
-            p5.Vector.mult(dir, ovi_kav)
-        );
+        strokeWeight(points[i].thickness);
 
         line(
             points[i].x, points[i].y, points[i].z,
@@ -90,16 +138,18 @@ function draw() {
         );
     }
 
-    noStroke();
-    fill(0, 60);
+    directionalLight(255, 255, 255, 0, 1, 1);
 
+    strokeWeight(1)
+    noStroke();
     holeCircles.forEach(c => {
         push();
-        translate(c.x, c.y, c.z);
-        rotateX(c.angleX);
-        rotateY(c.angleY);
-        rotateZ(c.angleZ);
-        circle(0, 0, c.size);
+        const depth = c.size * hole_depth_scale
+        translate(c.x, c.y, c.z - depth / 2)
+        rotateX(-90)
+        cylinder(c.size, depth);
         pop();
     });
 }
+
+const easeInOutQuad = t => t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
