@@ -1,9 +1,9 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 
 from emotion_detection import Pagmar
 
-model = Pagmar(camera_number=1)
+model = Pagmar(camera_number=0)
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
 
@@ -14,6 +14,9 @@ def get_emotions():
     response = jsonify(emotions)
     return response
 
+@app.route('/')
+def index():
+    return send_from_directory('static', 'index_Orr.html')
 
 if __name__ == '__main__':
     app.run(debug=False)

@@ -37,6 +37,7 @@ function fetchEmotions() {
                             holeCircles.push({
                                 x: pos.x, y: pos.y, z: pos.z,
                                 size: 2,
+                                holeModel: random(holes)
                             })
                         }
                     }
@@ -45,6 +46,17 @@ function fetchEmotions() {
         })
 }
 setInterval(fetchEmotions, 250); // Update 4 times a second
+
+
+// ------------------------------------------------
+// ----------------- holes ------------------------
+// ------------------------------------------------
+let holes = []
+function preload(){
+    for (let i=1;i<=6;i++){
+        loadModel(`./static/Hole0${i}.stl`, hole => holes.push(hole))
+    }
+}
 
 // ------------------------------------------------
 // ----------------- Setup -----------------
@@ -144,10 +156,9 @@ function draw() {
     noStroke();
     holeCircles.forEach(c => {
         push();
-        const depth = c.size * hole_depth_scale
-        translate(c.x, c.y, c.z - depth / 2)
-        rotateX(-90)
-        cylinder(c.size, depth);
+        translate(c.x, c.y, c.z + c.size * 4 + 30)
+        scale(c.size * 5.0)
+        model(c.holeModel)
         pop();
     });
 }
