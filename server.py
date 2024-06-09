@@ -14,6 +14,12 @@ def get_emotions():
     response = jsonify(emotions)
     return response
 
+@app.route('/start', methods=['GET'])
+def start():
+    data = model.start()
+    response = jsonify(data)
+    return response
+
 @app.route('/')
 def index():
     return send_from_directory('static', 'index_Orr.html')

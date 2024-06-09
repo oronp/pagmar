@@ -27,7 +27,9 @@ function fetchEmotions() {
         .then(response => {
             response.json()
                 .then(data => {
+                    print(data)
                     if (data.status) {
+                        
                         creatingHole = false
                         const newTargetData = data.axis_dots;
                         target = createVector(newTargetData[0], newTargetData[1]);

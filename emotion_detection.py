@@ -11,23 +11,23 @@ class Pagmar:
         self.axis_center = (0, 0)
 
     def init_cam(self) -> cv2.VideoCapture:
-        cap = cv2.VideoCapture(self.camera_number)  # 0 is usually the default camera
-        # Capture single frame to check success.
+        cap = cv2.VideoCapture(self.camera_number)
         if not cap.isOpened():
             raise Exception("Camera could not be opened")
         return cap
-
+    
     def emotions_predict(self, inputs) -> dict:
         try:
             analysis = DeepFace.analyze(inputs, actions=['emotion'])
-            return {'status': True,
-                    'values': analysis[0]['emotion']}
+            if (len(analysis) == 0):
+                return {'status': False}
+            analysis[0]['status'] = True
+            return analysis[0]
         except ValueError:
-            return self.no_face_detection()
+            return {'status': False}
 
-    def no_face_detection(self):
-        # TODO: something here?
-        return {'status': False}
+
+
 
     def plot_emotions_dot(self, emotions: dict) -> tuple:
         emotions = tools.order_emotions_dict(emotions)
@@ -46,9 +46,8 @@ class Pagmar:
     def get_emotions(self) -> dict:
         ret, frame = self.cap.read()
         emotions_json = self.emotions_predict(frame)
-        if emotions_json['status']:
-            emotions_json['axis_dots'] = self.plot_emotions_dot(emotions_json['values'])
-        # Get emotions out of the image by model inference.
+        # if emotions_json['status']:
+            # emotions_json['axis_dots'] = self.plot_emotions_dot(emotions_json['values'])
         return emotions_json
 
 
