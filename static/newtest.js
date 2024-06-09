@@ -4,9 +4,11 @@ let emotionData
 let data
 
 
-scribbleForce = 5
-scribbleSpeed = .05
-radius = 200
+ballRadius = 200
+scribbleForce = 4
+scribbleSpeed = .1
+cameraChangeSpeed = 0.01
+ballRotationSpeed = 0.007
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
@@ -40,24 +42,15 @@ function setup() {
     textAlign(CENTER, CENTER);
 }
 
-let cameraZ = 800
-let targetCameraZ = 800
-function keyPressed(){
-    if (key == ' '){
-        if (targetCameraZ == 800) targetCameraZ = 0
-        else targetCameraZ = 800
-    }
-}
-
 function draw() {
     background(220);
-    if (cameraZ != targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, 0.1)
+    if (cameraZ != targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, cameraChangeSpeed)
     translate(0,0,cameraZ)
     rotateY(map(cameraZ, 0, 800, 0, 180))
 
     if (emotionData) {
         Object.keys(emotionData).forEach((key, i) => {
-            data[key] = lerp(data[key], emotionData[key], 0.01)
+            data[key] = lerp(data[key], emotionData[key], ballRotationSpeed)
         })
 
         let targetPoint = calculateTargetPoint();
@@ -68,7 +61,7 @@ function draw() {
 
 
         // get the new point
-        newPos = calculateFixedPoint(0, 0, radius)
+        newPos = calculateFixedPoint(0, 0, ballRadius)
         coords.push({ pos: newPos, size: noise(frameCount / 10) * 3 + 1 })
 
         // draw the points
@@ -121,40 +114,50 @@ function inverseRotateZ(v, angle) {
 }
 
 
+let cameraZ = 800
+let targetCameraZ = 800
+function keyPressed(){
+    if (key == ' '){
+        if (targetCameraZ == 800) targetCameraZ = 0
+        else targetCameraZ = 800
+    }
+}
+
+
 
 function putTexts() {
     fill(0)
     push()
-    translate(radius, 0, 0)
+    translate(ballRadius, 0, 0)
     rotateY(90)
     text('Fear', 0, 0)
     pop()
 
     push()
-    translate(-radius, 0, 0)
+    translate(-ballRadius, 0, 0)
     rotateY(-90)
     text('Hope', 0, 0)
     pop()
 
     push()
-    translate(0, radius, 0)
+    translate(0, ballRadius, 0)
     rotateX(-90)
     text('Happy', 0, 0)
     pop()
 
     push()
-    translate(0, -radius, 0)
+    translate(0, -ballRadius, 0)
     rotateX(90)
     text('Sad', 0, 0)
     pop()
 
     push()
-    translate(0, 0, radius)
+    translate(0, 0, ballRadius)
     text('Disapponted', 0, 0)
     pop()
 
     push()
-    translate(0, 0, -radius)
+    translate(0, 0, -ballRadius)
     rotateY(180)
     text('Surprise', 0, 0)
     pop()
@@ -165,63 +168,10 @@ function drawSphere() {
     push()
     stroke(0, 50)
     strokeWeight(1)
-    circle(0, 0, radius*2)
+    circle(0, 0, ballRadius*2)
     rotateY(90)
-    circle(0, 0, radius*2)
+    circle(0, 0, ballRadius*2)
     rotateX(90)
-    circle(0, 0, radius*2)
+    circle(0, 0, ballRadius*2)
     pop()
 }
-
-
-
-
-
-let points
-function calculateTargetPoint() {
-    if (!points){
-        points = [createVector(1, 0, 0),  // hope
-            createVector(-1, 0, 0), // fear
-            createVector(0, 1, 0),  // sad
-            createVector(0, -1, 0), // happy
-            createVector(0, 0, 1),  // disappointed
-            createVector(0, 0, -1)  // surprised
-          ];
-    }
-
-    // Calculate weighted average of the emotion points
-    let target = createVector(0, 0, 0);
-    target.add(p5.Vector.mult(points[0], data.hope));
-    target.add(p5.Vector.mult(points[1], data.fear));
-    target.add(p5.Vector.mult(points[2], data.sad));
-    target.add(p5.Vector.mult(points[3], data.happy));
-    target.add(p5.Vector.mult(points[4], data.disappointment));
-    target.add(p5.Vector.mult(points[5], data.surprise));
-    
-    // Normalize the target point to keep it on the sphere
-    target.normalize();
-    return target;
-  }
-  
-  function rotateTowardsTarget(target) {
-    // Calculate the rotation needed to move towards the target point
-    let currentPoint = createVector(0, 0, 1); // Assume initial point at (0,0,1)
-    let axis = p5.Vector.cross(currentPoint, target);
-    let angle = acos(p5.Vector.dot(currentPoint, target));
-    
-    rotX = angle * axis.x;
-    rotY = angle * axis.y;
-    rotZ = angle * axis.z;
-    rotateX(rotX);
-    rotateY(rotY);
-    rotateZ(rotZ);
-  }
-  
-  function drawEmotionPoints() {
-    // Draw the points representing emotions on the sphere
-    stroke(255, 0, 0);
-    strokeWeight(10);
-    for (let point of points) {
-      point(point.x * 200, point.y * 200, point.z * 200);
-    }
-  }
