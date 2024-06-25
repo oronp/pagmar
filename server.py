@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, send_from_directory
+from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 
 from emotion_detection import Pagmar
@@ -14,15 +14,31 @@ def get_emotions():
     response = jsonify(emotions)
     return response
 
+
+@app.route('/send_user_id', methods=['POST'])
+def set_user():
+    name = request.json.get('user_id')
+
+    response = jsonify(name)
+    return response
+
+
+@app.route('/start_motion', methods=['POST'])
+def start_motion():
+    return send_from_directory('static', 'index_Orr.html')
+
+
 @app.route('/start', methods=['GET'])
 def start():
     data = model.start()
     response = jsonify(data)
     return response
 
+
 @app.route('/')
 def index():
     return send_from_directory('static', 'index_Orr.html')
+
 
 if __name__ == '__main__':
     app.run(debug=False)

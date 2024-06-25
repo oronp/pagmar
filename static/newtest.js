@@ -5,10 +5,14 @@ let data
 
 
 ballRadius = 200
+r = 200
+holeR = 0
+extraRotation = 0
 scribbleForce = 4
 scribbleSpeed = .1
 cameraChangeSpeed = 0.01
-ballRotationSpeed = 0.007
+ballRotationSpeed = 0.005
+holes = []
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
@@ -30,13 +34,24 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     myFont = loadFont('static/font.ttf');
+    video1 = createVideo('static/01-particles.mp4')
+    video1.hide()
+    video1.loop()
+
+    image01 = loadImage('static/Net01.png')
+    image02 = loadImage('static/Net02.png')
+    image03 = loadImage('static/Net03.png')
+    image04 = loadImage('static/Net04.png')
 }
+
+
 
 let coords = []
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     noFill()
     angleMode(DEGREES);
+    imageMode(CENTER)
     textFont(myFont);
     textSize(12);
     textAlign(CENTER, CENTER);
@@ -44,41 +59,118 @@ function setup() {
 
 function draw() {
     background(220);
+
     if (cameraZ != targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, cameraChangeSpeed)
     translate(0,0,cameraZ)
+
+    /// ----------------
+    // ----- LAYER 1 -----
+    push()
+    translate(0,0,-2500)
+    texture(video1)
+    noStroke()
+    plane(6500)
+    resetShader()
+    pop()
+
+    // -----------------
+    // ------- LAYER 2 -----
+    push()
+    translate(0,0,-205)
+    texture(image01)
+    noStroke()
+    rotateZ(frameCount * 0.08)
+    plane(3700, 2700)
+    resetShader()
+    pop()
+
+     // -----------------
+    // ------- LAYER 3 -----
+    push()
+    translate(0,0,-1000)
+    texture(image02)
+    noStroke()
+    plane(4000, 3000)
+    resetShader()
+    pop()
+
+     // -----------------
+    // ------- LAYER 4 -----
+    push()
+    translate(0,0,-1000)
+    texture(image03)
+    noStroke()
+    plane(4000, 3000)
+    resetShader()
+    pop()
+
+     // -----------------
+    // ------- LAYER 5 -----
+    push()
+    translate(0,0,-800)
+    texture(image04)
+    noStroke()
+    plane(3000, 3000)
+    resetShader()
+    pop()
+
+
     rotateY(map(cameraZ, 0, 800, 0, 180))
 
+
     if (emotionData) {
+        holeR = 0
+        // r = ballRadius
+        // extraRotation = lerp(extraRotation,0,.01)
         Object.keys(emotionData).forEach((key, i) => {
             data[key] = lerp(data[key], emotionData[key], ballRotationSpeed)
         })
+    } else {
+        holeR+=1
+        // r = lerp(r,0,  0.01)
+        // extraRotation+=0.1
+    }
 
-        let targetPoint = calculateTargetPoint();
-        rotateTowardsTarget(targetPoint);
+    if (!data) return
 
-        putTexts()
-        // drawSphere()
+    let targetPoint = calculateTargetPoint();
+    rotateTowardsTarget(targetPoint);
+    rotateY(extraRotation)
 
 
-        // get the new point
-        newPos = calculateFixedPoint(0, 0, ballRadius)
-        coords.push({ pos: newPos, size: noise(frameCount / 10) * 3 + 1 })
+    putTexts()
+    // drawSphere()
 
-        // draw the points
-        stroke(0)
-        const stepSize = targetCameraZ == 800 ? .3 : 1
-        for (let i = 0; i < coords.length - 1; i++) {
-            const coord1 = coords[i]
-            const coord2 = coords[i + 1]
-            const d = coord1.pos.dist(coord2.pos)
-            for (let j = 0; j < d; j += stepSize) {
-                const pos = p5.Vector.lerp(coord1.pos, coord2.pos, j / d)
-                const dotSize = lerp(coord1.size, coord2.size, j / d)
-                strokeWeight(dotSize)
-                point(pos.x, pos.y, pos.z)
-            }
+    // get the new point
+    newPos = calculateFixedPoint(0, 0, r)
+    if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 10) * 3 + .5 })
+    else if (frameCount % 5 == 0) {
+        s = noise(frameCount / 20) * holeR
+        // newPos.add(random(-s/2,s/2),random(-s/2,s/2), random(-s/2,s/2))
+        holes.push({pos:newPos,size: s})
+    }
+
+    // draw the points
+    stroke(0)
+    const stepSize = targetCameraZ == 800 ? 1 : 1
+    for (let i = 0; i < coords.length - 1; i++) {
+        const coord1 = coords[i]
+        const coord2 = coords[i + 1]
+        const d = coord1.pos.dist(coord2.pos)
+        for (let j = 0; j < d; j += stepSize) {
+            const pos = p5.Vector.lerp(coord1.pos, coord2.pos, j / d)
+            const dotSize = lerp(coord1.size, coord2.size, j / d)
+            strokeWeight(dotSize)
+            point(pos.x, pos.y, pos.z)
         }
     }
+
+    // draw the holes
+    stroke(0,50)
+    holes.forEach(hole => {
+        strokeWeight(hole.size)
+        point(hole.pos.x,hole.pos.y,hole.pos.z)
+    })
 }
 
 function calculateFixedPoint(x, y, z) {
@@ -118,8 +210,11 @@ let cameraZ = 800
 let targetCameraZ = 800
 function keyPressed(){
     if (key == ' '){
-        if (targetCameraZ == 800) targetCameraZ = 0
+        if (targetCameraZ == 800) targetCameraZ = 100
         else targetCameraZ = 800
+    }
+    if (key == 'p') {
+        video1.play()
     }
 }
 
@@ -129,36 +224,39 @@ function putTexts() {
     fill(0)
     push()
     translate(ballRadius, 0, 0)
-    rotateY(90)
+    rotateY(-90)
     text('Fear', 0, 0)
     pop()
 
     push()
     translate(-ballRadius, 0, 0)
-    rotateY(-90)
+    rotateY(90)
     text('Hope', 0, 0)
     pop()
 
     push()
     translate(0, ballRadius, 0)
-    rotateX(-90)
+    rotateX(90)
+    rotateZ(180)
     text('Happy', 0, 0)
     pop()
 
     push()
     translate(0, -ballRadius, 0)
-    rotateX(90)
+    rotateX(-90)
+    rotateZ(180)
     text('Sad', 0, 0)
     pop()
 
     push()
     translate(0, 0, ballRadius)
+    rotateY(180)
     text('Disapponted', 0, 0)
     pop()
 
     push()
     translate(0, 0, -ballRadius)
-    rotateY(180)
+    rotateY(0)
     text('Surprise', 0, 0)
     pop()
     noFill()
