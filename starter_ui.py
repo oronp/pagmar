@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
 import requests
+import webbrowser
 
 # Create the main application window
 root = tk.Tk()
@@ -46,8 +47,9 @@ def on_button1_click():
 
 
 def on_button2_click():
-    name = name_var.get()
-    messagebox.showinfo("Button 2 Clicked", f"Goodbye, {name}!")
+    webbrowser.open_new_tab('index.html')
+    # name = name_var.get()
+    # messagebox.showinfo("Button 2 Clicked", f"Goodbye, {name}!")
 
 
 # Create two buttons and assign click functions
