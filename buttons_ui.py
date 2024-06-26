@@ -55,8 +55,6 @@ def on_button2_click():
             messagebox.showerror("Error", f"Request failed with status code {response.status_code}")
     except requests.RequestException as e:
         messagebox.showerror("Error", f"Request failed: {e}")
-    # name = name_var.get()
-    # messagebox.showinfo("Button 2 Clicked", f"Goodbye, {name}!")
 
 
 # Create two buttons and assign click functions
