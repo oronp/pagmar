@@ -28,7 +28,7 @@ def send_user_id(sex: str):
     name = name_var.get()
     record = f'{choose_random_person_voice()}_{sex}'
     try:
-        response = requests.post("http://127.0.0.1:5000/send_user_id", json={"name": name, 'record': record})
+        response = requests.post("http://127.0.0.1:5000/set_user_id", json={"name": name, 'record': record})
         if response.status_code == 200:
             messagebox.showinfo("Success", "Request was successful!")
         else:
