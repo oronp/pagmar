@@ -18,14 +18,10 @@ def get_emotions():
 @app.route('/send_user_id', methods=['POST'])
 def set_user():
     name = request.json.get('user_id')
+    record = request.json.get('record')
 
-    response = jsonify(name)
+    response = jsonify({"name": name, "record": record})
     return response
-
-
-@app.route('/start_motion', methods=['POST'])
-def start_motion():
-    return send_from_directory('static', 'index_Orr.html')
 
 
 @app.route('/start', methods=['GET'])
