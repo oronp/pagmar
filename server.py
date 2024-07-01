@@ -17,7 +17,7 @@ class User:
         self.name = None
 
 user = User()
-model = Pagmar(camera_number=0)
+model = Pagmar(camera_number=1)
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
 
@@ -30,7 +30,7 @@ def get_emotions():
 
 
 @app.route('/get-user-id', methods=['GET'])
-def get_emotions():
+def set_emotions():
     tmp_user = {'name': user.name, 'record': user.record}
     user.reset_user()
     return tmp_user

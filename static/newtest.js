@@ -42,6 +42,11 @@ function preload() {
     image02 = loadImage('static/Net02.png')
     image03 = loadImage('static/Net03.png')
     image04 = loadImage('static/Net04.png')
+    image05 = loadImage('static/rivers_layer.png')
+    image06 = loadImage('static/shake_layer.png')
+    image07 = loadImage('static/hertz_layer.png')
+    image08 = loadImage('static/backrounds_layers.png')
+
 }
 
 
@@ -64,6 +69,16 @@ function draw() {
     translate(0,0,cameraZ)
 
     /// ----------------
+    // ----- LAYER 00 -----
+    push()
+    translate(0,0,-2000)
+    texture(image08)
+    noStroke()
+    plane(7669, 4314)
+    resetShader()
+    pop()
+
+       /// ----------------
     // ----- LAYER 1 -----
     push()
     translate(0,0,-2500)
@@ -76,43 +91,79 @@ function draw() {
     // -----------------
     // ------- LAYER 2 -----
     push()
-    translate(0,0,-205)
+    translate(0,0,-300)
     texture(image01)
     noStroke()
-    rotateZ(frameCount * 0.08)
-    plane(3700, 2700)
+    rotateZ(frameCount * 0.07)
+    plane(7680/2.5, 5956/2.5)
     resetShader()
     pop()
 
      // -----------------
     // ------- LAYER 3 -----
     push()
-    translate(0,0,-1000)
-    texture(image02)
+    translate(0,0,-205)
+   texture(image02)
     noStroke()
-    plane(4000, 3000)
+    rotateZ(frameCount * 0.15)
+    plane(7680/4, 5956/4)
     resetShader()
     pop()
 
      // -----------------
     // ------- LAYER 4 -----
     push()
-    translate(0,0,-1000)
-    texture(image03)
+    translate(0,0,-205)
+  texture(image03)
     noStroke()
-    plane(4000, 3000)
+    rotateZ(frameCount * 0.12)
+    plane(7680/5, 5956/5)
     resetShader()
     pop()
 
      // -----------------
     // ------- LAYER 5 -----
     push()
-    translate(0,0,-800)
+    translate(0,0,-205)
     texture(image04)
     noStroke()
-    plane(3000, 3000)
+    rotateZ(frameCount * 0.09)
+    plane(7680/5.5, 5956/5.5)
     resetShader()
     pop()
+
+     // -----------------
+    // ------- LAYER 6 -----
+    push()
+    translate(0,0,-205)
+    texture(image05)
+    noStroke()
+    plane(7680/5.5, 5956/5.5)
+    resetShader()
+    pop()
+
+    // -----------------
+    // ------- LAYER 7 -----
+    push()
+    translate(0,0,-205)
+    texture(image06)
+    noStroke()
+    plane(7680/5.5, 5956/5.5)
+    resetShader()
+    pop()
+
+     // -----------------
+    // ------- LAYER 8 -----
+    push()
+    translate(0,0,-205)
+    texture(image07)
+    noStroke()
+    plane(7680/5.5, 5956/5.5)
+    resetShader()
+    pop()
+
+
+
 
 
     rotateY(map(cameraZ, 0, 800, 0, 180))
