@@ -1,3 +1,5 @@
+import webbrowser
+
 from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 
@@ -16,8 +18,9 @@ class User:
         self.record = None
         self.name = None
 
+
 user = User()
-model = Pagmar(camera_number=1)
+model = Pagmar(camera_number=0)
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
 
@@ -52,5 +55,11 @@ def index():
     return send_from_directory('static', 'index_Orr.html')
 
 
-if __name__ == '__main__':
+def run_server():
+    chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # Windows path
+    webbrowser.get(chrome_path).open_new("http://127.0.0.1:5000/")
     app.run(debug=False)
+
+
+if __name__ == '__main__':
+    run_server()
