@@ -4,6 +4,8 @@ from tkinter import messagebox
 from tkinter import ttk
 from functools import partial
 import requests
+from server import run_server
+import concurrent.futures
 
 screen_width = 400
 screen_height = 600
@@ -37,15 +39,17 @@ def send_user_id(sex: str):
         messagebox.showerror("Error", f"Request failed: {e}")
 
 
-def start_button_click():
-    try:
-        response = requests.post("http://127.0.0.1:5000/start_motion", json={"Start": True})
-        if response.status_code == 200:
-            messagebox.showinfo("Success", "Request was successful!")
-        else:
-            messagebox.showerror("Error", f"Request failed with status code {response.status_code}")
-    except requests.RequestException as e:
-        messagebox.showerror("Error", f"Request failed: {e}")
+def start_button_click(no_name: str):
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        future_to_task = executor.submit(run_server)
+
+        for future in concurrent.futures.as_completed(future_to_task):
+            func, args = future_to_task[future]
+            try:
+                result = future.result()
+                print(f'{func.__name__}{args} = {result}')
+            except Exception as exc:
+                print(f'{func.__name__}{args} generated an exception: {exc}')
 
 
 def create_button(frame, text, onclick_function, sex: str, pady=5, padx=5):
