@@ -1,0 +1,82 @@
+@font-face {
+    font-family: 'UiFont';
+    src: url('static/UiFont.ttf') format('truetype');
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'UiFont', Arial, sans-serif;
+    direction: rtl;
+    background-color: #f0f0f0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-family: 'UiFont', Arial, sans-serif;
+}
+
+.container h2 {
+    margin-top: 0;
+}
+
+.container label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.container input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'UiFont', Arial, sans-serif;
+}
+
+.container .gender-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.container button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'UiFont', Arial, sans-serif;
+}
+
+.container .blue-button {
+    background-color: #E0E0E0;
+    color: #000;
+    cursor: not-allowed;
+}
+
+.container .blue-button.active {
+    background-color: #2196F3;
+    color: #fff;
+    cursor: pointer;
+}
+
+.container .light-blue-button {
+    background-color: #90CAF9;
+    color: #000;
+}
+
+.container .grey-button {
+    background-color: #E0E0E0;
+    color: #000;
+}
+
+.simple-keyboard {
+    margin-top: 20px;
+}
