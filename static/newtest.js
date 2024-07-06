@@ -34,18 +34,19 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     myFont = loadFont('static/font.ttf');
-    video1 = createVideo('static/01-particles.mp4')
+    video1 = createVideo('media/background.mp4');
     video1.hide()
     video1.loop()
 
-    image01 = loadImage('static/Net01.png')
-    image02 = loadImage('static/Net02.png')
-    image03 = loadImage('static/Net03.png')
-    image04 = loadImage('static/Net04.png')
-    image05 = loadImage('static/rivers_layer.png')
-    image06 = loadImage('static/shake_layer.png')
-    image07 = loadImage('static/hertz_layer.png')
-    image08 = loadImage('static/backrounds_layers.png')
+    image01 = loadImage('static/Net001.png')
+    image02 = loadImage('static/Net002.png')
+    image03 = loadImage('static/Net003.png')
+    image04 = loadImage('static/Net004.png')
+    image05 = loadImage('static/003-rivers21.png')
+    image06 = loadImage('static/004-shake map2.png')
+    image07 = loadImage('static/herzFront.png')
+    image08 = loadImage('static/herzBack.png')
+    image09 = loadImage('static/backrounds grain.png')
 
 }
 
@@ -72,7 +73,7 @@ function draw() {
     // ----- LAYER 00 -----
     push()
     translate(0,0,-2000)
-    texture(image08)
+    texture(image09)
     noStroke()
     //rotateZ(frameCount * 0.07)
     plane(7669, 4314)
@@ -80,12 +81,12 @@ function draw() {
     pop()
 
        /// ----------------
-    // ----- LAYER 1 -----
+    // ----- LAYER 1 ----- 
     push()
-    translate(0,0,-2500)
-    texture(video1)
+    translate(0,0,-305)
+    //texture(video1)
     noStroke()
-    plane(6500)
+    plane(1920, 1080)
     resetShader()
     pop()
 
@@ -95,7 +96,7 @@ function draw() {
     translate(0,0,-300)
     texture(image01)
     noStroke()
-    rotateZ(frameCount * 0.07)
+    rotateZ(frameCount * 0.028)
     plane(7680/2.5, 5956/2.5)
     resetShader()
     pop()
@@ -106,7 +107,7 @@ function draw() {
     translate(0,0,-205)
    texture(image02)
     noStroke()
-    rotateZ(frameCount * 0.08)
+    rotateZ(frameCount * 0.04)
     plane(7680/4, 5956/4)
     resetShader()
     pop()
@@ -117,7 +118,7 @@ function draw() {
     translate(0,0,-205)
   texture(image03)
     noStroke()
-    rotateZ(frameCount * 0.09)
+    rotateZ(frameCount * 0.038)
     plane(7680/5, 5956/5)
     resetShader()
     pop()
@@ -128,7 +129,7 @@ function draw() {
     translate(0,0,-205)
     texture(image04)
     noStroke()
-    rotateZ(frameCount * 0.075)
+    rotateZ(frameCount * 0.03)
     plane(7680/5.5, 5956/5.5)
     resetShader()
     pop()
@@ -139,6 +140,7 @@ function draw() {
     translate(0,0,-205)
     texture(image05)
     noStroke()
+    rotateZ(-frameCount * 0.02)
     plane(7680/5.5, 5956/5.5)
     resetShader()
     pop()
@@ -149,6 +151,7 @@ function draw() {
     translate(0,0,-205)
     texture(image06)
     noStroke()
+     rotateZ(-frameCount * 0.015)
     plane(7680/5.5, 5956/5.5)
     resetShader()
     pop()
@@ -159,10 +162,28 @@ function draw() {
     translate(0,0,-205)
     texture(image07)
     noStroke()
-    plane(7680/5.5, 5956/5.5)
+    plane(7669/4, 4314/4)
     resetShader()
     pop()
 
+    // -----------------
+    // ------- LAYER 9 -----
+    push()
+    translate(0,0,-250)
+    texture(image08)
+    noStroke()
+    plane(7669/4, 4314/4)
+    resetShader()
+    pop()
+
+      // Display the word "Here"
+    push();
+    translate(0, 0, 0); // Center of the canvas
+    textFont(myFont); // Set the custom font
+    textSize(80); // Adjust the size if needed
+    fill(0); // Set text color to black
+    text("Here", 0, 0);
+    pop();
 
 
 
