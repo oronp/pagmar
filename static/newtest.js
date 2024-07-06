@@ -104,7 +104,7 @@ function draw() {
      // -----------------
     // ------- LAYER 3 -----
     push()
-    translate(0,0,-205)
+    translate(0,0,-250)
    texture(image02)
     noStroke()
     rotateZ(frameCount * 0.04)
@@ -115,7 +115,7 @@ function draw() {
      // -----------------
     // ------- LAYER 4 -----
     push()
-    translate(0,0,-205)
+    translate(0,0,-250)
   texture(image03)
     noStroke()
     rotateZ(frameCount * 0.038)
@@ -126,7 +126,7 @@ function draw() {
      // -----------------
     // ------- LAYER 5 -----
     push()
-    translate(0,0,-205)
+    translate(0,0,-250)
     texture(image04)
     noStroke()
     rotateZ(frameCount * 0.03)
@@ -137,7 +137,7 @@ function draw() {
      // -----------------
     // ------- LAYER 6 -----
     push()
-    translate(0,0,-205)
+    translate(0,0,-250)
     texture(image05)
     noStroke()
     rotateZ(-frameCount * 0.02)
@@ -148,9 +148,9 @@ function draw() {
     // -----------------
     // ------- LAYER 7 -----
     push()
-    translate(0,0,-205)
+    translate(0,0,-250)
     texture(image06)
-    noStroke()
+   noStroke()
      rotateZ(-frameCount * 0.015)
     plane(7680/5.5, 5956/5.5)
     resetShader()
@@ -159,30 +159,30 @@ function draw() {
      // -----------------
     // ------- LAYER 8 -----
     push()
-    translate(0,0,-205)
+    translate(0,0,-210)
     texture(image07)
     noStroke()
-    plane(7669/4, 4314/4)
+    plane(7669/3.5, 4314/3.5)
     resetShader()
     pop()
 
     // -----------------
     // ------- LAYER 9 -----
     push()
-    translate(0,0,-250)
+    translate(0,0,-210)
     texture(image08)
     noStroke()
-    plane(7669/4, 4314/4)
+    plane(7669/3.5, 4314/3.5)
     resetShader()
     pop()
 
-      // Display the word "Here"
+    // Display the "Hertz" un the space
     push();
-    translate(0, 0, 0); // Center of the canvas
+    translate(-200, -120, 170); // Center of the canvas
     textFont(myFont); // Set the custom font
-    textSize(80); // Adjust the size if needed
-    fill(0); // Set text color to black
-    text("Here", 0, 0);
+    textSize(10); // Adjust the size if needed
+    fill(100); // Set text color to black
+    text("+\n365-HZ", 0, 0);
     pop();
 
 

@@ -20,7 +20,7 @@ class User:
 
 
 user = User()
-model = Pagmar(camera_number=0)
+model = Pagmar(camera_number=1)
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
 
