@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GUI Example</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
+    <style>
+        @font-face {
+            font-family: 'UiFont';
+            src: url('static/UiFont.ttf') format('truetype');
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'UiFont', Arial, sans-serif;
+            direction: rtl;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            font-family: 'UiFont', Arial, sans-serif;
+        }
+        .container h2 {
+            margin-top: 0;
+        }
+        .container label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .container input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'UiFont', Arial, sans-serif;
+        }
+        .container .gender-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'UiFont', Arial, sans-serif;
+        }
+        .container .blue-button {
+            background-color: #E0E0E0;
+            color: #000;
+            cursor: not-allowed;
+        }
+        .container .blue-button.active {
+            background-color: #2196F3;
+            color: #fff;
+            cursor: pointer;
+        }
+        .container .light-blue-button {
+            background-color: #90CAF9;
+            color: #000;
+        }
+        .container .grey-button {
+            background-color: #E0E0E0;
+            color: #000;
+        }
+        .simple-keyboard {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>היי,</h2>
+        <label for="name">מה שמך?</label>
+        <input type="text" id="name" name="name">
+        <div class="gender-buttons">
+            <button class="grey-button" id="female-button">בנקבה</button>
+            <button class="grey-button" id="male-button">בזכר</button>
+        </div>
+        <button class="blue-button" id="start-button">אפשר להתחיל</button>
+    </div>
+    <div class="simple-keyboard"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
+    <script>
+        const Keyboard = window.SimpleKeyboard.default;
+
+        const myKeyboard = new Keyboard({
+            onChange: input => onChange(input),
+            onKeyPress: button => onKeyPress(button),
+            layout: {
+                default: [
+                    "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
+                    "/ ' פ ם ן ו ט א ר ק [ ] \\",
+                    "ף ך ל ח י ע כ ג ד ש ; '",
+                    "ץ ת צ מ נ ה ב ס ז , . /",
+                    "{space}"
+                ],
+            },
+            display: {
+                '{bksp}': '⌫',
+                '{enter}': '⏎',
+                '{shift}': '⇧',
+                '{space}': ' '
+            }
+        });
+
+        function onChange(input) {
+            document.querySelector("#name").value = input;
+            validateForm();
+        }
+
+        function onKeyPress(button) {
+            console.log("Button pressed", button);
+        }
+
+        document.querySelector("#name").addEventListener("focus", () => {
+            myKeyboard.setInput(document.querySelector("#name").value);
+        });
+
+        const femaleButton = document.getElementById("female-button");
+        const maleButton = document.getElementById("male-button");
+        const startButton = document.getElementById("start-button");
+        const nameInput = document.getElementById("name");
+
+        femaleButton.addEventListener("click", () => {
+            femaleButton.classList.add("light-blue-button");
+            maleButton.classList.remove("light-blue-button");
+            femaleButton.classList.remove("grey-button");
+            maleButton.classList.add("grey-button");
+            validateForm();
+        });
+
+        maleButton.addEventListener("click", () => {
+            maleButton.classList.add("light-blue-button");
+            femaleButton.classList.remove("light-blue-button");
+            maleButton.classList.remove("grey-button");
+            femaleButton.classList.add("grey-button");
+            validateForm();
+        });
+
+        function validateForm() {
+            if (nameInput.value.trim() !== "" && (femaleButton.classList.contains("light-blue-button") || maleButton.classList.contains("light-blue-button"))) {
+                startButton.classList.add("active");
+                startButton.disabled = false;
+            } else {
+                startButton.classList.remove("active");
+                startButton.disabled = true;
+            }
+        }
+
+        // Initially disable the start button
+        startButton.disabled = true;
+    </script>
+</body>
+</html>
