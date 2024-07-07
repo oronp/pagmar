@@ -176,14 +176,56 @@ function draw() {
     resetShader()
     pop()
 
-    // Display the "Hertz" un the space
+  // Display the "Hertz" in the space
     push();
-    translate(-200, -120, 170); // Center of the canvas
+    translate(-200, -120, 200); // Center of the canvas
     textFont(myFont); // Set the custom font
-    textSize(10); // Adjust the size if needed
-    fill(100); // Set text color to black
+    textSize(5); // Adjust the size if needed
+    fill(100, 100, 100)
     text("+\n365-HZ", 0, 0);
     pop();
+
+    push();
+    translate(50, 50, 500); // Center of the canvas
+    textFont(myFont); // Set the custom font
+    textSize(2); // Adjust the size if needed
+    fill(100, 100, 100)
+    text("+\n826-HZ", 0, 0);
+    pop();
+
+    push();
+    translate(-70, -70, 550); // Center of the canvas
+    textFont(myFont); // Set the custom font
+    textSize(2); // Adjust the size if needed
+    fill(100, 100, 100)
+    text("+\n728-HZ", 0, 0);
+    pop();
+
+    push();
+    translate(-100, 100, 350); // Center of the canvas
+    textFont(myFont); // Set the custom font
+    textSize(3); // Adjust the size if needed
+    fill(100, 100, 100)
+    text("+\n990-HZ", 0, 0);
+    pop();
+
+    push();
+    translate(300, 150, 150); // Center of the canvas
+    textFont(myFont); // Set the custom font
+    textSize(6); // Adjust the size if needed
+    fill(100, 100, 100)
+    text("+\n421-HZ", 0, 0);
+    pop();
+
+    push();
+    translate(180, 0, 250); // Center of the canvas
+    textFont(myFont); // Set the custom font
+    textSize(4); // Adjust the size if needed
+    fill(100, 100, 100)
+    text("+\n633-HZ", 0, 0);
+    pop();
+
+
 
 
 
