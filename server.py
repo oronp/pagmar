@@ -1,9 +1,12 @@
 import webbrowser
+import subprocess
+import os
 
 from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 
 from emotion_detection import Pagmar
+from music_player import sound_flow_manager
 
 
 class User:
@@ -50,15 +53,31 @@ def set_user():
     return response
 
 
+@app.route('/start_presentation', methods=['POST'])
+def start_presentation():
+    name = request.json.get('user_name')
+    sex = request.json.get('sex')
+
+    chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # Windows path
+    webbrowser.get(chrome_path).open_new("http://127.0.0.1:5000/")
+
+    finished = sound_flow_manager(sex)
+
+    return {}
+
+
+@app.route('/stop_presentation')
+def stop_presentation():
+    subprocess.run("shutdown -r 0", shell=True, check=True)
+
+
 @app.route('/')
 def index():
     return send_from_directory('static', 'index_Orr.html')
 
 
 def run_server():
-    chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # Windows path
-    # webbrowser.get(chrome_path).open_new("http://0.0.0.0:5000/")
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(debug=False)
 
 
 if __name__ == '__main__':

@@ -12,6 +12,7 @@
     <h2>היי,</h2>
     <label for="name">מה שמך?</label>
     <input type="text" id="name" name="name">
+    <label for="name">איך לפנות אליך?</label>
     <div class="gender-buttons">
         <button class="grey-button" id="female-button">בנקבה</button>
         <button class="grey-button" id="male-button">בזכר</button>
@@ -22,6 +23,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
 <script>
+    var sex = 'male'
+
     const Keyboard = window.SimpleKeyboard.default;
 
     const myKeyboard = new Keyboard({
@@ -67,6 +70,7 @@
         maleButton.classList.remove("light-blue-button");
         femaleButton.classList.remove("grey-button");
         maleButton.classList.add("grey-button");
+        sex = 'female'
         validateForm();
     });
 
@@ -75,6 +79,7 @@
         femaleButton.classList.remove("light-blue-button");
         maleButton.classList.remove("grey-button");
         femaleButton.classList.add("grey-button");
+        sex = 'male'
         validateForm();
     });
 
@@ -108,6 +113,22 @@
 
         // Append black screen to body
         document.body.appendChild(blackScreen);
+
+        fetch('http://127.0.0.1:5000/start_presentation', {
+            method: 'POST', // or 'GET' depending on your server's requirement
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                user_name: document.querySelector("#name").value,
+                sex: sex
+            }) // Adjust payload as necessary
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
 
         // Event listener to reset everything on blue button click
         blueButton.addEventListener("click", () => {

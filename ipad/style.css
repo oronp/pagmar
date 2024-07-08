@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'UiFont';
-    src: url('static/UiFont.ttf') format('truetype');
+    src: url('UiFont.ttf') format('truetype');
 }
 
 body {
