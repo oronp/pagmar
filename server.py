@@ -23,7 +23,7 @@ class User:
 
 
 user = User()
-model = Pagmar(camera_number=0)
+model = Pagmar(camera_number=1)
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
 
@@ -58,7 +58,8 @@ def start_presentation():
     name = request.json.get('user_name')
     sex = request.json.get('sex')
 
-    chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # Windows path
+    # chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # Windows path
+    chrome_path = 'open -a /Applications/Google\ Chrome.app %s'
     webbrowser.get(chrome_path).open_new("http://127.0.0.1:5000/")
 
     finished = sound_flow_manager(sex)
