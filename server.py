@@ -20,7 +20,7 @@ class User:
 
 
 user = User()
-model = Pagmar(camera_number=1)
+model = Pagmar(camera_number=0)
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
 
@@ -57,8 +57,8 @@ def index():
 
 def run_server():
     chrome_path = "C:/Program Files/Google/Chrome/Application/chrome.exe %s"  # Windows path
-    webbrowser.get(chrome_path).open_new("http://127.0.0.1:5000/")
-    app.run(debug=False)
+    # webbrowser.get(chrome_path).open_new("http://0.0.0.0:5000/")
+    app.run(host='0.0.0.0', port=5000, debug=False)
 
 
 if __name__ == '__main__':
