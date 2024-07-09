@@ -8,8 +8,8 @@ ballRadius = 200
 r = 200
 holeR = 0
 extraRotation = 0
-scribbleForce = 4
-scribbleSpeed = .1
+scribbleForce = 10
+scribbleSpeed = .5
 cameraChangeSpeed = 0.01
 ballRotationSpeed = 0.005
 holes = []
@@ -260,9 +260,15 @@ function draw() {
     newPos = calculateFixedPoint(0, 0, r)
     if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 10) * 3 + .5 })
     else if (frameCount % 5 == 0) {
-        s = noise(frameCount / 20) * holeR
-        // newPos.add(random(-s/2,s/2),random(-s/2,s/2), random(-s/2,s/2))
-        holes.push({pos:newPos,size: s})
+        // if not found a face - rotate slightly using rotationAmout
+        let rotationAmount = .5;
+        const angleX = random(-rotationAmount, rotationAmount);
+        const angleY = random(-rotationAmount, rotationAmount)
+        const angleZ = random(-rotationAmount, rotationAmount)
+
+        newPos = rotateVector(newPos, angleX, angleY, angleZ);
+        // this is the new random 'hole' point and its size
+        coords.push({ pos: newPos, size: noise(frameCount / 10) * 6 + .5 })
     }
 
     // draw the points
@@ -366,7 +372,7 @@ function putTexts() {
     push()
     translate(0, 0, ballRadius)
     rotateY(180)
-    text('Disapponted', 0, 0)
+    text('Disappointed', 0, 0)
     pop()
 
     push()
@@ -387,4 +393,32 @@ function drawSphere() {
     rotateX(90)
     circle(0, 0, ballRadius*2)
     pop()
+}
+
+// Function to rotate a vector
+function rotateVector(v, angleX, angleY, angleZ) {
+  let result = createVector(v.x, v.y, v.z);
+
+  // Rotate around X-axis
+  result = createVector(
+    result.x,
+    result.y * cos(angleX) - result.z * sin(angleX),
+    result.y * sin(angleX) + result.z * cos(angleX)
+  );
+
+  // Rotate around Y-axis
+  result = createVector(
+    result.x * cos(angleY) + result.z * sin(angleY),
+    result.y,
+    -result.x * sin(angleY) + result.z * cos(angleY)
+  );
+
+  // Rotate around Z-axis
+  result = createVector(
+    result.x * cos(angleZ) - result.y * sin(angleZ),
+    result.x * sin(angleZ) + result.y * cos(angleZ),
+    result.z
+  );
+
+  return result;
 }

@@ -4,11 +4,15 @@ function onNewEmotionData(data) {}
 function getEmotions() {
     fetch('http://127.0.0.1:5000/get-emotions')
         .then(response => {
-            response.json()
-                .then(data => {
-                    onNewEmotionData(data)
-                })
-                .catch(console.error);
+            if (response.ok) {
+                response.json()
+                    .then(data => {
+                        onNewEmotionData(data)
+                    })
+                    .catch(console.error);
+            } else {
+                onNewEmotionData(false)
+            }
         })
 }
 function startGetEmotions() {
