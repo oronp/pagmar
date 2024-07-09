@@ -9,7 +9,7 @@
 </head>
 <body>
 <div class="container">
-    <h2>היי,</h2>
+    <label>היי,</label>
     <label for="name">מה שמך?</label>
     <input type="text" id="name" name="name">
     <label for="name">איך לפנות אליך?</label>
@@ -23,29 +23,9 @@
 
 <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
 <script>
-    var sex = 'male'
+    let sex = 'male'
 
     const Keyboard = window.SimpleKeyboard.default;
-
-    const myKeyboard = new Keyboard({
-        onChange: input => onChange(input),
-        onKeyPress: button => onKeyPress(button),
-        layout: {
-            default: [
-                "` 1 2 3 4 5 6 7 8 9 0 - = {bksp}",
-                "/ ' פ ם ן ו ט א ר ק [ ] \\",
-                "ף ך ל ח י ע כ ג ד ש ; '",
-                "ץ ת צ מ נ ה ב ס ז , . /",
-                "{space}"
-            ],
-        },
-        display: {
-            '{bksp}': '⌫',
-            '{enter}': '⏎',
-            '{shift}': '⇧',
-            '{space}': ' '
-        }
-    });
 
     function onChange(input) {
         document.querySelector("#name").value = input;
