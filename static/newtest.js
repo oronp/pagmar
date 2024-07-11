@@ -258,7 +258,7 @@ function draw() {
 
     // get the new point
     newPos = calculateFixedPoint(0, 0, r)
-    if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 10) * 3 + .5 })
+    if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 5) * 3 + .5 })
     else if (frameCount % 5 == 0) {
         // if not found a face - rotate slightly using rotationAmout
         let rotationAmount = .5;
