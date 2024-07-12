@@ -258,7 +258,7 @@ function draw() {
 
     // get the new point
     newPos = calculateFixedPoint(0, 0, r)
-    if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 5) * 3 + .5 })
+    if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 4) * 3 + .5 })
     else if (frameCount % 5 == 0) {
         // if not found a face - rotate slightly using rotationAmout
         let rotationAmount = .5;
@@ -268,7 +268,7 @@ function draw() {
 
         newPos = rotateVector(newPos, angleX, angleY, angleZ);
         // this is the new random 'hole' point and its size
-        coords.push({ pos: newPos, size: noise(frameCount / 10) * 6 + .5 })
+       // coords.push({ pos: newPos, size: noise(frameCount / 10) * 6 + .5 })
     }
 
     // draw the points
