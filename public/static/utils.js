@@ -15,8 +15,40 @@ function getEmotions() {
             }
         })
 }
+
+// Function to capture the image and send it to the server
+function captureAndSendImage() {
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Convert the canvas image to a Blob
+    canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append('image', blob, 'frame.png');
+
+        // Send the image to the server for emotion detection
+        fetch('/detect_emotion', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    resultDiv.innerText = `Error: ${data.error}`;
+                } else {
+                    resultDiv.innerText = `Emotion: ${data[0].dominant_emotion}`;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                resultDiv.innerText = 'Error detecting emotion.';
+            });
+    }, 'image/png');
+}
+
 function startGetEmotions() {
-    setInterval(getEmotions, 250);
+    // setInterval(getEmotions, 250);
+    setInterval(captureAndSendImage, 250)
 }
 
 let emotionPoints

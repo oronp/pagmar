@@ -3,6 +3,9 @@ startGetEmotions()
 let emotionData
 let data
 
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const resultDiv = document.getElementById('result');
 
 ballRadius = 200
 r = 200
@@ -13,6 +16,15 @@ scribbleSpeed = .5
 cameraChangeSpeed = 0.01
 ballRotationSpeed = 0.005
 holes = []
+
+// Access the device camera and stream to video element
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        video.srcObject = stream;
+    })
+    .catch(err => {
+        console.error('Error accessing the camera: ', err);
+    });
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
