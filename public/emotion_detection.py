@@ -5,6 +5,7 @@ import tools
 
 class Pagmar:
     def __init__(self):
+        self.is_running = False
         self.axis_center = (0, 0)
 
     def emotions_predict(self, inputs) -> dict:

@@ -94,7 +94,7 @@
         // Append black screen to body
         document.body.appendChild(blackScreen);
 
-        fetch('http://127.0.0.1:5000/start_presentation', {
+        fetch('https://oronp2912.pythonanywhere.com/start_presentation', {
             method: 'POST', // or 'GET' depending on your server's requirement
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

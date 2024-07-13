@@ -109,6 +109,7 @@ from flask_cors import CORS
 import cv2
 import base64
 import numpy as np
+from music_player import sound_flow_manager
 from emotion_detection import Pagmar
 
 app = Flask(__name__)
@@ -130,6 +131,26 @@ def detect_emotion():
         return jsonify(response)
     except Exception as e:
         return jsonify({'error': str(e)})
+
+
+@app.route('/is_running', methods=['GET'])
+def get_is_running():
+    return {'is_running': model.is_running}
+
+
+@app.route('/start_presentation', methods=['POST'])
+def start_presentation():
+    model.is_running = True
+
+    name = request.json.get('user_name')
+    sex = request.json.get('sex')
+
+    finished = sound_flow_manager(sex)
+
+    if finished:
+        model.is_running = False
+
+    return {}
 
 
 if __name__ == '__main__':
