@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GUI Example</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/css/index.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="container">
-    <label>היי,</label>
-    <label for="name">מה שמך?</label>
+    <label></label>
+    <label for="name">היי, מה שמך?</label>
     <input type="text" id="name" name="name">
     <label for="name">איך לפנות אליך?</label>
     <div class="gender-buttons">
-        <button class="grey-button" id="female-button">בנקבה</button>
-        <button class="grey-button" id="male-button">בזכר</button>
+        <button class="grey-button" id="female-button">את</button>
+        <button class="grey-button" id="male-button">אתה</button>
     </div>
     <button class="blue-button" id="start-button">אפשר להתחיל</button>
 </div>
@@ -102,13 +102,13 @@
                 sex: sex
             }) // Adjust payload as necessary
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
 
         // Event listener to reset everything on blue button click
         blueButton.addEventListener("click", () => {
