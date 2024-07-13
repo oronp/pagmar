@@ -16,40 +16,58 @@ function getEmotions() {
         })
 }
 
-// Function to capture the image and send it to the server
-function captureAndSendImage() {
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Create video element
+    const video = document.createElement('video');
+    video.width = 640;
+    video.height = 480;
+    video.autoplay = true;
+
+    // Create canvas element
+    const canvas = document.createElement('canvas');
+    canvas.width = 640;
+    canvas.height = 480;
+    canvas.style.display = 'none';
+
     const context = canvas.getContext('2d');
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Convert the canvas image to a Blob
-    canvas.toBlob(blob => {
-        const formData = new FormData();
-        formData.append('image', blob, 'frame.png');
+    // Get access to the webcam
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+            video.srcObject = stream;
+            video.play();
+        });
+    }
 
-        // Send the image to the server for emotion detection
-        fetch('http://oronp2912.pythonanywhere.com/get-emotions', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error) {
-                    resultDiv.innerText = `Error: ${data.error}`;
-                } else {
-                    resultDiv.innerText = `Emotion: ${data[0].dominant_emotion}`;
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                resultDiv.innerText = 'Error detecting emotion.';
-            });
-    }, 'image/png');
-}
+    // Function to capture and send the image
+    function captureAndSendImage() {
+        context.drawImage(video, 0, 0, 640, 480);
+        const imageData = canvas.toDataURL('image/jpeg');
 
-function startGetEmotions() {
-    // setInterval(getEmotions, 250);
-    setInterval(captureAndSendImage, 250)
-}
+        fetch('https://oronp2912.pythonanywhere.com/detect_emotion', {method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ image: imageData })
+        }).then(response => {
+            if (response.ok) {
+                response.json()
+                    .then(data => {
+                        onNewEmotionData(data)
+                    })
+                    .catch(console.error);
+            } else {
+                onNewEmotionData(false)
+            }
+        });
+    }
+
+    // Capture and send an image every second
+    setInterval(captureAndSendImage, 1000);
+});
+
+// function startGetEmotions() {
+//     // setInterval(getEmotions, 250);
+//     setInterval(captureAndSendImage, 250)
+// }
 
 let emotionPoints
 function calculateTargetPoint() {
