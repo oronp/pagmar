@@ -64,10 +64,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
     setInterval(captureAndSendImage, 1000);
 });
 
-// function startGetEmotions() {
-//     // setInterval(getEmotions, 250);
-//     setInterval(captureAndSendImage, 250)
-// }
+function runOrNot() {
+    fetch('https://oronp2912.pythonanywhere.com/is_running')
+        .then(response => {
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            if (data === false) {
+                document.body.style.backgroundColor = 'black';
+            } else if (data === true && document.body.style.backgroundColor === 'black') {
+                location.reload();
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+        });
+}
 
 let emotionPoints
 function calculateTargetPoint() {
@@ -128,3 +139,5 @@ function calculateTargetPoint() {
       point(point.x * 200, point.y * 200, point.z * 200);
     }
   }
+
+setInterval(runOrNot, 10000)

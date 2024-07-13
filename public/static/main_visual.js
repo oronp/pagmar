@@ -1,4 +1,4 @@
-// startGetEmotions()
+// startRunOrNotInterval()
 
 let emotionData
 let data

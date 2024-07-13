@@ -150,6 +150,7 @@ def start_presentation():
     if finished:
         model.is_running = False
 
+    # TODO: add here the return of the data to the visual.
     return {}
 
 
