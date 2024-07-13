@@ -3,12 +3,13 @@
 let emotionData
 let data
 
+
 ballRadius = 200
 r = 200
 holeR = 0
 extraRotation = 0
-scribbleForce = 10
-scribbleSpeed = .5
+scribbleForce = 4
+scribbleSpeed = .1
 cameraChangeSpeed = 0.01
 ballRotationSpeed = 0.005
 holes = []
@@ -257,17 +258,17 @@ function draw() {
 
     // get the new point
     newPos = calculateFixedPoint(0, 0, r)
-    if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 10) * 3 + .5 })
+    if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 5) * 3 + .5 })
     else if (frameCount % 5 == 0) {
         // if not found a face - rotate slightly using rotationAmout
-        let rotationAmount = .5;
+        let rotationAmount = .7;
         const angleX = random(-rotationAmount, rotationAmount);
         const angleY = random(-rotationAmount, rotationAmount)
         const angleZ = random(-rotationAmount, rotationAmount)
 
         newPos = rotateVector(newPos, angleX, angleY, angleZ);
         // this is the new random 'hole' point and its size
-        coords.push({ pos: newPos, size: noise(frameCount / 10) * 6 + .5 })
+        coords.push({ pos: newPos, size: noise(frameCount / 10) * 10 + .7 })
     }
 
     // draw the points
