@@ -1,12 +1,16 @@
 import webbrowser
 import subprocess
-import os
 
 from flask import Flask, jsonify, send_from_directory, request
 from flask_cors import CORS
 
 from emotion_detection import Pagmar
 from music_player import sound_flow_manager
+
+# TODO: Check if this is relavant
+import cv2
+import numpy as np
+from deepface import DeepFace
 
 
 class User:
@@ -23,9 +27,25 @@ class User:
 
 
 user = User()
-model = Pagmar(camera_number=1)
+model = Pagmar()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
+
+
+@app.route('/detect_emotion', methods=['POST'])
+def detect_emotion():
+    try:
+        # Read the image from the request
+        file = request.files['image'].read()
+        npimg = np.fromstring(file, np.uint8)
+        img = cv2.imdecode(npimg, cv2.IMREAD_COLOR)
+
+        # Analyze the image for emotions
+        result = DeepFace.analyze(img, actions=['emotion'])
+
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({'error': str(e)})
 
 
 @app.route('/get-emotions', methods=['GET'])
