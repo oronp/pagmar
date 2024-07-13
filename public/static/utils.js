@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     // Capture and send an image every second
-    setInterval(captureAndSendImage, 250);
+    setInterval(captureAndSendImage, 1000);
 });
 
 // function startGetEmotions() {
