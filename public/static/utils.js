@@ -2,7 +2,7 @@
 function onNewEmotionData(data) {}
 
 function getEmotions() {
-    fetch('http://127.0.0.1:5000/get-emotions')
+    fetch('http://oronp2912.pythonanywhere.com/get-emotions')
         .then(response => {
             if (response.ok) {
                 response.json()
@@ -27,7 +27,7 @@ function captureAndSendImage() {
         formData.append('image', blob, 'frame.png');
 
         // Send the image to the server for emotion detection
-        fetch('/detect_emotion', {
+        fetch('http://oronp2912.pythonanywhere.com/get-emotions', {
             method: 'POST',
             body: formData
         })
