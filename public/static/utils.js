@@ -66,16 +66,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 function runOrNot() {
     fetch('https://oronp2912.pythonanywhere.com/is_running')
-        .then(response => {
-            return response.json();
-        }).then(data => {
-            console.log(data);
-            if (data === false) {
-                document.body.style.backgroundColor = 'black';
-            } else if (data === true && document.body.style.backgroundColor === 'black') {
-                location.reload();
+        .then(response => response.json())
+        .then(data => {
+            if (data.is_running === false) {
+                window.location.href = 'black_screen.html';
             }
-        }).catch(error => {
+        })
+        .catch(error => {
             console.error('Error:', error);
         });
 }
