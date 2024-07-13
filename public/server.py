@@ -109,7 +109,6 @@ from flask_cors import CORS
 import cv2
 import base64
 import numpy as np
-from deepface import DeepFace
 from emotion_detection import Pagmar
 
 app = Flask(__name__)
