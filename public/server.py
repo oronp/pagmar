@@ -114,6 +114,7 @@ from emotion_detection import Pagmar
 
 app = Flask(__name__)
 model = Pagmar()
+model.is_running = False
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
 
 
@@ -134,8 +135,8 @@ def detect_emotion():
 
 
 @app.route('/is_running', methods=['GET'])
-def get_is_running():
-    return {'is_running': model.is_running}
+def is_running():
+    return jsonify({'is_running': model.is_running})
 
 
 @app.route('/start_presentation', methods=['POST'])
