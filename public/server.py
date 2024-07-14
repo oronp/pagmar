@@ -138,6 +138,12 @@ def is_running():
     return jsonify({'is_running': model.is_running})
 
 
+@app.route('/stop_running', methods=['GET'])
+def stop_running():
+    model.is_running = False
+    return jsonify({'is_running': model.is_running})
+
+
 @app.route('/start_presentation', methods=['POST'])
 def start_presentation():
     model.is_running = True
