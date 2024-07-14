@@ -114,7 +114,6 @@ from emotion_detection import Pagmar
 
 app = Flask(__name__)
 model = Pagmar()
-model.is_running = False
 CORS(app, resources={r"/*": {"origins": "*"}})  # Allow CORS for all origins
 
 
