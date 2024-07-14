@@ -33,20 +33,20 @@ onNewEmotionData = (newData) => {
 
 
 function preload() {
-    myFont = loadFont('static/font.ttf');
+    myFont = loadFont('font.ttf');
     // video1 = createVideo('media/background.mp4');
     // video1.hide()
     // video1.loop()
 
-    image01 = loadImage('static/Net001.png')
-    image02 = loadImage('static/Net002.png')
-    image03 = loadImage('static/Net003.png')
-    image04 = loadImage('static/Net004.png')
-    image05 = loadImage('static/003-rivers21.png')
-    image06 = loadImage('static/004-shake map2.png')
-    image07 = loadImage('static/herzFront.png')
-    image08 = loadImage('static/herzBack.png')
-    image09 = loadImage('static/backrounds grain.png')
+    image01 = loadImage('Net001.png')
+    image02 = loadImage('Net002.png')
+    image03 = loadImage('Net003.png')
+    image04 = loadImage('Net004.png')
+    image05 = loadImage('003-rivers21.png')
+    image06 = loadImage('004-shake map2.png')
+    image07 = loadImage('herzFront.png')
+    image08 = loadImage('herzBack.png')
+    image09 = loadImage('backrounds grain.png')
 
 }
 

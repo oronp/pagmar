@@ -8,133 +8,141 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="container">
-    <label></label>
-    <label for="name">היי, מה שמך?</label>
-    <input type="text" id="name" name="name">
-    <label for="name">איך לפנות אליך?</label>
-    <div class="gender-buttons">
-        <button class="grey-button" id="female-button">את</button>
-        <button class="grey-button" id="male-button">אתה</button>
+    <div class="video-container">
+        <video autoplay muted loop id="background-video">
+            <source src="../media/backgroundmotion.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
     </div>
-    <button class="blue-button" id="start-button">אפשר להתחיל</button>
-</div>
-<div class="simple-keyboard"></div>
+    <div class="content">
+        <div class="container">
+            <label></label>
+            <label for="name">היי, מה שמך?</label>
+            <input type="text" id="name" name="name">
+            <label for="name">איך לפנות אליך?</label>
+            <div class="gender-buttons">
+                <button class="grey-button" id="female-button">את</button>
+                <button class="grey-button" id="male-button">אתה</button>
+            </div>
+            <button class="blue-button" id="start-button">אפשר להתחיל</button>
+        </div>
+        <div class="simple-keyboard"></div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
-<script>
-    let sex = 'male'
+    <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
+    <script>
+        let sex = 'male'
 
-    const Keyboard = window.SimpleKeyboard.default;
+        const Keyboard = window.SimpleKeyboard.default;
 
-    function onChange(input) {
-        document.querySelector("#name").value = input;
-        validateForm();
-    }
+        function onChange(input) {
+            document.querySelector("#name").value = input;
+            validateForm();
+        }
 
-    function onKeyPress(button) {
-        console.log("Button pressed", button);
-    }
+        function onKeyPress(button) {
+            console.log("Button pressed", button);
+        }
 
-    document.querySelector("#name").addEventListener("focus", () => {
-        myKeyboard.setInput(document.querySelector("#name").value);
-    });
+        document.querySelector("#name").addEventListener("focus", () => {
+            myKeyboard.setInput(document.querySelector("#name").value);
+        });
 
-    const femaleButton = document.getElementById("female-button");
-    const maleButton = document.getElementById("male-button");
-    const startButton = document.getElementById("start-button");
-    const nameInput = document.getElementById("name");
+        const femaleButton = document.getElementById("female-button");
+        const maleButton = document.getElementById("male-button");
+        const startButton = document.getElementById("start-button");
+        const nameInput = document.getElementById("name");
 
-    femaleButton.addEventListener("click", () => {
-        femaleButton.classList.add("light-blue-button");
-        maleButton.classList.remove("light-blue-button");
-        femaleButton.classList.remove("grey-button");
-        maleButton.classList.add("grey-button");
-        sex = 'female'
-        validateForm();
-    });
+        femaleButton.addEventListener("click", () => {
+            femaleButton.classList.add("light-blue-button");
+            maleButton.classList.remove("light-blue-button");
+            femaleButton.classList.remove("grey-button");
+            maleButton.classList.add("grey-button");
+            sex = 'female'
+            validateForm();
+        });
 
-    maleButton.addEventListener("click", () => {
-        maleButton.classList.add("light-blue-button");
-        femaleButton.classList.remove("light-blue-button");
-        maleButton.classList.remove("grey-button");
-        femaleButton.classList.add("grey-button");
-        sex = 'male'
-        validateForm();
-    });
+        maleButton.addEventListener("click", () => {
+            maleButton.classList.add("light-blue-button");
+            femaleButton.classList.remove("light-blue-button");
+            maleButton.classList.remove("grey-button");
+            femaleButton.classList.add("grey-button");
+            sex = 'male'
+            validateForm();
+        });
 
-    function validateForm() {
-        if (nameInput.value.trim() !== "" && (femaleButton.classList.contains("light-blue-button") || maleButton.classList.contains("light-blue-button"))) {
-            startButton.classList.add("active");
-            startButton.disabled = false;
-        } else {
+        function validateForm() {
+            if (nameInput.value.trim() !== "" && (femaleButton.classList.contains("light-blue-button") || maleButton.classList.contains("light-blue-button"))) {
+                startButton.classList.add("active");
+                startButton.disabled = false;
+            } else {
+                startButton.classList.remove("active");
+                startButton.disabled = true;
+            }
+        }
+
+        // Initially disable the start button
+        startButton.disabled = true;
+
+        // Add event listener for start button
+        startButton.addEventListener("click", startMovie);
+
+        // Define the startMovie function
+        function startMovie() {
+            // Create black screen div
+            const blackScreen = document.createElement("div");
+            blackScreen.classList.add("black-screen");
+
+            // Create blue button
+            const blueButton = document.createElement("button");
+            blueButton.classList.add("blue-button");
+            blueButton.innerText = "כפתור כחול";
+            blackScreen.appendChild(blueButton);
+
+            // Append black screen to body
+            document.body.appendChild(blackScreen);
+
+            fetch('https://oronp2912.pythonanywhere.com/start_presentation', {
+                method: 'POST', // or 'GET' depending on your server's requirement
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    user_name: document.querySelector("#name").value,
+                    sex: sex
+                }) // Adjust payload as necessary
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+
+            // Event listener to reset everything on blue button click
+            blueButton.addEventListener("click", () => {
+                document.body.removeChild(blackScreen);
+                resetUI();
+            });
+
+            // Remove black screen after 2 minutes
+            setTimeout(() => {
+                if (document.body.contains(blackScreen)) {
+                    document.body.removeChild(blackScreen);
+                    resetUI();
+                }
+            }, 120000); // 120000 milliseconds = 2 minutes
+        }
+
+        // Define the resetUI function to reset the UI to its initial state
+        function resetUI() {
+            nameInput.value = "";
+            femaleButton.classList.remove("light-blue-button");
+            femaleButton.classList.add("grey-button");
+            maleButton.classList.remove("light-blue-button");
+            maleButton.classList.add("grey-button");
             startButton.classList.remove("active");
             startButton.disabled = true;
         }
-    }
-
-    // Initially disable the start button
-    startButton.disabled = true;
-
-    // Add event listener for start button
-    startButton.addEventListener("click", startMovie);
-
-    // Define the startMovie function
-    function startMovie() {
-        // Create black screen div
-        const blackScreen = document.createElement("div");
-        blackScreen.classList.add("black-screen");
-
-        // Create blue button
-        const blueButton = document.createElement("button");
-        blueButton.classList.add("blue-button");
-        blueButton.innerText = "כפתור כחול";
-        blackScreen.appendChild(blueButton);
-
-        // Append black screen to body
-        document.body.appendChild(blackScreen);
-
-        fetch('https://oronp2912.pythonanywhere.com/start_presentation', {
-            method: 'POST', // or 'GET' depending on your server's requirement
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                user_name: document.querySelector("#name").value,
-                sex: sex
-            }) // Adjust payload as necessary
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-
-        // Event listener to reset everything on blue button click
-        blueButton.addEventListener("click", () => {
-            document.body.removeChild(blackScreen);
-            resetUI();
-        });
-
-        // Remove black screen after 2 minutes
-        setTimeout(() => {
-            if (document.body.contains(blackScreen)) {
-                document.body.removeChild(blackScreen);
-                resetUI();
-            }
-        }, 120000); // 120000 milliseconds = 2 minutes
-    }
-
-    // Define the resetUI function to reset the UI to its initial state
-    function resetUI() {
-        nameInput.value = "";
-        femaleButton.classList.remove("light-blue-button");
-        femaleButton.classList.add("grey-button");
-        maleButton.classList.remove("light-blue-button");
-        maleButton.classList.add("grey-button");
-        startButton.classList.remove("active");
-        startButton.disabled = true;
-    }
-</script>
+    </script>
 </body>
 </html>
