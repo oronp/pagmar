@@ -16,7 +16,7 @@
 </body>
 <script>
     function runOrNot() {
-        fetch('http://127.0.0.1:5000/is_running')
+        fetch('https://oronp2912.pythonanywhere.com/is_running')
             .then(response => response.json())
             .then(data => {
                 if (data) {
