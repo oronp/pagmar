@@ -2,7 +2,7 @@
 function onNewEmotionData(data) {}
 
 function getEmotions() {
-    fetch('http://127.0.0.1:5000/get-emotions')
+    fetch('http://oronp2912.pythonanywhere.com/get-emotions')
         .then(response => {
             if (response.ok) {
                 response.json()
@@ -15,8 +15,66 @@ function getEmotions() {
             }
         })
 }
-function startGetEmotions() {
-    setInterval(getEmotions, 250);
+
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Create video element
+    const video = document.createElement('video');
+    video.width = 640;
+    video.height = 480;
+    video.autoplay = true;
+
+    // Create canvas element
+    const canvas = document.createElement('canvas');
+    canvas.width = 640;
+    canvas.height = 480;
+    canvas.style.display = 'none';
+
+    const context = canvas.getContext('2d');
+
+    // Get access to the webcam
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+            video.srcObject = stream;
+            video.play();
+        });
+    }
+
+    // Function to capture and send the image
+    function captureAndSendImage() {
+        context.drawImage(video, 0, 0, 640, 480);
+        const imageData = canvas.toDataURL('image/jpeg');
+
+        fetch('https://oronp2912.pythonanywhere.com/detect_emotion', {method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ image: imageData })
+        }).then(response => {
+            if (response.ok) {
+                response.json()
+                    .then(data => {
+                        onNewEmotionData(data)
+                    })
+                    .catch(console.error);
+            } else {
+                onNewEmotionData(false)
+            }
+        });
+    }
+
+    // Capture and send an image every second
+    setInterval(captureAndSendImage, 1000);
+});
+
+function runOrNot() {
+    fetch('https://oronp2912.pythonanywhere.com/is_running')
+        .then(response => response.json())
+        .then(data => {
+            if (data.is_running === false) {
+                window.location.href = 'black_screen.html';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 let emotionPoints
@@ -78,3 +136,5 @@ function calculateTargetPoint() {
       point(point.x * 200, point.y * 200, point.z * 200);
     }
   }
+
+setInterval(runOrNot, 10000)

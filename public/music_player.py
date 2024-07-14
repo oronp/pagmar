@@ -38,7 +38,6 @@ def choose_random_voice():
 
 def sound_flow_manager(sex: str):
     actor_name = choose_random_voice()
-    actor_name = 'david'
 
     sounds_dir = 'sound'
 

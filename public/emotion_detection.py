@@ -1,21 +1,12 @@
-import cv2
 from deepface import DeepFace
 
 import tools
 
 
 class Pagmar:
-    def __init__(self, camera_number: int = 0):
-        self.camera_number = camera_number
-        self.cap = self.init_cam()
-
+    def __init__(self):
+        self.is_running = False
         self.axis_center = (0, 0)
-
-    def init_cam(self) -> cv2.VideoCapture:
-        cap = cv2.VideoCapture(self.camera_number)
-        if not cap.isOpened():
-            raise Exception("Camera could not be opened")
-        return cap
 
     def emotions_predict(self, inputs) -> dict:
         try:
@@ -41,8 +32,7 @@ class Pagmar:
 
         return dot_x_location, dot_y_location
 
-    def get_emotions(self) -> dict:
-        ret, frame = self.cap.read()
+    def get_emotions(self, frame) -> dict:
         emotions_json = self.emotions_predict(frame)
         # if emotions_json['status']:
         # emotions_json['axis_dots'] = self.plot_emotions_dot(emotions_json['values'])

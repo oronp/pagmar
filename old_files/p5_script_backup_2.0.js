@@ -2,13 +2,56 @@ var screen_center = [0, 0];
 let emotions = {status: false};
 var points = [];
 
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const captureButton = document.getElementById('capture');
+const resultDiv = document.getElementById('result');
+
+// Access the device camera and stream to video element
+navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+        video.srcObject = stream;
+    })
+    .catch(err => {
+        console.error('Error accessing the camera: ', err);
+    });
+
+// Capture the image from the video stream
+captureButton.addEventListener('click', () => {
+    const context = canvas.getContext('2d');
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Convert the canvas image to a Blob
+    canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append('image', blob, 'frame.png');
+
+        // Send the image to the server for emotion detection
+        fetch('/detect-emotions', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                resultDiv.innerText = `Error: ${data.error}`;
+            } else {
+                resultDiv.innerText = `Emotion: ${data[0].dominant_emotion}`;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            resultDiv.innerText = 'Error detecting emotion.';
+        });
+    }, 'image/png');
+});
 
 directionEase = 0.1
 speedEase = 0.05
 
 
 function preload(){
-    bgImage = loadImage('files/background.png')
+    bgImage = loadImage('static/background.png')
 }
 
 function fetchEmotions() {

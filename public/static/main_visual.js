@@ -1,4 +1,4 @@
-startGetEmotions()
+// startRunOrNotInterval()
 
 let emotionData
 let data
@@ -34,9 +34,9 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     myFont = loadFont('static/font.ttf');
-    video1 = createVideo('media/background.mp4');
-    video1.hide()
-    video1.loop()
+    // video1 = createVideo('media/background.mp4');
+    // video1.hide()
+    // video1.loop()
 
     image01 = loadImage('static/Net001.png')
     image02 = loadImage('static/Net002.png')

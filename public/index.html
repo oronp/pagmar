@@ -94,7 +94,7 @@
         // Append black screen to body
         document.body.appendChild(blackScreen);
 
-        fetch('http://127.0.0.1:5000/start_presentation', {
+        fetch('https://oronp2912.pythonanywhere.com/start_presentation', {
             method: 'POST', // or 'GET' depending on your server's requirement
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -102,13 +102,13 @@
                 sex: sex
             }) // Adjust payload as necessary
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Success:', data);
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
 
         // Event listener to reset everything on blue button click
         blueButton.addEventListener("click", () => {
