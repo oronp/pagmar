@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 function runOrNot() {
-    fetch('https://oronp2912.pythonanywhere.com/is_running')
+    fetch('https://oronp2912.pythonanywhere.com/get_running')
         .then(response => response.json())
         .then(data => {
             if (data.is_running === false) {
