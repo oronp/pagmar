@@ -69,19 +69,7 @@ function runOrNot() {
         .then(response => response.json())
         .then(data => {
             if (data.is_running === false) {
-                // Create black screen div
-                const blackScreen = document.createElement("div");
-                blackScreen.classList.add("black-screen");
-
-                // Create blue button
-                const blueButton = document.createElement("button");
-                blueButton.classList.add("blue-button");
-                blueButton.innerText = "כפתור כחול";
-                blackScreen.appendChild(blueButton);
-
-                // Append black screen to body
-                document.body.appendChild(blackScreen);
-                // window.location.href = 'black_screen.html';
+                window.location.href = 'black_screen.html';
             }
         })
         .catch(error => {
