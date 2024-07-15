@@ -124,13 +124,13 @@
                 resetUI();
             });
 
-            // Remove black screen after 2 minutes
+            // Remove black screen after 3 minutes
             setTimeout(() => {
                 if (document.body.contains(blackScreen)) {
                     document.body.removeChild(blackScreen);
                     resetUI();
                 }
-            }, 120000); // 120000 milliseconds = 2 minutes
+            }, 180000); // 180000 milliseconds = 3 minutes
         }
 
         // Define the resetUI function to reset the UI to its initial state
@@ -142,6 +142,18 @@
             maleButton.classList.add("grey-button");
             startButton.classList.remove("active");
             startButton.disabled = true;
+        }
+
+        // Define reset python server run
+        function resetPython() {
+            fetch('https://oronp2912.pythonanywhere.com/stop_running')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
     </script>
 </body>
