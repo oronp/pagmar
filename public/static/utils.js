@@ -137,4 +137,4 @@ function calculateTargetPoint() {
     }
   }
 
-setInterval(runOrNot, 10000)
+setInterval(runOrNot, 5000)
