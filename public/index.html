@@ -122,6 +122,7 @@
             blueButton.addEventListener("click", () => {
                 document.body.removeChild(blackScreen);
                 resetUI();
+                resetPython();
             });
 
             // Remove black screen after 3 minutes
@@ -129,6 +130,7 @@
                 if (document.body.contains(blackScreen)) {
                     document.body.removeChild(blackScreen);
                     resetUI();
+                    resetPython();
                 }
             }, 180000); // 180000 milliseconds = 3 minutes
         }
