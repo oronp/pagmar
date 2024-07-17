@@ -9,10 +9,12 @@ r = 200
 holeR = 0
 extraRotation = 0
 scribbleForce = 4
-scribbleSpeed = .1
+scribbleSpeed = .2
 cameraChangeSpeed = 0.01
 ballRotationSpeed = 0.005
 holes = []
+let lastUpdateTime = 0; // Initialize lastUpdateTime
+let expansionRate = 0.005; // Initialize the expansion rate
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
@@ -33,20 +35,20 @@ onNewEmotionData = (newData) => {
 
 
 function preload() {
-    myFont = loadFont('static/font.ttf');
+    myFont = loadFont('font.ttf');
     // video1 = createVideo('media/background.mp4');
     // video1.hide()
     // video1.loop()
 
-    image01 = loadImage('static/Net01.png')
-    image02 = loadImage('static/Net02.png')
-    image03 = loadImage('static/Net03.png')
-    image04 = loadImage('static/Net04.png')
-    image05 = loadImage('static/003-rivers21.png')
-    image06 = loadImage('static/004-shake map2.png')
-    image07 = loadImage('static/herzFront.png')
-    image08 = loadImage('static/herzBack.png')
-    image09 = loadImage('static/backrounds grain.png')
+    image01 = loadImage('Net01.png')
+    image02 = loadImage('Net02.png')
+    image03 = loadImage('Net03.png')
+    image04 = loadImage('Net04.png')
+    image05 = loadImage('003-rivers21.png')
+    image06 = loadImage('004-shake map2.png')
+    image07 = loadImage('herzFront.png')
+    image08 = loadImage('herzBack.png')
+    image09 = loadImage('backrounds grain.png')
 
 }
 
@@ -81,7 +83,7 @@ function draw() {
     pop()
 
        /// ----------------
-    // ----- LAYER 1 ----- 
+    // ----- LAYER 1 -----
     push()
     translate(0,0,-305)
     //texture(video1)
@@ -233,20 +235,18 @@ function draw() {
     rotateY(map(cameraZ, 0, 800, 0, 180))
 
 
-    if (emotionData) {
-        holeR = 0
-        // r = ballRadius
-        // extraRotation = lerp(extraRotation,0,.01)
+   if (emotionData) {
+        holeR = 0;
         Object.keys(emotionData).forEach((key, i) => {
-            data[key] = lerp(data[key], emotionData[key], ballRotationSpeed)
-        })
+            data[key] = lerp(data[key], emotionData[key], ballRotationSpeed);
+        });
+        expansionRate = 0.7; // Reset expansion rate when emotion data is present
     } else {
-        holeR+=1
-        // r = lerp(r,0,  0.01)
-        // extraRotation+=0.1
+        holeR += 1;
+        expansionRate += 0.01; // Gradually increase the expansion rate
     }
 
-    if (!data) return
+    if (!data) return;
 
     let targetPoint = calculateTargetPoint();
     rotateTowardsTarget(targetPoint);
@@ -261,15 +261,18 @@ function draw() {
     if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 5) * 3 + .5 })
     else if (frameCount % 5 == 0) {
         // if not found a face - rotate slightly using rotationAmout
-        let rotationAmount = .7;
+           let rotationAmount = expansionRate/2;
         const angleX = random(-rotationAmount, rotationAmount);
         const angleY = random(-rotationAmount, rotationAmount)
         const angleZ = random(-rotationAmount, rotationAmount)
 
         newPos = rotateVector(newPos, angleX, angleY, angleZ);
         // this is the new random 'hole' point and its size
-        coords.push({ pos: newPos, size: noise(frameCount / 10) * 10 + .7 })
+        coords.push({ pos: newPos, size: noise(frameCount / 30) * 28 })
     }
+
+
+
 
     // draw the points
     stroke(0)
@@ -284,9 +287,19 @@ function draw() {
             strokeWeight(dotSize)
             point(pos.x, pos.y, pos.z)
         }
-    }
 
-    // draw the holes
+      }
+    //
+    // // Increase the size of each stain over time
+    // let currentTime = millis();
+    // if (currentTime - lastUpdateTime > 1000) { // Every 1 second
+    //     for (let i = 0; i < coords.length; i++) {
+    //         coords[i].size += 2; // Adjust this value to control the growth rate
+    //     }
+    //     lastUpdateTime = currentTime;
+    // }
+
+    // // draw the holes- or
     stroke(0,50)
     holes.forEach(hole => {
         strokeWeight(hole.size)
