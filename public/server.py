@@ -60,7 +60,7 @@ def get_presentation_data():
     return jsonify({
         'name': model.name,
         'sex': model.sex,
-        'music': model.music,
+        'music': model.music
     })
 
 

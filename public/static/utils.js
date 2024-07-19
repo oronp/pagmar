@@ -100,7 +100,7 @@ function calculateTargetPoint() {
 
     // add noise according to scribbleForce and scribbleSpeed
     target.add(p5.Vector.random3D().mult(scribbleForce * sin(frameCount * scribbleSpeed / 1000.0) / 100.0));
-    
+
     // Normalize the target point to keep it on the sphere
     target.normalize();
     return target;
@@ -127,7 +127,7 @@ function calculateTargetPoint() {
     rotateY(rotY);
     rotateZ(rotZ);
   }
-  
+
   function drawEmotionPoints() {
     // Draw the points representing emotions on the sphere
     stroke(255, 0, 0);
@@ -136,5 +136,16 @@ function calculateTargetPoint() {
       point(point.x * 200, point.y * 200, point.z * 200);
     }
   }
+
+function getAudioData() {
+    fetch('https://oronp2912.pythonanywhere.com/get_presentation_data')
+        .then(response => response.json())
+        .then(data => {
+            return data
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
 
 setInterval(runOrNot, 5000)
