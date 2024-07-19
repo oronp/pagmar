@@ -20,17 +20,19 @@
 
         var currentDatetime = new Date();
         var currentDate = currentDatetime.toDateString();
-        var currentTime = currentDatetime.toLocaleTimeString();
+        var currentTime = currentDatetime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        document.querySelector('h1').textContent = name;
-        document.querySelector('h1').innerText = "Date: " + currentDate;
-        document.querySelector('h1').innerText = "Time: " + currentTime;
+        document.getElementById('name').textContent = "Name: " + name;
+        document.getElementById('date').textContent = "Date: " + currentDate;
+        document.getElementById('time').textContent = "Time: " + currentTime;
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
       }
     })();
   </script>
-  <h1 style="position:absolute;bottom:2em;left:2em"></h1>
+  <h1 id="name" style="position:absolute;bottom:6em;left:2em"></h1>
+  <h1 id="date" style="position:absolute;bottom:4em;left:2em"></h1>
+  <h1 id="time" style="position:absolute;bottom:2em;left:2em"></h1>
   <script src="./static/main_visual.js"></script>
 
 </body>
