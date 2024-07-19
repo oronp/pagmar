@@ -32,6 +32,7 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-keyboard@latest/build/index.js"></script>
     <script>
         let sex = 'male'
+        let user_name = 'name'
 
         const Keyboard = window.SimpleKeyboard.default;
 
@@ -89,19 +90,6 @@
 
         // Define the startMovie function
         function startMovie() {
-            // Create black screen div
-            const blackScreen = document.createElement("div");
-            blackScreen.classList.add("black-screen");
-
-            // Create blue button
-            const blueButton = document.createElement("button");
-            blueButton.classList.add("blue-button");
-            blueButton.innerText = "כפתור כחול";
-            blackScreen.appendChild(blueButton);
-
-            // Append black screen to body
-            document.body.appendChild(blackScreen);
-
             fetch('https://oronp2912.pythonanywhere.com/start_presentation', {
                 method: 'POST', // or 'GET' depending on your server's requirement
                 headers: {'Content-Type': 'application/json'},
@@ -117,6 +105,19 @@
                 .catch((error) => {
                     console.error('Error:', error);
                 });
+
+            // Create black screen div
+            const blackScreen = document.createElement("div");
+            blackScreen.classList.add("black-screen");
+
+            // Create blue button
+            const blueButton = document.createElement("button");
+            blueButton.classList.add("blue-button");
+            blueButton.innerText = "כפתור כחול";
+            blackScreen.appendChild(blueButton);
+
+            // Append black screen to body
+            document.body.appendChild(blackScreen);
 
             // Event listener to reset everything on blue button click
             blueButton.addEventListener("click", () => {

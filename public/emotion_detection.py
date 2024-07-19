@@ -6,6 +6,9 @@ import tools
 class Pagmar:
     def __init__(self):
         self.is_running = False
+        self.name: str = ''
+        self.sex: str = ''
+        self.music: str = ''
         self.axis_center = (0, 0)
 
     def emotions_predict(self, inputs) -> dict:

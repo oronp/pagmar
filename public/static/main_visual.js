@@ -1,8 +1,5 @@
-// startRunOrNotInterval()
-
 let emotionData
 let data
-
 
 ballRadius = 200
 r = 200
@@ -13,6 +10,7 @@ scribbleSpeed = .1
 cameraChangeSpeed = 0.01
 ballRotationSpeed = 0.005
 holes = []
+
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
