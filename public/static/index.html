@@ -16,7 +16,7 @@
       try {
         const response = await fetch('https://oronp2912.pythonanywhere.com/get_presentation_data');
         const data = await response.json();
-        let name = "אורון";
+        let name = data.name
 
         var currentDatetime = new Date();
 
