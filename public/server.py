@@ -55,6 +55,15 @@ def stop_running():
     return jsonify({'is_running': model.is_running})
 
 
+@app.route('/get_presentation_data', methods=['GET'])
+def get_presentation_data():
+    return jsonify({
+        'name': model.name,
+        'sex': model.sex,
+        'music': model.music,
+    })
+
+
 @app.route('/start_presentation', methods=['POST'])
 def start_presentation():
     model.is_running = True
