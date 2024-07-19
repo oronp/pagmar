@@ -32,12 +32,9 @@ onNewEmotionData = (newData) => {
 };
 
 function preload() {
-    let audio_data = getAudioData();
-    let music = audio_data.music;
-    let sex = audio_data.sex;
-    sound_1 = loadSound(`sound/${music}_${sex}_00.mp3`);
-    sound_2 = loadSound(`sound/${music}_${sex}_01.mp3`);
-    sound_3 = loadSound(`sound/${music}_${sex}_02.mp3`);
+    sound_1 = loadSound('sound/david_female_00.mp3');
+    sound_2 = loadSound('sound/david_female_01.mp3');
+    sound_3 = loadSound('sound/david_female_02.mp3');
     myFont = loadFont('static/font.ttf');
 
     image01 = loadImage('static/Net001.png');

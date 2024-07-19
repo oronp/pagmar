@@ -137,15 +137,4 @@ function calculateTargetPoint() {
     }
   }
 
-function getAudioData() {
-    fetch('https://oronp2912.pythonanywhere.com/get_presentation_data')
-        .then(response => response.json())
-        .then(data => {
-            return data
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
-
 setInterval(runOrNot, 5000)
