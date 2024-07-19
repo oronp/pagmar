@@ -22,9 +22,9 @@
         var currentDate = currentDatetime.toDateString();
         var currentTime = currentDatetime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-        document.getElementById('name').textContent = "Name: " + name;
-        document.getElementById('date').textContent = "Date: " + currentDate;
-        document.getElementById('time').textContent = "Time: " + currentTime;
+          document.getElementById('name').textContent = name + '|' + currentTime;
+          document.getElementById('date').textContent = currentDate;
+          {#document.getElementById('time').textContent = currentTime;#}
       } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
       }
