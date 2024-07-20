@@ -25,7 +25,6 @@ function getUserAnswer(){
     recognition.interimResults = false; // Return only final results
 
     recognition.start(); // Start listening
-    resultP.textContent = 'Listening for 5 seconds...';
 
     // Stop recognition after 5 seconds
     setTimeout(() => {
@@ -48,12 +47,9 @@ function getUserAnswer(){
     };
 
     recognition.onend = () => {
-        if (resultP.textContent === 'Listening for 5 seconds...') {
-            resultP.textContent = 'No speech detected.';
             resolve(false);
         }
-    };
-}
+};
 
 document.addEventListener('DOMContentLoaded', (event) => {
     // Create video element
