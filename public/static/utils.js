@@ -24,15 +24,13 @@ function getUserAnswer(){
     recognition.continuous = false; // Listen once
     recognition.interimResults = false; // Return only final results
 
-    startBtn.addEventListener('click', () => {
-        recognition.start(); // Start listening
-        resultP.textContent = 'Listening for 5 seconds...';
+    recognition.start(); // Start listening
+    resultP.textContent = 'Listening for 5 seconds...';
 
-        // Stop recognition after 5 seconds
-        setTimeout(() => {
-            recognition.stop();
-        }, 5000);
-    });
+    // Stop recognition after 5 seconds
+    setTimeout(() => {
+        recognition.stop();
+    }, 5000);
 
     // Process the result
     recognition.onresult = (event) => {
