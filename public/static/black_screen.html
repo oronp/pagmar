@@ -16,6 +16,7 @@
 </body>
 <script>
     var sound_to_play = ''
+
     function runOrNot() {
         fetch('https://oronp2912.pythonanywhere.com/get_running')
             .then(response => response.json())
@@ -31,6 +32,7 @@
                 console.error('Error:', error);
             });
     }
+
     setInterval(runOrNot, 5000)
 </script>
 </html>

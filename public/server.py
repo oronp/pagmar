@@ -1,9 +1,11 @@
+import base64
 import random
+
+import cv2
+import numpy as np
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import cv2
-import base64
-import numpy as np
+
 from emotion_detection import Pagmar
 
 app = Flask(__name__)
@@ -79,4 +81,3 @@ def start_presentation():
 
 if __name__ == '__main__':
     app.run(debug=False)
-
