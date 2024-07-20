@@ -67,8 +67,10 @@ function setup() {
     sound_1.onended(() => {
         let user_answer = getUserAnswer()
         if(user_answer){
+            console.log('user said: ' + user_answer)
             sound_2.play();
         }else{
+            console.log('user said: ' + user_answer)
             sound_3.play()
         }
         targetCameraZ = 100
