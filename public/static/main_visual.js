@@ -12,6 +12,8 @@ let holes = [];
 let coords = [];
 let lastUpdateTime = 0; // Initialize lastUpdateTime
 let expansionRate = 0.005; // Initialize the expansion rate
+let cameraZ = 800;
+let targetCameraZ = 800;
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
@@ -64,7 +66,8 @@ function setup() {
     sound_1.play();
     // Play sound_2 when sound_1 ends
     sound_1.onended(() => {
-        sound_2.play();
+        targetCameraZ = 100
+        sound_3.play();
     });
 }
 
@@ -331,8 +334,6 @@ function inverseRotateZ(v, angle) {
     return createVector(x, y, v.z);
 }
 
-let cameraZ = 800;
-let targetCameraZ = 800;
 function keyPressed() {
     if (key == ' ') {
         if (targetCameraZ == 800) targetCameraZ = 100;
