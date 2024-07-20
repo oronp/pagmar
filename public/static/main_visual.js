@@ -31,6 +31,9 @@ onNewEmotionData = (newData) => {
 };
 
 function preload() {
+    const urlParams = new URLSearchParams(window.location.search);
+    sound_to_play = urlParams.get('sound_to_play');
+
     myFont = loadFont('static/font.ttf');
 
     image01 = loadImage('static/Net001.png');

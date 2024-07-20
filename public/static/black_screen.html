@@ -22,7 +22,7 @@
             .then(data => {
                 if (data.is_running === true) {
                     sound_to_play = data.music;
-                    window.location.href = '/visual';
+                    window.location.href = '/visual?sound_to_play=' + encodeURIComponent(sound_to_play);
                 } else {
                     console.log(data);
                 }
