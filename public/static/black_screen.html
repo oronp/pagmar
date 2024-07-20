@@ -15,11 +15,13 @@
 <body>
 </body>
 <script>
+    var sound_to_play = ''
     function runOrNot() {
         fetch('https://oronp2912.pythonanywhere.com/get_running')
             .then(response => response.json())
             .then(data => {
                 if (data.is_running === true) {
+                    sound_to_play = data.music;
                     window.location.href = '/visual';
                 } else {
                     console.log(data);

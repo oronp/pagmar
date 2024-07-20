@@ -41,8 +41,8 @@ def detect_emotion():
         return jsonify({'error': str(e)})
 
 
-@app.route('/is_running', methods=['GET'])
-def is_running():
+@app.route('/get_running', methods=['GET'])
+def get_running():
     return jsonify({'is_running': model.is_running,
                     'name': model.name,
                     'sex': model.sex,

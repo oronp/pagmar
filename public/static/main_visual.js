@@ -1,16 +1,15 @@
-let emotionData;
-let data;
-let sound_1, sound_2, sound_3;
-
-ballRadius = 200;
-r = 200;
-holeR = 0;
-extraRotation = 0;
-scribbleForce = 4;
-scribbleSpeed = 0.2;
-cameraChangeSpeed = 0.01;
-ballRotationSpeed = 0.005;
-holes = [];
+let emotionData, data, sound_1, sound_2, sound_3;
+var name
+let ballRadius = 200;
+let r = 200;
+let holeR = 0;
+let extraRotation = 0;
+let scribbleForce = 4;
+let scribbleSpeed = 0.2;
+let cameraChangeSpeed = 0.01;
+let ballRotationSpeed = 0.005;
+let holes = [];
+let coords = [];
 let lastUpdateTime = 0; // Initialize lastUpdateTime
 let expansionRate = 0.005; // Initialize the expansion rate
 
@@ -32,23 +31,23 @@ onNewEmotionData = (newData) => {
 };
 
 function preload() {
-    sound_1 = loadSound('sound/david_female_00.mp3');
-    sound_2 = loadSound('sound/david_female_01.mp3');
-    sound_3 = loadSound('sound/david_female_02.mp3');
-    myFont = loadFont('static/font.ttf');
+    myFont = loadFont('font.ttf');
 
-    image01 = loadImage('static/Net001.png');
-    image02 = loadImage('static/Net002.png');
-    image03 = loadImage('static/Net003.png');
-    image04 = loadImage('static/Net004.png');
-    image05 = loadImage('static/003-rivers21.png');
-    image06 = loadImage('static/004-shake map2.png');
-    image07 = loadImage('static/herzFront.png');
-    image08 = loadImage('static/herzBack.png');
-    image09 = loadImage('static/backrounds grain.png');
+    image01 = loadImage('Net001.png');
+    image02 = loadImage('Net002.png');
+    image03 = loadImage('Net003.png');
+    image04 = loadImage('Net004.png');
+    image05 = loadImage('003-rivers21.png');
+    image06 = loadImage('004-shake map2.png');
+    image07 = loadImage('herzFront.png');
+    image08 = loadImage('herzBack.png');
+    image09 = loadImage('backrounds grain.png');
+
+    sound_1 = loadSound(`${sound_to_play}_00.mp3`);
+    sound_2 = loadSound(`${sound_to_play}_01.mp3`);
+    sound_3 = loadSound(`${sound_to_play}_02.mp3`);
 }
 
-let coords = [];
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
     noFill();
