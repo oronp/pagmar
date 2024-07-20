@@ -65,8 +65,13 @@ function setup() {
     sound_1.play();
     // Play sound_2 when sound_1 ends
     sound_1.onended(() => {
+        let user_answer = getUserAnswer()
+        if(user_answer){
+            sound_2.play();
+        }else{
+            sound_3.play()
+        }
         targetCameraZ = 100
-        sound_3.play();
     });
     sound_3.onended(() => {
         fetch('https://oronp2912.pythonanywhere.com/stop_running')

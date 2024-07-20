@@ -16,6 +16,47 @@ function getEmotions() {
         })
 }
 
+function getUserAnswer(){
+    const recognition = new webkitSpeechRecognition();
+
+    // Set recognition parameters
+    recognition.lang = 'he-IL'; // Language for Hebrew
+    recognition.continuous = false; // Listen once
+    recognition.interimResults = false; // Return only final results
+
+    startBtn.addEventListener('click', () => {
+        recognition.start(); // Start listening
+        resultP.textContent = 'Listening for 5 seconds...';
+
+        // Stop recognition after 5 seconds
+        setTimeout(() => {
+            recognition.stop();
+        }, 5000);
+    });
+
+    // Process the result
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        if (transcript.includes("כן")) {
+            resolve(true);
+        } else {
+            resolve(false);
+        }
+    };
+
+    // Handle errors
+    recognition.onerror = (event) => {
+        reject(`Error occurred in recognition: ${event.error}`);
+    };
+
+    recognition.onend = () => {
+        if (resultP.textContent === 'Listening for 5 seconds...') {
+            resultP.textContent = 'No speech detected.';
+            resolve(false);
+        }
+    };
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
     // Create video element
     const video = document.createElement('video');
