@@ -45,11 +45,7 @@ function getUserAnswer(){
     recognition.onerror = (event) => {
         reject(`Error occurred in recognition: ${event.error}`);
     };
-
-    recognition.onend = () => {
-            resolve(false);
-        }
-};
+}
 
 document.addEventListener('DOMContentLoaded', (event) => {
     // Create video element
