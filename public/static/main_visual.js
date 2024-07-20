@@ -69,6 +69,16 @@ function setup() {
         targetCameraZ = 100
         sound_3.play();
     });
+    sound_3.onended(() => {
+        fetch('https://oronp2912.pythonanywhere.com/stop_running')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
 }
 
 function draw() {
