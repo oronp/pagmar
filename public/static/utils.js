@@ -17,30 +17,32 @@ function getEmotions() {
 }
 
 function getUserAnswer(){
-    const recognition = new webkitSpeechRecognition();
+    return new Promise((resolve, reject) => {
+        const recognition = new webkitSpeechRecognition();
 
-    // Set recognition parameters
-    recognition.lang = 'he-IL'; // Language for Hebrew
-    recognition.continuous = false; // Listen once
-    recognition.interimResults = false; // Return only final results
+        // Set recognition parameters
+        recognition.lang = 'he-IL'; // Language for Hebrew
+        recognition.continuous = false; // Listen once
+        recognition.interimResults = false; // Return only final results
 
-    recognition.start(); // Start listening
+        recognition.start(); // Start listening
 
-    // Stop recognition after 5 seconds
-    setTimeout(() => {
-        recognition.stop();
-    }, 5000);
+        // Stop recognition after 5 seconds
+        setTimeout(() => {
+            recognition.stop();
+        }, 5000);
 
-    // Process the result
-    recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        return transcript.includes("כן");
-    };
+        // Process the result
+        recognition.onresult = (event) => {
+            const transcript = event.results[0][0].transcript;
+            resolve(transcript.includes("כן"));
+        };
 
-    // Handle errors
-    recognition.onerror = (event) => {
-        reject(`Error occurred in recognition: ${event.error}`);
-    };
+        // Handle errors
+        recognition.onerror = (event) => {
+            reject(event.error);
+        };
+    });
 }
 
 document.addEventListener('DOMContentLoaded', (event) => {

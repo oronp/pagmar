@@ -15,6 +15,7 @@ let expansionRate = 0.005; // Initialize the expansion rate
 let cameraZ = 800;
 let targetCameraZ = 800;
 
+
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
     if (newData.status) {
@@ -61,21 +62,47 @@ function setup() {
     textSize(12);
     textAlign(CENTER, CENTER);
 
+    let user_answer
+
     // Play sound_1 at the beginning
     sound_1.play();
-    // Play sound_2 when sound_1 ends
-    sound_1.onended(() => {
-        let user_answer = getUserAnswer()
-        if(user_answer){
-            console.log('user said: ' + user_answer)
-            sound_2.play();
-        }else{
-            console.log('user said: ' + user_answer)
-            sound_3.play()
+
+    const sound_duration = sound_1.duration();
+    setTimeout(async () => {
+        try {
+            user_answer = await getUserAnswer();
+        } catch (error) {
+            user_answer = false
         }
-        targetCameraZ = 100
+    }, (sound_duration - 5) * 1000);
+
+    // Play sound_2 or sound_3 when sound_1 ends
+    sound_1.onended(async () => {
+        try {
+            if (user_answer) {
+                console.log('user said: yes');
+                sound_2.play();
+            } else {
+                console.log('user said: no');
+                sound_3.play();
+            }
+            targetCameraZ = 100;
+        } catch (error) {
+            console.error('Speech recognition error:', error);
+            sound_3.play();
+        }
     });
     sound_3.onended(() => {
+        fetch('https://oronp2912.pythonanywhere.com/stop_running')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
+    sound_2.onended(() => {
         fetch('https://oronp2912.pythonanywhere.com/stop_running')
             .then(response => response.json())
             .then(data => {
