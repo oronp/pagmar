@@ -9,18 +9,19 @@
     <meta charset="utf-8"/>
     <script src="./static/utils.js"></script>
 </head>
-  <style>
-      @font-face {
-    font-family: 'Datafont';
-    src: url('datafont.ttf') format('truetype');
-}
-        div {
-            font-family: 'Datafont', sans-serif;
-            font-size: 24px;
-            color: #1E6BFF;
-        }
+<style>
+    @font-face {
+        font-family: 'Datafont';
+        src: url('./static/datafont.ttf') format('truetype');
+    }
 
-  </style>
+    div {
+        font-family: 'Datafont', sans-serif;
+        font-size: 24px;
+        color: #1E6BFF;
+    }
+
+</style>
 
 <body style="margin:0">
 <script>
@@ -38,7 +39,11 @@
             var monthName = new Intl.DateTimeFormat('he-IL', {month: 'long'}).format(currentDatetime);
             var formattedDate = year + " " + day + " " + "ב" + monthName;
 
-            var currentTime = currentDatetime.toLocaleTimeString([],{hour: '2-digit',minute: '2-digit',hour12: false});
+            var currentTime = currentDatetime.toLocaleTimeString([], {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: false
+            });
 
             document.getElementById('name').textContent = name + " | " + currentTime;
             document.getElementById('date').textContent = formattedDate + " | " + dayName;

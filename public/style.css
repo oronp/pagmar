@@ -3,11 +3,6 @@
     src: url('css/UiFont.ttf') format('truetype');
 }
 
-@font-face {
-    font-family: 'Datafont';
-    src: url('./css/datafont.ttf') format('truetype');
-}
-
 
 body, html {
     margin: 0;
