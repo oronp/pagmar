@@ -16,6 +16,33 @@ function getEmotions() {
         })
 }
 
+function getUserAnswer(){
+    const recognition = new webkitSpeechRecognition();
+
+    // Set recognition parameters
+    recognition.lang = 'he-IL'; // Language for Hebrew
+    recognition.continuous = false; // Listen once
+    recognition.interimResults = false; // Return only final results
+
+    recognition.start(); // Start listening
+
+    // Stop recognition after 5 seconds
+    setTimeout(() => {
+        recognition.stop();
+    }, 5000);
+
+    // Process the result
+    recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        return transcript.includes("כן");
+    };
+
+    // Handle errors
+    recognition.onerror = (event) => {
+        reject(`Error occurred in recognition: ${event.error}`);
+    };
+}
+
 document.addEventListener('DOMContentLoaded', (event) => {
     // Create video element
     const video = document.createElement('video');
@@ -65,7 +92,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 });
 
 function runOrNot() {
-    fetch('https://oronp2912.pythonanywhere.com/is_running')
+    fetch('https://oronp2912.pythonanywhere.com/get_running')
         .then(response => response.json())
         .then(data => {
             if (data.is_running === false) {
@@ -100,7 +127,7 @@ function calculateTargetPoint() {
 
     // add noise according to scribbleForce and scribbleSpeed
     target.add(p5.Vector.random3D().mult(scribbleForce * sin(frameCount * scribbleSpeed / 1000.0) / 100.0));
-    
+
     // Normalize the target point to keep it on the sphere
     target.normalize();
     return target;
@@ -127,7 +154,7 @@ function calculateTargetPoint() {
     rotateY(rotY);
     rotateZ(rotZ);
   }
-  
+
   function drawEmotionPoints() {
     // Draw the points representing emotions on the sphere
     stroke(255, 0, 0);
@@ -137,4 +164,4 @@ function calculateTargetPoint() {
     }
   }
 
-setInterval(runOrNot, 10000)
+setInterval(runOrNot, 5000)

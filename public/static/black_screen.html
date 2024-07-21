@@ -15,12 +15,15 @@
 <body>
 </body>
 <script>
+    var sound_to_play = ''
+
     function runOrNot() {
-        fetch('http://127.0.0.1:5000/is_running')
+        fetch('https://oronp2912.pythonanywhere.com/get_running')
             .then(response => response.json())
             .then(data => {
-                if (data) {
-                    window.location.href = 'index.html';
+                if (data.is_running === true) {
+                    sound_to_play = data.music;
+                    window.location.href = '/visual?sound_to_play=' + encodeURIComponent(sound_to_play);
                 } else {
                     console.log(data);
                 }
@@ -29,6 +32,7 @@
                 console.error('Error:', error);
             });
     }
-    setInterval(runOrNot, 10000)
+
+    setInterval(runOrNot, 5000)
 </script>
 </html>

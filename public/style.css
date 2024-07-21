@@ -145,3 +145,7 @@ body, html {
     cursor: pointer;
     font-family: 'UiFont', Arial, sans-serif;
 }
+
+#name {
+    font-family: 'UiFont', Arial, sans-serif;
+}
