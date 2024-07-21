@@ -19,6 +19,7 @@
         font-family: 'Datafont', sans-serif;
         font-size: 24px;
         color: #1E6BFF;
+        direction: rtl; /* Set text direction to right-to-left */
     }
 
 </style>
@@ -37,7 +38,7 @@
             var dayName = new Intl.DateTimeFormat('he-IL', {weekday: 'long'}).format(currentDatetime);
             var year = currentDatetime.getFullYear();
             var monthName = new Intl.DateTimeFormat('he-IL', {month: 'long'}).format(currentDatetime);
-            var formattedDate = year + " " + day + " " + "ב" + monthName;
+            var formattedDate = day + " " + "ב" + monthName + " " + year;
 
             var currentTime = currentDatetime.toLocaleTimeString([], {
                 hour: '2-digit',
@@ -46,7 +47,7 @@
             });
 
             document.getElementById('name').textContent = name + " | " + currentTime;
-            document.getElementById('date').textContent = formattedDate + " | " + dayName;
+            document.getElementById('date').textContent = dayName + " | " + formattedDate;
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
         }
