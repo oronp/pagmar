@@ -18,15 +18,23 @@ python_url = 'https://oronp2912.pythonanywhere.com/get_running'
 class BulbControl:
     def __init__(self):
         self.bulb = Bulb(bulb_ip)
-        self.bulb_is_one = False
+        self.show_is_on = False
 
     def turn_on(self):
         self.bulb.turn_on()
-        self.bulb_is_one = True
+        self.show_is_on = True
 
     def turn_off(self):
         self.bulb.turn_off()
-        self.bulb_is_one = False
+        self.show_is_on = False
+
+    def brightness_up(self):
+        self.set_brightness(70)
+        self.show_is_on = True
+
+    def brightness_down(self):
+        self.set_brightness(10)
+        self.show_is_on = False
 
     def set_brightness(self, brightness):
         """
@@ -75,7 +83,7 @@ if __name__ == "__main__":
     while True:
         schedule.run_pending()
         response = send_request()
-        if response and response.get('is_running') and not bulb.bulb_is_one:  # check if presentation running and bulb is off
-            bulb.turn_on()
-        elif response and not response.get('is_running') and bulb.bulb_is_one:  # check if presentation stopped and bulb is on
-            bulb.turn_off()
+        if response and response.get('is_running') and not bulb.show_is_on:  # check if presentation running and bulb is off
+            bulb.brightness_up()
+        elif response and not response.get('is_running') and bulb.show_is_on:  # check if presentation stopped and bulb is on
+            bulb.brightness_down()
