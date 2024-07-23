@@ -109,13 +109,12 @@ function runOrNot() {
 }
 
 function fadeOutEffect(callback) {
-    const fadeTarget = document.body;
+    const fadeTarget = document.getElementById('overlay');
+    let opacity = 0;
     let fadeEffect = setInterval(() => {
-        if (!fadeTarget.style.opacity) {
-            fadeTarget.style.opacity = 1;
-        }
-        if (fadeTarget.style.opacity > 0) {
-            fadeTarget.style.opacity -= 0.05;
+        if (opacity < 1) {
+            opacity += 0.05;
+            fadeTarget.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`;
         } else {
             clearInterval(fadeEffect);
             callback();

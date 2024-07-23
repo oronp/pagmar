@@ -23,9 +23,27 @@
         letter-spacing: 0.5px;
     }
 
+    body {
+        margin: 0;
+        transition: opacity 0.5s;
+    }
+
+    #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0);
+        pointer-events: none;
+        z-index: 1000;
+        transition: background-color 0.5s;
+    }
+
 </style>
 
-<body style="margin:0; opacity:1; transition: opacity 0.5s;">
+<body>
+<div id="overlay"></div>
 <script>
     (async function () {
         try {
