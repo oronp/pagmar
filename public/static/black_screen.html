@@ -9,7 +9,7 @@
             margin: 0;
             height: 100vh;
             background-color: black;
-            transition: background-color 3s;
+            transition: background-color 1s ease;
         }
     </style>
 </head>
@@ -24,7 +24,10 @@
             .then(data => {
                 if (data.is_running === true) {
                     sound_to_play = data.music;
-                    window.location.href = '/visual?sound_to_play=' + encodeURIComponent(sound_to_play);
+                    document.body.style.backgroundColor = 'white';
+                    setTimeout(function() {
+                        window.location.href = '/visual?sound_to_play=' + encodeURIComponent(sound_to_play);
+                    }, 1000); // Wait for the fade-out effect to complete
                 } else {
                     console.log(data);
                 }
