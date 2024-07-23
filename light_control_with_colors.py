@@ -67,6 +67,14 @@ class BulbControl:
             self.turn_off()
             time.sleep(0.5)
 
+    def set_rgb_color_on_presentation(self):
+        self.set_rgb_color(red=255, green=0, blue=0)
+        self.show_is_on = True
+
+    def set_rgb_color_off_presentation(self):
+        self.set_rgb_color(red=100, green=100,  blue=100)
+        self.show_is_on = False
+
 
 def send_request():
     try:
@@ -80,38 +88,13 @@ if __name__ == "__main__":
     # DO NOT COMMENT THIS LINE!!!! #
     bulb = BulbControl()
 
-    """
-    MAYA IF YOU WANT TO THE SCRIPT UNCOMMENT THE LINES BELOW ME
-    THIS IS THE PART TO CONTROL BRIGHTNESS OF THE BULB
-    """
-
     schedule.every(4).seconds.do(send_request)
 
     while True:
         schedule.run_pending()
         response = send_request()
-        if response and response.get('is_running') and not bulb.show_is_on:  # check if presentation running and bulb is off
-            bulb.brightness_up()
-        elif response and not response.get('is_running') and bulb.show_is_on:  # check if presentation stopped and bulb is on
-            bulb.brightness_down()
-
-    """ 
-    END OF REAL SCRIPT FOR PRESENTATION PART 
-    """
-
-    #####################################################################################################
-    ########################################### DEBUG PART ##############################################
-    #####################################################################################################
-
-    """
-    MAYA IF YOU WANT TO CHANGE COLORS UNCOMMENT THE 6 LINE BELOW ME
-    """
-    # bulb.set_rgb_color(red='change me to number of red',
-    #                    green='change me to number of green',
-    #                    blue='change me to number of blue')
-    #
-    # bulb.set_color_temp(color_temp='change me to color temperature (1700-6500)')
-    # bulb_current_status = bulb.bulb.get_properties()  # this function will give you the bulb current status
-
-    # stop_the_script_maya_here = True
+        if response and response.get('is_running') and not bulb.show_is_on:  # change to on presentation color
+            bulb.set_rgb_color_on_presentation()
+        elif response and not response.get('is_running') and bulb.show_is_on:  # change to off presentation color
+            bulb.set_rgb_color_off_presentation()
 
