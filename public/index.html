@@ -119,21 +119,32 @@
         // Append black screen to body
         document.body.appendChild(blackScreen);
 
+        // Trigger fade-in effect
+        setTimeout(() => {
+            blackScreen.classList.add("visible");
+        }, 10);
+
         // Event listener to reset everything on blue button click
         blueButton.addEventListener("click", () => {
-            document.body.removeChild(blackScreen);
-            resetUI();
-            resetPython();
+            blackScreen.classList.remove("visible");
+            setTimeout(() => {
+                document.body.removeChild(blackScreen);
+                resetUI();
+                resetPython();
+            }, 1000); // Wait for fade-out effect
         });
 
         // Remove black screen after 3 minutes
         setTimeout(() => {
             if (document.body.contains(blackScreen)) {
-                document.body.removeChild(blackScreen);
-                resetUI();
-                resetPython();
+                blackScreen.classList.remove("visible");
+                setTimeout(() => {
+                    document.body.removeChild(blackScreen);
+                    resetUI();
+                    resetPython();
+                }, 1000); // Wait for fade-out effect
             }
-        }, 1500000); // 180000 milliseconds = 2.5 minutes
+        }, 180000); // 180000 milliseconds = 3 minutes
     }
 
     // Define the resetUI function to reset the UI to its initial state
