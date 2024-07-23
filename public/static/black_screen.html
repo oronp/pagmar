@@ -9,7 +9,7 @@
             margin: 0;
             height: 100vh;
             background-color: black;
-            transition: background-color 1s ease;
+            transition: background-color 2s ease;
         }
     </style>
 </head>
@@ -27,7 +27,7 @@
                     document.body.style.backgroundColor = 'white';
                     setTimeout(function() {
                         window.location.href = '/visual?sound_to_play=' + encodeURIComponent(sound_to_play);
-                    }, 1000); // Wait for the fade-out effect to complete
+                    }, 2000); // Wait for the fade-out effect to complete
                 } else {
                     console.log(data);
                 }
