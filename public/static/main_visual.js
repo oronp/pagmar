@@ -74,7 +74,7 @@ function setup() {
         } catch (error) {
             user_answer = false
         }
-    }, (sound_duration - 5) * 1000);
+    }, (sound_duration - 10) * 1000);
 
     // Play sound_2 or sound_3 when sound_1 ends
     sound_1.onended(async () => {

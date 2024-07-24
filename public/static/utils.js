@@ -98,12 +98,28 @@ function runOrNot() {
         .then(response => response.json())
         .then(data => {
             if (data.is_running === false) {
-                window.location.href = 'black_screen.html';
+                fadeOutEffect(() => {
+                    window.location.href = 'black_screen.html';
+                });
             }
         })
         .catch(error => {
             console.error('Error:', error);
         });
+}
+
+function fadeOutEffect(callback) {
+    const fadeTarget = document.getElementById('overlay');
+    let opacity = 0;
+    let fadeEffect = setInterval(() => {
+        if (opacity < 1) {
+            opacity += 0.05;
+            fadeTarget.style.backgroundColor = `rgba(0, 0, 0, ${opacity})`;
+        } else {
+            clearInterval(fadeEffect);
+            callback();
+        }
+    }, 50);
 }
 
 let emotionPoints
