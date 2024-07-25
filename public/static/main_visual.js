@@ -31,7 +31,7 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount % 1000 <= 5 && emotionData) {
+    if (frameCount % 1000 < 5 && emotionData) {
         let emotions = Object.keys(emotionData);
         if (frameCount % 1000 === 0){
             let validIndices = [0, 3, 4];
