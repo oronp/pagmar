@@ -30,6 +30,15 @@ onNewEmotionData = (newData) => {
         emotionData = e;
         if (!data) data = e;
     } else emotionData = null;
+
+    if (frameCount % 1000 === 0 && emotionData) {
+        let emotions = Object.keys(emotionData);
+        let validIndices = [0, 3, 4];
+        let randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
+        emotions.forEach((emotion, index) => {
+            emotionData[emotion] = (index === randomIndex) ? 1 : 0;
+        });
+    }
 };
 
 function preload() {
