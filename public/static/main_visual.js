@@ -14,7 +14,7 @@ let lastUpdateTime = 0; // Initialize lastUpdateTime
 let expansionRate = 0.005; // Initialize the expansion rate
 let cameraZ = 800;
 let targetCameraZ = 800;
-let randomIndex = 4
+let randomIndex
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
