@@ -38,10 +38,10 @@ function preload() {
 
     myFont = loadFont('static/font.ttf');
 
-    image01 = loadImage('static/Net01.png');
-    image02 = loadImage('static/Net02.png');
-    image03 = loadImage('static/Net03.png');
-    image04 = loadImage('static/Net04.png');
+    image01 = loadImage('static/d6b798801e26b54cfb4b0b639e76a628.jpg');
+    image02 = loadImage('static/Net2.png');
+    image03 = loadImage('static/Net3.png');
+    image04 = loadImage('static/Net4.png');
     image05 = loadImage('static/003-rivers21.png');
     image06 = loadImage('static/004-shake map2.png');
     image07 = loadImage('static/herzFront.png');
