@@ -16,7 +16,6 @@ let cameraZ = 800;
 let targetCameraZ = 800;
 let randomIndex = 4
 
-
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
     if (newData.status) {
@@ -32,10 +31,9 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    let random_feeling_frames = frameCount % 1000;
-    if (random_feeling_frames % 1000 <= 8 && emotionData) {
+    if (frameCount % 1000 <= 5 && emotionData) {
         let emotions = Object.keys(emotionData);
-        if (random_feeling_frames % 1000 === 0){
+        if (frameCount % 1000 === 0){
             let validIndices = [0, 3, 4];
             randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
         }
