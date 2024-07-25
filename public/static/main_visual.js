@@ -14,6 +14,7 @@ let lastUpdateTime = 0; // Initialize lastUpdateTime
 let expansionRate = 0.005; // Initialize the expansion rate
 let cameraZ = 800;
 let targetCameraZ = 800;
+let randomIndex = 4
 
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
@@ -31,10 +32,13 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount % 1000 === 0 && emotionData) {
+    let random_feeling_frames = frameCount % 1000;
+    if (random_feeling_frames % 1000 <= 8 && emotionData) {
         let emotions = Object.keys(emotionData);
-        let validIndices = [0, 3, 4];
-        let randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
+        if (random_feeling_frames % 1000 === 0){
+            let validIndices = [0, 3, 4];
+            randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
+        }
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === randomIndex) ? 1 : 0;
         });
