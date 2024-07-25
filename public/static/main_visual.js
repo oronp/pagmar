@@ -38,7 +38,7 @@ function preload() {
 
     myFont = loadFont('static/font.ttf');
 
-    image01 = loadImage('static/d6b798801e26b54cfb4b0b639e76a628.jpg');
+    image01 = loadImage('static/Net1.png');
     image02 = loadImage('static/Net2.png');
     image03 = loadImage('static/Net3.png');
     image04 = loadImage('static/Net4.png');
