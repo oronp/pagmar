@@ -1,5 +1,5 @@
 let emotionData, data, sound_1, sound_2, sound_3;
-var name
+var name;
 let ballRadius = 200;
 let r = 200;
 let holeR = 0;
@@ -14,7 +14,6 @@ let lastUpdateTime = 0; // Initialize lastUpdateTime
 let expansionRate = 0.005; // Initialize the expansion rate
 let cameraZ = 800;
 let targetCameraZ = 800;
-
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
@@ -71,7 +70,7 @@ function setup() {
     textSize(12);
     textAlign(CENTER, CENTER);
 
-    let user_answer
+    let user_answer;
 
     // Play sound_1 at the beginning
     sound_1.play();
@@ -81,7 +80,7 @@ function setup() {
         try {
             user_answer = await getUserAnswer();
         } catch (error) {
-            user_answer = false
+            user_answer = false;
         }
     }, (sound_duration - 10) * 1000);
 
@@ -129,161 +128,11 @@ function draw() {
     if (cameraZ != targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, cameraChangeSpeed);
     translate(0, 0, cameraZ);
 
-    /// ----------------
-    // ----- LAYER 00 -----
-    push();
-    translate(0, 0, -2000);
-    texture(image09);
-    noStroke();
-    //rotateZ(frameCount * 0.07);
-    plane(7669, 4314);
-    resetShader();
-    pop();
-
-    /// ----------------
-    // ----- LAYER 1 -----
-    push();
-    translate(0, 0, -305);
-    //texture(video1);
-    noStroke();
-    plane(1920, 1080);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 2 -----
-    push();
-    translate(0, 0, -300);
-    texture(image01);
-    noStroke();
-    rotateZ(frameCount * 0.028);
-    plane(7680 / 2.5, 5956 / 2.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 3 -----
-    push();
-    translate(0, 0, -250);
-    texture(image02);
-    noStroke();
-    rotateZ(frameCount * 0.04);
-    plane(7680 / 4, 5956 / 4);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 4 -----
-    push();
-    translate(0, 0, -250);
-    texture(image03);
-    noStroke();
-    rotateZ(frameCount * 0.038);
-    plane(7680 / 5, 5956 / 5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 5 -----
-    push();
-    translate(0, 0, -250);
-    texture(image04);
-    noStroke();
-    rotateZ(frameCount * 0.03);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 6 -----
-    push();
-    translate(0, 0, -250);
-    texture(image05);
-    noStroke();
-    rotateZ(-frameCount * 0.02);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 7 -----
-    push();
-    translate(0, 0, -250);
-    texture(image06);
-    noStroke();
-    rotateZ(-frameCount * 0.015);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 8 -----
-    push();
-    translate(0, 0, -210);
-    texture(image07);
-    noStroke();
-    plane(7669 / 3.5, 4314 / 3.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 9 -----
-    push();
-    translate(0, 0, -210);
-    texture(image08);
-    noStroke();
-    plane(7669 / 3.5, 4314 / 3.5);
-    resetShader();
-    pop();
+    // Draw layers
+    drawLayers();
 
     // Display the "Hertz" in the space
-    push();
-    translate(-200, -120, 200); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(5); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n365-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(50, 50, 500); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(2); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n826-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(-70, -70, 550); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(2); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n728-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(-100, 100, 350); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(3); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n990-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(300, 150, 150); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(6); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n421-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(180, 0, 250); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(4); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n633-HZ", 0, 0);
-    pop();
+    displayHertz();
 
     rotateY(map(cameraZ, 0, 800, 0, 180));
 
@@ -305,175 +154,145 @@ function draw() {
     rotateY(extraRotation);
 
     putTexts();
-    // drawSphere()
 
-    // get the new point
-    newPos = calculateFixedPoint(0, 0, r);
-    if (emotionData) coords.push({pos: newPos, size: noise(frameCount / 5) * 3 + 0.5});
-    else if (frameCount % 5 == 0) {
-        // if not found a face - rotate slightly using rotationAmout
+    // Get the new point
+    let newPos = calculateFixedPoint(0, 0, r);
+    if (emotionData) {
+        coords.push({ pos: newPos, size: noise(frameCount / 5) * 3 + 0.5 });
+    } else if (frameCount % 5 == 0) {
+        // If not found a face - rotate slightly using rotationAmount
         let rotationAmount = expansionRate / 2;
         const angleX = random(-rotationAmount, rotationAmount);
         const angleY = random(-rotationAmount, rotationAmount);
         const angleZ = random(-rotationAmount, rotationAmount);
 
         newPos = rotateVector(newPos, angleX, angleY, angleZ);
-        // this is the new random 'hole' point and its size
-        coords.push({pos: newPos, size: noise(frameCount / 30) * 28});
+        // This is the new random 'hole' point and its size
+        coords.push({ pos: newPos, size: noise(frameCount / 30) * 28 });
     }
 
-    // draw the points
+    // Draw the points
     stroke(0);
-    const stepSize = targetCameraZ == 800 ? 1 : 1;
-    for (let i = 0; i < coords.length - 1; i++) {
-        const coord1 = coords[i];
-        const coord2 = coords[i + 1];
-        const d = coord1.pos.dist(coord2.pos);
-        for (let j = 0; j < d; j += stepSize) {
-            const pos = p5.Vector.lerp(coord1.pos, coord2.pos, j / d);
-            const dotSize = lerp(coord1.size, coord2.size, j / d);
-            strokeWeight(dotSize);
-            point(pos.x, pos.y, pos.z);
-        }
+    drawPoints();
+}
+
+function drawLayers() {
+    const layers = [
+        { z: -2000, img: image09, size: [7669, 4314], rotSpeed: 0.07 },
+        { z: -305, img: null, size: [1920, 1080], rotSpeed: 0 },
+        { z: -300, img: image01, size: [7680 / 2.5, 5956 / 2.5], rotSpeed: 0.028 },
+        { z: -250, img: image02, size: [7680 / 4, 5956 / 4], rotSpeed: 0.04 },
+        { z: -250, img: image03, size: [7680 / 5, 5956 / 5], rotSpeed: 0.038 },
+        { z: -250, img: image04, size: [7680 / 5.5, 5956 / 5.5], rotSpeed: 0.03 },
+        { z: -250, img: image05, size: [7680 / 5.5, 5956 / 5.5], rotSpeed: -0.02 },
+        { z: -250, img: image06, size: [7680 / 5.5, 5956 / 5.5], rotSpeed: -0.015 },
+        { z: -210, img: image07, size: [7669 / 3.5, 4314 / 3.5], rotSpeed: 0 },
+        { z: -210, img: image08, size: [7669 / 3.5, 4314 / 3.5], rotSpeed: 0 },
+    ];
+
+    for (const layer of layers) {
+        push();
+        translate(0, 0, layer.z);
+        if (layer.img) texture(layer.img);
+        noStroke();
+        rotateZ(frameCount * layer.rotSpeed);
+        plane(...layer.size);
+        resetShader();
+        pop();
     }
-
-    // // Increase the size of each stain over time
-    // let currentTime = millis();
-    // if (currentTime - lastUpdateTime > 1000) { // Every 1 second
-    //     for (let i = 0; i < coords.length; i++) {
-    //         coords[i].size += 2; // Adjust this value to control the growth rate
-    //     }
-    //     lastUpdateTime = currentTime;
-    // }
-
-    // // draw the holes- or
-    stroke(0, 50);
-    holes.forEach(hole => {
-        strokeWeight(hole.size);
-        point(hole.pos.x, hole.pos.y, hole.pos.z);
-    });
 }
 
-function calculateFixedPoint(x, y, z) {
-    let point = createVector(x, y, z);
-    point = inverseRotateX(point, -(rotX));
-    point = inverseRotateY(point, -(rotY));
-    point = inverseRotateZ(point, -(rotZ));
-    return point;
-}
+function displayHertz() {
+    const hertzTexts = [
+        { x: -200, y: -120, z: 200, size: 5, text: "+\n365-HZ" },
+        { x: 50, y: 50, z: 500, size: 2, text: "+\n826-HZ" },
+        { x: -70, y: -70, z: 550, size: 2, text: "+\n728-HZ" },
+        { x: -100, y: 100, z: 350, size: 2, text: "+\n528-HZ" },
+        { x: -200, y: -220, z: 100, size: 2, text: "+\n423-HZ" },
+    ];
 
-function inverseRotateY(v, angle) {
-    let cosA = cos(angle);
-    let sinA = sin(angle);
-    let x = cosA * v.x + sinA * v.z;
-    let z = -sinA * v.x + cosA * v.z;
-    return createVector(x, v.y, z);
-}
-
-function inverseRotateX(v, angle) {
-    let cosA = cos(angle);
-    let sinA = sin(angle);
-    let y = cosA * v.y - sinA * v.z;
-    let z = sinA * v.y + cosA * v.z;
-    return createVector(v.x, y, z);
-}
-
-function inverseRotateZ(v, angle) {
-    let cosA = cos(angle);
-    let sinA = sin(angle);
-    let x = cosA * v.x - sinA * v.y;
-    let y = sinA * v.x + cosA * v.y;
-    return createVector(x, y, v.z);
-}
-
-function keyPressed() {
-    if (key == ' ') {
-        if (targetCameraZ == 800) targetCameraZ = 100;
-        else targetCameraZ = 800;
+    for (const ht of hertzTexts) {
+        push();
+        translate(ht.x, ht.y, ht.z);
+        rotateZ(frameCount * 0.1);
+        rotateX(frameCount * 0.1);
+        rotateY(frameCount * 0.1);
+        textSize(2 + ht.size * sin(frameCount / 5));
+        text(ht.text, 0, 0);
+        pop();
     }
-    if (key == 'p') {
-        video1.play();
-    }
+}
+
+function calculateTargetPoint() {
+    return createVector(
+        data.happy - data.sad,
+        data.hope - data.disappointment,
+        data.surprise - data.fear
+    ).normalize().mult(r);
+}
+
+function rotateTowardsTarget(targetPoint) {
+    let currentPoint = calculateFixedPoint(0, 0, r);
+    let rotationAxis = p5.Vector.cross(currentPoint, targetPoint).normalize();
+    let rotationAngle = degrees(acos(p5.Vector.dot(currentPoint.normalize(), targetPoint.normalize())));
+    rotate(rotationAngle, rotationAxis);
 }
 
 function putTexts() {
-    fill(0);
     push();
-    translate(ballRadius, 0, 0);
-    rotateY(-90);
-    text('Fear', 0, 0);
-    pop();
-
-    push();
-    translate(-ballRadius, 0, 0);
-    rotateY(90);
-    text('Hope', 0, 0);
-    pop();
-
-    push();
-    translate(0, ballRadius, 0);
     rotateX(90);
-    rotateZ(180);
-    text('Happy', 0, 0);
-    pop();
-
-    push();
-    translate(0, -ballRadius, 0);
-    rotateX(-90);
-    rotateZ(180);
-    text('Sad', 0, 0);
-    pop();
-
-    push();
-    translate(0, 0, ballRadius);
-    rotateY(180);
-    text('Disappointed', 0, 0);
-    pop();
-
-    push();
-    translate(0, 0, -ballRadius);
-    rotateY(0);
-    text('Surprise', 0, 0);
-    pop();
-    noFill();
-}
-
-function drawSphere() {
-    push();
-    stroke(0, 50);
-    strokeWeight(1);
-    circle(0, 0, ballRadius * 2);
-    rotateY(90);
-    circle(0, 0, ballRadius * 2);
-    rotateX(90);
-    circle(0, 0, ballRadius * 2);
+    for (const [key, value] of Object.entries(data)) {
+        rotateZ(360 / Object.keys(data).length);
+        translate(0, 0, r + 40);
+        rotateZ(90);
+        rotateX(90);
+        fill(0);
+        textSize(14 + 5 * value);
+        text(key, 0, 0);
+        resetShader();
+    }
     pop();
 }
 
-// Function to rotate a vector
+function drawPoints() {
+    for (let i = 0; i < coords.length; i++) {
+        let point = coords[i];
+        const prevIndex = i === 0 ? coords.length - 1 : i - 1;
+        const prevPoint = coords[prevIndex];
+
+        const distance = dist(point.pos.x, point.pos.y, point.pos.z, prevPoint.pos.x, prevPoint.pos.y, prevPoint.pos.z);
+        const stepSize = max(1, 5 - distance / 20);
+
+        strokeWeight(point.size);
+        for (let j = 0; j < distance; j += stepSize) {
+            const t = j / distance;
+            const interPos = p5.Vector.lerp(prevPoint.pos, point.pos, t);
+            point(interPos.x, interPos.y, interPos.z);
+        }
+    }
+}
+
+function calculateFixedPoint(x, y, z) {
+    let d = dist(0, 0, 0, x, y, z);
+    return createVector(x, y, z).mult(r / d);
+}
+
 function rotateVector(v, angleX, angleY, angleZ) {
-    let result = createVector(v.x, v.y, v.z);
-
-    // Rotate around X-axis
-    result = createVector(
-        result.x,
-        result.y * cos(angleX) - result.z * sin(angleX),
-        result.y * sin(angleX) + result.z * cos(angleX)
+    let rotatedVector = v.copy();
+    rotatedVector = createVector(
+        rotatedVector.x,
+        rotatedVector.y * cos(angleX) - rotatedVector.z * sin(angleX),
+        rotatedVector.y * sin(angleX) + rotatedVector.z * cos(angleX)
     );
-
-    // Rotate around Y-axis
-    result = createVector(
-        result.x * cos(angleY) + result.z * sin(angleY),
-        result.y,
-        -result.x * sin(angleY) + result.z * cos(angleY)
+    rotatedVector = createVector(
+        rotatedVector.x * cos(angleY) + rotatedVector.z * sin(angleY),
+        rotatedVector.y,
+        -rotatedVector.x * sin(angleY) + rotatedVector.z * cos(angleY)
     );
-
-    // Rotate around Z-axis
-    result = createVector(
-        result.x * cos(angleZ) - result.y * sin(angleZ),
-        result.x * sin(angleZ) + result.y * cos(angleZ),
-        result.z
+    rotatedVector = createVector(
+        rotatedVector.x * cos(angleZ) - rotatedVector.y * sin(angleZ),
+        rotatedVector.x * sin(angleZ) + rotatedVector.y * cos(angleZ),
+        rotatedVector.z
     );
-
-    return result;
+    return rotatedVector;
 }
