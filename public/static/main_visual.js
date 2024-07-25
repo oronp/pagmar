@@ -38,6 +38,8 @@ onNewEmotionData = (newData) => {
             emotionData[emotion] = (index === randomIndex) ? 1 : 0;
         });
     }
+
+    console.log(emotionData)
 };
 
 function preload() {
