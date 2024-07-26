@@ -19,12 +19,17 @@ let targetCameraZ = 800;
 onNewEmotionData = (newData) => {
     if (newData.status) {
         let e = newData.emotion;
-        e.hope = (e.happy + e.happy + e.neutral) / 4;
-        e.disappointment = (e.sad + e.disgust + e.angry + e.fear) / 4;
-        e.surprise += e.neutral;
+        e.hope = (e.happy + e.happy + e.neutral) / 4 + (Math.random() * 0.2);
+        e.disappointment = (e.sad + e.disgust + e.angry + e.fear) / 4 + (Math.random() * 0.2);
+        e.surprise += e.neutral + (Math.random() * 0.4);
+        e.happy += (Math.random() * 0.4) - 0.2;
+        e.fear += (Math.random() * 0.4) - 0.2;
+        e.sad += (Math.random() * 0.4) - 0.2;
+
         delete e.disgust;
         delete e.neutral;
         delete e.angry;
+
         const magnitude = Object.values(e).reduce((acc, val) => acc + val, 0);
         if (magnitude) Object.keys(e).forEach(key => e[key] /= magnitude);
         emotionData = e;
@@ -36,12 +41,12 @@ onNewEmotionData = (newData) => {
         if (frameCount <= 350){
             console.log('Fake emotion + ' + emotions.at(4))
             emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.5);
+                emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
             });}
         else{
             console.log('Fake emotion + ' + emotions.at(0))
             emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 0) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.5);
+                emotionData[emotion] = (index === 0) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
             });
         }
     }  // make sure the first feeling will be hope
