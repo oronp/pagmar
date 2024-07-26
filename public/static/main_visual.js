@@ -5,7 +5,7 @@ let r = 200;
 let holeR = 0;
 let extraRotation = 0;
 let scribbleForce = 4;
-let scribbleSpeed = 0.2;
+let scribbleSpeed = 0.6;
 let cameraChangeSpeed = 0.01;
 let ballRotationSpeed = 0.005;
 let holes = [];
@@ -33,8 +33,13 @@ onNewEmotionData = (newData) => {
     if (frameCount % 1200 <= 300 && emotionData) {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
-        let validIndices = [0, 3, 4];
-        let randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
+        // let validIndices = [0, 3, 4];
+        // let randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
+
+        randomIndex = 0
+        if (frameCount > 3600){randomIndex = 1}
+        if (frameCount > 7200){randomIndex = 2}
+
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === randomIndex) ? 1 : 0;
         });

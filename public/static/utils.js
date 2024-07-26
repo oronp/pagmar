@@ -35,6 +35,7 @@ function getUserAnswer(){
         // Process the result
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
+            console.log('user full is: ' + transcript)
             resolve(transcript.includes("כן"));
         };
 
