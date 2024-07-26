@@ -206,10 +206,10 @@ function draw() {
     });
 }
 
-function renderLayer(texture, zTranslate, rotationSpeed, width, height) {
+function renderLayer(layer_texture, zTranslate, rotationSpeed, width, height) {
     push();
     translate(0, 0, zTranslate);
-    if (texture) texture(texture);
+    if (layer_texture) texture(layer_texture);
     noStroke();
     rotateZ(frameCount * rotationSpeed);
     plane(width, height);
