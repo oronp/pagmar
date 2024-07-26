@@ -30,7 +30,7 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount % 500 <= 40 && emotionData) {
+    if (frameCount % 500 <= 80 && emotionData) {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
         let validIndices = [0, 3, 4];
