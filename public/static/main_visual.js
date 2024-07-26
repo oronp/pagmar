@@ -30,19 +30,19 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount === 0 && emotionData){
+    if (frameCount <= 250 && emotionData){
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === 1) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
         });
     }  // make sure the first feeling will be hope
 
-    if (frameCount % 1500 <= 550 && emotionData) {
+    else if (frameCount % 2000 <= 550 && emotionData) {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
 
         randomIndex = 0
-        if (frameCount > 3000){randomIndex = 3}
-        if (frameCount > 4500){randomIndex = 4}
+        if (frameCount > 1999){randomIndex = 3}
+        if (frameCount > 3999){randomIndex = 4}
 
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === randomIndex) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
@@ -53,19 +53,20 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     const urlParams = new URLSearchParams(window.location.search);
-    sound_to_play = urlParams.get('sound_to_play');
+    // sound_to_play = urlParams.get('sound_to_play');
+    sound_to_play = 'sound/nivi_male';
 
-    myFont = loadFont('static/font.ttf');
+    myFont = loadFont('font.ttf');
 
-    image01 = loadImage('static/Net1.png');
-    image02 = loadImage('static/Net2.png');
-    image03 = loadImage('static/Net3.png');
-    image04 = loadImage('static/Net4.png');
-    image05 = loadImage('static/003-rivers21.png');
-    image06 = loadImage('static/004-shake map2.png');
-    image07 = loadImage('static/herzFront.png');
-    image08 = loadImage('static/herzBack.png');
-    image09 = loadImage('static/backrounds grain.png');
+    image01 = loadImage('Net1.png');
+    image02 = loadImage('Net2.png');
+    image03 = loadImage('Net3.png');
+    image04 = loadImage('Net4.png');
+    image05 = loadImage('003-rivers21.png');
+    image06 = loadImage('004-shake map2.png');
+    image07 = loadImage('herzFront.png');
+    image08 = loadImage('herzBack.png');
+    image09 = loadImage('backrounds grain.png');
 
     sound_1 = loadSound(`${sound_to_play}_00.mp3`);
     sound_2 = loadSound(`${sound_to_play}_01.mp3`);
