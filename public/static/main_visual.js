@@ -53,20 +53,20 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     const urlParams = new URLSearchParams(window.location.search);
-    // sound_to_play = urlParams.get('sound_to_play');
-    sound_to_play = 'sound/nivi_male';
+    sound_to_play = urlParams.get('sound_to_play');
+    // sound_to_play = 'sound/nivi_male';
 
-    myFont = loadFont('font.ttf');
+    myFont = loadFont('static/font.ttf');
 
-    image01 = loadImage('Net1.png');
-    image02 = loadImage('Net2.png');
-    image03 = loadImage('Net3.png');
-    image04 = loadImage('Net4.png');
-    image05 = loadImage('003-rivers21.png');
-    image06 = loadImage('004-shake map2.png');
-    image07 = loadImage('herzFront.png');
-    image08 = loadImage('herzBack.png');
-    image09 = loadImage('backrounds grain.png');
+    image01 = loadImage('static/Net1.png');
+    image02 = loadImage('static/Net2.png');
+    image03 = loadImage('static/Net3.png');
+    image04 = loadImage('static/Net4.png');
+    image05 = loadImage('static/003-rivers21.png');
+    image06 = loadImage('static/004-shake map2.png');
+    image07 = loadImage('static/herzFront.png');
+    image08 = loadImage('static/herzBack.png');
+    image09 = loadImage('static/backrounds grain.png');
 
     sound_1 = loadSound(`${sound_to_play}_00.mp3`);
     sound_2 = loadSound(`${sound_to_play}_01.mp3`);
