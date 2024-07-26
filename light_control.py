@@ -1,5 +1,4 @@
 import time
-
 import requests
 import schedule
 from yeelight import Bulb, discover_bulbs
@@ -19,6 +18,13 @@ class BulbControl:
     def __init__(self):
         self.bulb = Bulb(bulb_ip)
         self.show_is_on = False
+        self.ensure_bulb_on_and_set_brightness()
+
+    def ensure_bulb_on_and_set_brightness(self):
+        if not self.bulb.get_properties()["power"] == "on":
+            self.turn_on()
+        if not int(self.bulb.get_properties()["bright"]) == 10:
+            self.set_brightness(10)
 
     def turn_on(self):
         self.bulb.turn_on()
@@ -80,11 +86,6 @@ if __name__ == "__main__":
     # DO NOT COMMENT THIS LINE!!!! #
     bulb = BulbControl()
 
-    """
-    MAYA IF YOU WANT TO THE SCRIPT UNCOMMENT THE LINES BELOW ME
-    THIS IS THE PART TO CONTROL BRIGHTNESS OF THE BULB
-    """
-
     schedule.every(4).seconds.do(send_request)
 
     while True:
@@ -94,24 +95,3 @@ if __name__ == "__main__":
             bulb.brightness_up()
         elif response and not response.get('is_running') and bulb.show_is_on:  # check if presentation stopped and bulb is on
             bulb.brightness_down()
-
-    """ 
-    END OF REAL SCRIPT FOR PRESENTATION PART 
-    """
-
-    #####################################################################################################
-    ########################################### DEBUG PART ##############################################
-    #####################################################################################################
-
-    """
-    MAYA IF YOU WANT TO CHANGE COLORS UNCOMMENT THE 6 LINE BELOW ME
-    """
-    # bulb.set_rgb_color(red='change me to number of red',
-    #                    green='change me to number of green',
-    #                    blue='change me to number of blue')
-    #
-    # bulb.set_color_temp(color_temp='change me to color temperature (1700-6500)')
-    # bulb_current_status = bulb.bulb.get_properties()  # this function will give you the bulb current status
-
-    # stop_the_script_maya_here = True
-

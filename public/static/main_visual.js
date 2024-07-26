@@ -219,21 +219,21 @@ function renderLayer(layer_texture, zTranslate, rotationSpeed, width, height) {
 
 function renderTexts() {
     const texts = [
-        { text: "+\n365-HZ", x: -200, y: -120, z: 200, size: 5 },
-        { text: "+\n826-HZ", x: 50, y: 50, z: 500, size: 2 },
-        { text: "+\n728-HZ", x: -70, y: -70, z: 550, size: 2 },
-        { text: "+\n990-HZ", x: -100, y: 100, z: 350, size: 3 },
-        { text: "+\n421-HZ", x: 300, y: 150, z: 150, size: 6 },
-        { text: "+\n633-HZ", x: 180, y: 0, z: 250, size: 4 },
+        { raw_text: "+\n365-HZ", x: -200, y: -120, z: 200, size: 5 },
+        { raw_text: "+\n826-HZ", x: 50, y: 50, z: 500, size: 2 },
+        { raw_text: "+\n728-HZ", x: -70, y: -70, z: 550, size: 2 },
+        { raw_text: "+\n990-HZ", x: -100, y: 100, z: 350, size: 3 },
+        { raw_text: "+\n421-HZ", x: 300, y: 150, z: 150, size: 6 },
+        { raw_text: "+\n633-HZ", x: 180, y: 0, z: 250, size: 4 },
     ];
 
-    texts.forEach(({ text, x, y, z, size }) => {
+    texts.forEach(({ raw_text, x, y, z, size }) => {
         push();
         translate(x, y, z);
         textFont(myFont);
         textSize(size);
         fill(100, 100, 100);
-        text(text, 0, 0);
+        text(raw_text, 0, 0);
         pop();
     });
 }
