@@ -4,7 +4,7 @@ let ballRadius = 200;
 let r = 200;
 let holeR = 0;
 let extraRotation = 0;
-let scribbleForce = 4;
+let scribbleForce = 6;
 let scribbleSpeed = 0.3;
 let cameraChangeSpeed = 0.01;
 let ballRotationSpeed = 0.005;
@@ -36,7 +36,7 @@ onNewEmotionData = (newData) => {
         });
     }  // make sure the first feeling will be hope
 
-    if (frameCount % 1500 <= 400 && emotionData) {
+    if (frameCount % 1500 <= 800 && emotionData) {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
 
