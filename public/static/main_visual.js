@@ -1,5 +1,5 @@
 let emotionData, data, sound_1, sound_2, sound_3;
-var name
+var name;
 let ballRadius = 200;
 let r = 200;
 let holeR = 0;
@@ -14,6 +14,9 @@ let lastUpdateTime = 0; // Initialize lastUpdateTime
 let expansionRate = 0.005; // Initialize the expansion rate
 let cameraZ = 800;
 let targetCameraZ = 800;
+let continuousRotX = 0; // Add continuous rotation variables
+let continuousRotY = 0;
+let continuousRotZ = 0;
 
 // emotions are: sad, disgust, angry, happy, surprise, neutral, fear
 onNewEmotionData = (newData) => {
@@ -61,7 +64,7 @@ function setup() {
     textSize(12);
     textAlign(CENTER, CENTER);
 
-    let user_answer
+    let user_answer;
 
     // Play sound_1 at the beginning
     sound_1.play();
@@ -71,7 +74,7 @@ function setup() {
         try {
             user_answer = await getUserAnswer();
         } catch (error) {
-            user_answer = false
+            user_answer = false;
         }
     }, (sound_duration - 10) * 1000);
 
@@ -116,6 +119,10 @@ function setup() {
 function draw() {
     background(220);
 
+    continuousRotX += 0.01; // Adjust these values for different rotation speeds
+    continuousRotY += 0.01;
+    continuousRotZ += 0.01;
+
     if (cameraZ != targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, cameraChangeSpeed);
     translate(0, 0, cameraZ);
 
@@ -125,7 +132,6 @@ function draw() {
     translate(0, 0, -2000);
     texture(image09);
     noStroke();
-    //rotateZ(frameCount * 0.07);
     plane(7669, 4314);
     resetShader();
     pop();
@@ -134,7 +140,6 @@ function draw() {
     // ----- LAYER 1 -----
     push();
     translate(0, 0, -305);
-    //texture(video1);
     noStroke();
     plane(1920, 1080);
     resetShader();
