@@ -10,8 +10,10 @@ class Pagmar:
         self.sex: str = ''
         self.music: str = ''
         self.axis_center = (0, 0)
+        self.number_of_calls = 0
 
-    def emotions_predict(self, inputs) -> dict:
+    @staticmethod
+    def emotions_predict(inputs) -> dict:
         try:
             analysis = DeepFace.analyze(inputs, actions=['emotion'])
             if (len(analysis) == 0):
@@ -20,6 +22,12 @@ class Pagmar:
             return analysis[0]
         except ValueError:
             return {'status': False}
+
+    def update_number_of_calls(self) -> None:
+        self.number_of_calls += 1
+        if self.number_of_calls > 30:
+            self.number_of_calls = 0
+
 
     def plot_emotions_dot(self, emotions: dict) -> tuple:
         emotions = tools.order_emotions_dict(emotions)
