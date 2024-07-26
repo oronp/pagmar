@@ -159,7 +159,7 @@ function calculateTargetPoint() {
     let axis = p5.Vector.cross(currentPoint, target);
     let angle = acos(p5.Vector.dot(currentPoint, target));
 
-    n = noise(0.1)
+    n = noise(100)
     nextRotX = (angle+(n < .33 ? n : 0)) * axis.x;
     nextRotY = (angle+(n<.66 && n >.33 ? n : 0)) * axis.y;
     nextRotZ = (angle+(n>.66 ? n : 0)) * axis.z;
