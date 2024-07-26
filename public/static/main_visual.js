@@ -43,7 +43,7 @@ onNewEmotionData = (newData) => {
 
         randomIndex = 0
         if (frameCount > 1999){randomIndex = 4}
-        if (frameCount > 3999){randomIndex = 3}
+        if (frameCount > 3999){randomIndex = 5}
 
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === randomIndex) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
