@@ -43,7 +43,7 @@ onNewEmotionData = (newData) => {
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === randomIndex) ? 1 : 0;
         });
-        console.log(emotionData)
+        console.log(emotions.at(randomIndex))
     }
 
 };
