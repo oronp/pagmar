@@ -159,16 +159,16 @@ function calculateTargetPoint() {
     let axis = p5.Vector.cross(currentPoint, target);
     let angle = acos(p5.Vector.dot(currentPoint, target));
 
-    n = noise(100)
+    n = noise(frameCount * 0.1)
     nextRotX = (angle+(n < .33 ? n : 0)) * axis.x;
     nextRotY = (angle+(n<.66 && n >.33 ? n : 0)) * axis.y;
     nextRotZ = (angle+(n>.66 ? n : 0)) * axis.z;
     if (!rotX) {
      rotX = nextRotX; rotY = nextRotY; rotZ = nextRotZ;
     }
-    rotX = lerpAngle(rotX,targetX,0.3)
-    rotY = lerpAngle(rotY,targetY,0.3)
-    rotZ = lerpAngle(rotZ,targetZ,0.3)
+    rotX = lerpAngle(rotX,nextRotX,0.3)
+    rotY = lerpAngle(rotY,nextRotY,0.3)
+    rotZ = lerpAngle(rotZ,nextRotZ,0.3)
     rotateX(rotX);
     rotateY(rotY);
     rotateZ(rotZ);

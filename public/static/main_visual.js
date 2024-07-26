@@ -19,12 +19,12 @@ let targetCameraZ = 800;
 onNewEmotionData = (newData) => {
     if (newData.status) {
         let e = newData.emotion;
-        e.hope = (e.happy + e.happy + e.neutral) / 4 + (Math.random() * 0.5) - 0.25;
-        e.disappointment = (e.sad + e.disgust + e.angry + e.fear) / 4 + (Math.random() * 0.5) - 0.25;
-        e.surprise += e.neutral + (Math.random() * 0.4);
-        e.happy += (Math.random() * 0.5) - 0.25;
-        e.fear += (Math.random() * 0.5) - 0.25;
-        e.sad += (Math.random() * 0.5) - 0.25;
+        e.hope = (e.happy + e.happy + e.neutral) / 4 + (Math.random() * 0.4) - 0.15;
+        e.disappointment = (e.sad + e.disgust + e.angry + e.fear) / 4 + (Math.random() * 0.4) - 0.15;
+        e.surprise += e.neutral + (Math.random() * 0.4) - 0.15;
+        e.happy += (Math.random() * 0.4) - 0.15;
+        e.fear += (Math.random() * 0.4) - 0.15;
+        e.sad += (Math.random() * 0.4) - 0.15;
 
         delete e.disgust;
         delete e.neutral;
