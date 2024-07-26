@@ -21,6 +21,7 @@ onNewEmotionData = (newData) => {
         let e = newData.emotion;
         e.hope = (e.happy + e.happy + e.surprise + e.neutral) / 4;
         e.disappointment = (e.sad + e.disgust + e.angry + e.fear) / 4;
+        e.surprise += e.neutral;
         delete e.disgust;
         delete e.neutral;
         delete e.angry;
@@ -41,9 +42,10 @@ onNewEmotionData = (newData) => {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
 
-        randomIndex = 0
-        if (frameCount > 1999){randomIndex = 4}
-        if (frameCount > 3999){randomIndex = 5}
+        let randomIndex = 0
+        if (frameCount > 1999){randomIndex = 5}
+        if (frameCount > 3999){randomIndex = 3}
+        if (frameCount > 5999){randomIndex = 1}
 
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === randomIndex) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
