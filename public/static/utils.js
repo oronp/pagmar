@@ -174,15 +174,6 @@ function calculateTargetPoint() {
     rotateZ(rotZ);
   }
 
-  function drawEmotionPoints() {
-    // Draw the points representing emotions on the sphere
-    stroke(255, 0, 0);
-    strokeWeight(10);
-    for (let point of points) {
-      point(point.x * 200, point.y * 200, point.z * 200);
-    }
-  }
-
 setInterval(runOrNot, 5000)
 
 function lerpAngle(a, b, t) {
