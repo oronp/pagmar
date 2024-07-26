@@ -32,7 +32,7 @@ onNewEmotionData = (newData) => {
 
     if (frameCount === 0 && emotionData){
         emotions.forEach((emotion, index) => {
-            emotionData[emotion] = (index === 3) ? 1 : 0;
+            emotionData[emotion] = (index === 2) ? 1 : 0;
         });
     }  // make sure the first feeling will be hope
 
