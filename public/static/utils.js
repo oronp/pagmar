@@ -145,7 +145,11 @@ function calculateTargetPoint() {
     target.add(p5.Vector.mult(emotionPoints[5], data.surprise));
 
     // add noise according to scribbleForce and scribbleSpeed
-    target.add(p5.Vector.random3D().mult(scribbleForce * sin(frameCount * scribbleSpeed / 1000.0) / 100.0));
+    target.add(
+    scribbleForce * noise(frameCount * scribbleSpeed / 1000),
+    scribbleForce * noise(frameCount * scribbleSpeed / 1000 + 999),
+    scribbleForce * noise(frameCount * scribbleSpeed / 1000 + 1999)
+)
 
     // Normalize the target point to keep it on the sphere
     target.normalize();

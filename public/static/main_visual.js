@@ -36,12 +36,12 @@ onNewEmotionData = (newData) => {
         if (frameCount <= 350){
             console.log('Fake emotion + ' + emotions.at(4))
             emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
+                emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.5);
             });}
         else{
             console.log('Fake emotion + ' + emotions.at(0))
             emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 0) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
+                emotionData[emotion] = (index === 0) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.5);
             });
         }
     }  // make sure the first feeling will be hope
