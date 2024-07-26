@@ -31,6 +31,7 @@ onNewEmotionData = (newData) => {
     } else emotionData = null;
 
     if (frameCount <= 250 && emotionData){
+        let emotions = Object.keys(emotionData);
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === 1) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
         });
