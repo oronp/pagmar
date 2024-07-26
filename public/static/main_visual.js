@@ -4,8 +4,8 @@ let ballRadius = 200;
 let r = 200;
 let holeR = 0;
 let extraRotation = 0;
-let scribbleForce = 4;
-let scribbleSpeed = 0.2;
+let scribbleForce = 1;
+let scribbleSpeed = 0.1;
 let cameraChangeSpeed = 0.01;
 let ballRotationSpeed = 0.005;
 let holes = [];
@@ -19,12 +19,12 @@ let targetCameraZ = 800;
 onNewEmotionData = (newData) => {
     if (newData.status) {
         let e = newData.emotion;
-        e.hope = (e.happy + e.happy + e.neutral) / 4 + (Math.random() * 0.2);
-        e.disappointment = (e.sad + e.disgust + e.angry + e.fear) / 4 + (Math.random() * 0.2);
+        e.hope = (e.happy + e.happy + e.neutral) / 4 + (Math.random() * 0.6) - 0.3;
+        e.disappointment = (e.sad + e.disgust + e.angry + e.fear) / 4 + (Math.random() * 0.6) - 0.3;
         e.surprise += e.neutral + (Math.random() * 0.4);
-        e.happy += (Math.random() * 0.4) - 0.2;
-        e.fear += (Math.random() * 0.4) - 0.2;
-        e.sad += (Math.random() * 0.4) - 0.2;
+        e.happy += (Math.random() * 0.6) - 0.3;
+        e.fear += (Math.random() * 0.6) - 0.3;
+        e.sad += (Math.random() * 0.6) - 0.3;
 
         delete e.disgust;
         delete e.neutral;
