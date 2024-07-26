@@ -134,17 +134,7 @@ function setup() {
             });
     });
 }
-function create_layer(v_translate, v_texture, v_noStroke, v_rotateZ, v_plane, v_resetShader){
-    push();
-    translate(v_translate[0], v_translate[1], v_translate[2]);
-    if (v_texture) {texture(v_texture)}
-    if (v_noStroke) {noStroke()}
-    if (v_rotateZ) {rotateZ(frameCount * v_rotateZ)}
-    plane(v_plane[0], v_plane[1]);
-    if (v_resetShader) {resetShader()}
-    pop();
 
-}
 function draw() {
     background(220);
 
@@ -153,15 +143,35 @@ function draw() {
 
     /// ----------------
     // ----- LAYER 00 -----
-    create_layer([0, 0, -2000], image09, true, false, [7669, 4314], true)
+    push();
+    translate(0, 0, -2000);
+    texture(image09);
+    noStroke();
+    //rotateZ(frameCount * 0.07);
+    plane(7669, 4314);
+    resetShader();
+    pop();
 
     /// ----------------
     // ----- LAYER 1 -----
-    create_layer([0, 0, -305], false, true, false, [1920, 1080], true)
+    push();
+    translate(0, 0, -305);
+    //texture(video1);
+    noStroke();
+    plane(1920, 1080);
+    resetShader();
+    pop();
 
     // -----------------
     // ------- LAYER 2 -----
-    create_layer([0, 0, -300], image01, true, frameCount * 0.028, [7680 / 2.5, 5956 / 2.5], true)
+    push();
+    translate(0, 0, -300);
+    texture(image01);
+    noStroke();
+    rotateZ(frameCount * 0.028);
+    plane(7680 / 2.5, 5956 / 2.5);
+    resetShader();
+    pop();
 
     // -----------------
     // ------- LAYER 3 -----
