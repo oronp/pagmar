@@ -166,9 +166,9 @@ function calculateTargetPoint() {
     if (!rotX) {
      rotX = nextRotX; rotY = nextRotY; rotZ = nextRotZ;
     }
-    rotX = lerp(rotX,nextRotX,.3)
-    rotY = lerp(rotY,nextRotY,.3)
-    rotZ = lerp(rotZ,nextRotZ,.3)
+    rotX = lerpAngle(rotX,targetX,0.3)
+    rotY = lerpAngle(rotY,targetY,0.3)
+    rotZ = lerpAngle(rotZ,targetZ,0.3)
     rotateX(rotX);
     rotateY(rotY);
     rotateZ(rotZ);
@@ -184,3 +184,14 @@ function calculateTargetPoint() {
   }
 
 setInterval(runOrNot, 5000)
+
+function lerpAngle(a, b, t) {
+    a = (a + 360) % 360;
+    b = (b + 360) % 360;
+    let delta = b - a;
+    if (Math.abs(delta) > 180) {
+        if (delta > 0) delta -= 360;
+        else delta += 360;
+    }
+    return (a + delta * t + 360) % 360;
+}
