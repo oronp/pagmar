@@ -1,5 +1,4 @@
 let emotionData, data, sound_1, sound_2, sound_3;
-var name
 let ballRadius = 200;
 let r = 200;
 let holeR = 0;
@@ -37,15 +36,10 @@ function preload() {
 
     myFont = loadFont('static/font.ttf');
 
-    image01 = loadImage('static/Net1.png');
-    image02 = loadImage('static/Net2.png');
-    image03 = loadImage('static/Net3.png');
-    image04 = loadImage('static/Net4.png');
-    image05 = loadImage('static/003-rivers21.png');
-    image06 = loadImage('static/004-shake map2.png');
-    image07 = loadImage('static/herzFront.png');
-    image08 = loadImage('static/herzBack.png');
-    image09 = loadImage('static/backrounds grain.png');
+    const images = ['Net1', 'Net2', 'Net3', 'Net4', '003-rivers21', '004-shake map2', 'herzFront', 'herzBack', 'backrounds grain'];
+    images.forEach((image, index) => {
+        window[`image0${index + 1}`] = loadImage(`static/${image}.png`);
+    });
 
     sound_1 = loadSound(`${sound_to_play}_00.mp3`);
     sound_2 = loadSound(`${sound_to_play}_01.mp3`);
@@ -61,7 +55,7 @@ function setup() {
     textSize(12);
     textAlign(CENTER, CENTER);
 
-    let user_answer
+    let user_answer;
 
     // Play sound_1 at the beginning
     sound_1.play();
@@ -71,7 +65,7 @@ function setup() {
         try {
             user_answer = await getUserAnswer();
         } catch (error) {
-            user_answer = false
+            user_answer = false;
         }
     }, (sound_duration - 10) * 1000);
 
@@ -91,7 +85,8 @@ function setup() {
             sound_3.play();
         }
     });
-    sound_3.onended(() => {
+
+    const stopRunning = () => {
         fetch('https://oronp2912.pythonanywhere.com/stop_running')
             .then(response => response.json())
             .then(data => {
@@ -100,186 +95,65 @@ function setup() {
             .catch((error) => {
                 console.error('Error:', error);
             });
-    });
-    sound_2.onended(() => {
-        fetch('https://oronp2912.pythonanywhere.com/stop_running')
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    });
+    };
+
+    sound_2.onended(stopRunning);
+    sound_3.onended(stopRunning);
 }
 
 function draw() {
     background(220);
 
-    if (cameraZ != targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, cameraChangeSpeed);
+    if (cameraZ !== targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, cameraChangeSpeed);
     translate(0, 0, cameraZ);
 
     /// ----------------
     // ----- LAYER 00 -----
-    push();
-    translate(0, 0, -2000);
-    texture(image09);
-    noStroke();
-    //rotateZ(frameCount * 0.07);
-    plane(7669, 4314);
-    resetShader();
-    pop();
+    renderLayer(image09, -2000, 0.07, 7669, 4314);
 
     /// ----------------
     // ----- LAYER 1 -----
-    push();
-    translate(0, 0, -305);
-    //texture(video1);
-    noStroke();
-    plane(1920, 1080);
-    resetShader();
-    pop();
+    renderLayer(null, -305, 0, 1920, 1080);
 
     // -----------------
     // ------- LAYER 2 -----
-    push();
-    translate(0, 0, -300);
-    texture(image01);
-    noStroke();
-    rotateZ(frameCount * 0.028);
-    plane(7680 / 2.5, 5956 / 2.5);
-    resetShader();
-    pop();
+    renderLayer(image01, -300, 0.028, 7680 / 2.5, 5956 / 2.5);
 
     // -----------------
     // ------- LAYER 3 -----
-    push();
-    translate(0, 0, -250);
-    texture(image02);
-    noStroke();
-    rotateZ(frameCount * 0.04);
-    plane(7680 / 4, 5956 / 4);
-    resetShader();
-    pop();
+    renderLayer(image02, -250, 0.04, 7680 / 4, 5956 / 4);
 
     // -----------------
     // ------- LAYER 4 -----
-    push();
-    translate(0, 0, -250);
-    texture(image03);
-    noStroke();
-    rotateZ(frameCount * 0.038);
-    plane(7680 / 5, 5956 / 5);
-    resetShader();
-    pop();
+    renderLayer(image03, -250, 0.038, 7680 / 5, 5956 / 5);
 
     // -----------------
     // ------- LAYER 5 -----
-    push();
-    translate(0, 0, -250);
-    texture(image04);
-    noStroke();
-    rotateZ(frameCount * 0.03);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
+    renderLayer(image04, -250, 0.03, 7680 / 5.5, 5956 / 5.5);
 
     // -----------------
     // ------- LAYER 6 -----
-    push();
-    translate(0, 0, -250);
-    texture(image05);
-    noStroke();
-    rotateZ(-frameCount * 0.02);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
+    renderLayer(image05, -250, -0.02, 7680 / 5.5, 5956 / 5.5);
 
     // -----------------
     // ------- LAYER 7 -----
-    push();
-    translate(0, 0, -250);
-    texture(image06);
-    noStroke();
-    rotateZ(-frameCount * 0.015);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
+    renderLayer(image06, -250, -0.015, 7680 / 5.5, 5956 / 5.5);
 
     // -----------------
     // ------- LAYER 8 -----
-    push();
-    translate(0, 0, -210);
-    texture(image07);
-    noStroke();
-    plane(7669 / 3.5, 4314 / 3.5);
-    resetShader();
-    pop();
+    renderLayer(image07, -210, 0, 7669 / 3.5, 4314 / 3.5);
 
     // -----------------
     // ------- LAYER 9 -----
-    push();
-    translate(0, 0, -210);
-    texture(image08);
-    noStroke();
-    plane(7669 / 3.5, 4314 / 3.5);
-    resetShader();
-    pop();
+    renderLayer(image08, -210, 0, 7669 / 3.5, 4314 / 3.5);
 
-    // Display the "Hertz" in the space
-    push();
-    translate(-200, -120, 200); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(5); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n365-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(50, 50, 500); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(2); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n826-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(-70, -70, 550); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(2); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n728-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(-100, 100, 350); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(3); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n990-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(300, 150, 150); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(6); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n421-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(180, 0, 250); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(4); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n633-HZ", 0, 0);
-    pop();
+    renderTexts();
 
     rotateY(map(cameraZ, 0, 800, 0, 180));
 
     if (emotionData) {
         holeR = 0;
-        Object.keys(emotionData).forEach((key, i) => {
+        Object.keys(emotionData).forEach((key) => {
             data[key] = lerp(data[key], emotionData[key], ballRotationSpeed);
         });
         expansionRate = 0.7; // Reset expansion rate when emotion data is present
@@ -295,12 +169,11 @@ function draw() {
     rotateY(extraRotation);
 
     putTexts();
-    // drawSphere()
 
     // get the new point
-    newPos = calculateFixedPoint(0, 0, r);
-    if (emotionData) coords.push({pos: newPos, size: noise(frameCount / 5) * 3 + 0.5});
-    else if (frameCount % 5 == 0) {
+    let newPos = calculateFixedPoint(0, 0, r);
+    if (emotionData) coords.push({ pos: newPos, size: noise(frameCount / 5) * 3 + 0.5 });
+    else if (frameCount % 5 === 0) {
         // if not found a face - rotate slightly using rotationAmout
         let rotationAmount = expansionRate / 2;
         const angleX = random(-rotationAmount, rotationAmount);
@@ -309,12 +182,12 @@ function draw() {
 
         newPos = rotateVector(newPos, angleX, angleY, angleZ);
         // this is the new random 'hole' point and its size
-        coords.push({pos: newPos, size: noise(frameCount / 30) * 28});
+        coords.push({ pos: newPos, size: noise(frameCount / 30) * 28 });
     }
 
     // draw the points
     stroke(0);
-    const stepSize = targetCameraZ == 800 ? 1 : 1;
+    const stepSize = targetCameraZ === 800 ? 1 : 1;
     for (let i = 0; i < coords.length - 1; i++) {
         const coord1 = coords[i];
         const coord2 = coords[i + 1];
@@ -333,11 +206,43 @@ function draw() {
     });
 }
 
+function renderLayer(texture, zTranslate, rotationSpeed, width, height) {
+    push();
+    translate(0, 0, zTranslate);
+    if (texture) texture(texture);
+    noStroke();
+    rotateZ(frameCount * rotationSpeed);
+    plane(width, height);
+    resetShader();
+    pop();
+}
+
+function renderTexts() {
+    const texts = [
+        { text: "+\n365-HZ", x: -200, y: -120, z: 200, size: 5 },
+        { text: "+\n826-HZ", x: 50, y: 50, z: 500, size: 2 },
+        { text: "+\n728-HZ", x: -70, y: -70, z: 550, size: 2 },
+        { text: "+\n990-HZ", x: -100, y: 100, z: 350, size: 3 },
+        { text: "+\n421-HZ", x: 300, y: 150, z: 150, size: 6 },
+        { text: "+\n633-HZ", x: 180, y: 0, z: 250, size: 4 },
+    ];
+
+    texts.forEach(({ text, x, y, z, size }) => {
+        push();
+        translate(x, y, z);
+        textFont(myFont);
+        textSize(size);
+        fill(100, 100, 100);
+        text(text, 0, 0);
+        pop();
+    });
+}
+
 function calculateFixedPoint(x, y, z) {
     let point = createVector(x, y, z);
-    point = inverseRotateX(point, -(rotX));
-    point = inverseRotateY(point, -(rotY));
-    point = inverseRotateZ(point, -(rotZ));
+    point = inverseRotateX(point, -rotX);
+    point = inverseRotateY(point, -rotY);
+    point = inverseRotateZ(point, -rotZ);
     return point;
 }
 
@@ -366,55 +271,34 @@ function inverseRotateZ(v, angle) {
 }
 
 function keyPressed() {
-    if (key == ' ') {
-        if (targetCameraZ == 800) targetCameraZ = 100;
-        else targetCameraZ = 800;
+    if (key === ' ') {
+        targetCameraZ = (targetCameraZ === 800) ? 100 : 800;
     }
-    if (key == 'p') {
+    if (key === 'p') {
         video1.play();
     }
 }
 
 function putTexts() {
+    const positions = [
+        { text: 'Fear', x: ballRadius, y: 0, z: 0, rotate: [-90, 0, 0] },
+        { text: 'Hope', x: -ballRadius, y: 0, z: 0, rotate: [90, 0, 0] },
+        { text: 'Happy', x: 0, y: ballRadius, z: 0, rotate: [90, 180, 0] },
+        { text: 'Sad', x: 0, y: -ballRadius, z: 0, rotate: [-90, 180, 0] },
+        { text: 'Disappointed', x: 0, y: 0, z: ballRadius, rotate: [0, 180, 0] },
+        { text: 'Surprise', x: 0, y: 0, z: -ballRadius, rotate: [0, 0, 0] },
+    ];
+
     fill(0);
-    push();
-    translate(ballRadius, 0, 0);
-    rotateY(-90);
-    text('Fear', 0, 0);
-    pop();
-
-    push();
-    translate(-ballRadius, 0, 0);
-    rotateY(90);
-    text('Hope', 0, 0);
-    pop();
-
-    push();
-    translate(0, ballRadius, 0);
-    rotateX(90);
-    rotateZ(180);
-    text('Happy', 0, 0);
-    pop();
-
-    push();
-    translate(0, -ballRadius, 0);
-    rotateX(-90);
-    rotateZ(180);
-    text('Sad', 0, 0);
-    pop();
-
-    push();
-    translate(0, 0, ballRadius);
-    rotateY(180);
-    text('Disappointed', 0, 0);
-    pop();
-
-    push();
-    translate(0, 0, -ballRadius);
-    rotateY(0);
-    text('Surprise', 0, 0);
-    pop();
-    noFill();
+    positions.forEach(({ text, x, y, z, rotate }) => {
+        push();
+        translate(x, y, z);
+        rotateY(rotate[0]);
+        rotateX(rotate[1]);
+        rotateZ(rotate[2]);
+        text(text, 0, 0);
+        pop();
+    });
 }
 
 function drawSphere() {
