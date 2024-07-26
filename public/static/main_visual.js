@@ -29,19 +29,7 @@ onNewEmotionData = (newData) => {
         emotionData = e;
         if (!data) data = e;
     } else emotionData = null;
-
-    if (frameCount % 500 <= 80 && emotionData) {
-        console.log('in frameCount loop + ' + frameCount)
-        let emotions = Object.keys(emotionData);
-        let validIndices = [0, 3, 4];
-        let randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
-        emotions.forEach((emotion, index) => {
-            emotionData[emotion] = (index === randomIndex) ? 1 : 0;
-        });
-        console.log(emotionData)
-    }
-
-};
+    };
 
 function preload() {
     const urlParams = new URLSearchParams(window.location.search);
