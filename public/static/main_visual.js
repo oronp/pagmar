@@ -31,19 +31,26 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount <= 350 && emotionData){
+    if (frameCount <= 650 && emotionData){
         let emotions = Object.keys(emotionData);
-        emotions.forEach((emotion, index) => {
-            emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
-        });
+        if (frameCount <= 350){
+            console.log('Fake emotion + ' + emotions.at(4))
+            emotions.forEach((emotion, index) => {
+                emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
+            });}
+        else{
+            console.log('Fake emotion + ' + emotions.at(0))
+            emotions.forEach((emotion, index) => {
+                emotionData[emotion] = (index === 0) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
+            });
+        }
     }  // make sure the first feeling will be hope
 
     else if (frameCount % 1500 <= 450 && emotionData) {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
 
-        let randomIndex = 0
-        if (frameCount > 1499){randomIndex = 5}
+        if (frameCount > 1499){randomIndex = 2}
         if (frameCount > 2999){randomIndex = 4}
         if (frameCount > 4499){randomIndex = 1}
 
@@ -56,8 +63,8 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     const urlParams = new URLSearchParams(window.location.search);
-    sound_to_play = urlParams.get('sound_to_play');
-    // sound_to_play = 'sound/nivi_male';
+    // sound_to_play = urlParams.get('sound_to_play');
+    sound_to_play = 'sound/nivi_male';
 
     myFont = loadFont('static/font.ttf');
 
