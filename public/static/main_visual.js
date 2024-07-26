@@ -29,6 +29,26 @@ onNewEmotionData = (newData) => {
         emotionData = e;
         if (!data) data = e;
     } else emotionData = null;
+
+    if (frameCount === 0 && emotionData){
+        emotions.forEach((emotion, index) => {
+            emotionData[emotion] = (index === 3) ? 1 : 0;
+        });
+    }  // make sure the first feeling will be hope
+
+    if (frameCount % 1500 <= 400 && emotionData) {
+        console.log('in frameCount loop + ' + frameCount)
+        let emotions = Object.keys(emotionData);
+
+        randomIndex = 0
+        if (frameCount > 3000){randomIndex = 3}
+        if (frameCount > 4500){randomIndex = 4}
+
+        emotions.forEach((emotion, index) => {
+            emotionData[emotion] = (index === randomIndex) ? (Math.random() * 0.1 + 0.9) : 0;
+        });
+        console.log(emotions.at(randomIndex))
+    }
 };
 
 function preload() {
