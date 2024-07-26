@@ -29,23 +29,6 @@ onNewEmotionData = (newData) => {
         emotionData = e;
         if (!data) data = e;
     } else emotionData = null;
-
-    if (frameCount % 1200 <= 300 && emotionData) {
-        console.log('in frameCount loop + ' + frameCount)
-        let emotions = Object.keys(emotionData);
-        // let validIndices = [0, 3, 4];
-        // let randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];
-
-        randomIndex = 0
-        if (frameCount > 3600){randomIndex = 3}
-        if (frameCount > 7200){randomIndex = 4}
-
-        emotions.forEach((emotion, index) => {
-            emotionData[emotion] = (index === randomIndex) ? 1 : 0;
-        });
-        console.log(emotions.at(randomIndex))
-    }
-
 };
 
 function preload() {
