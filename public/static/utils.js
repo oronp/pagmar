@@ -1,3 +1,4 @@
+
 function onNewEmotionData(data) {}
 
 function getEmotions() {
@@ -6,16 +7,16 @@ function getEmotions() {
             if (response.ok) {
                 response.json()
                     .then(data => {
-                        onNewEmotionData(data);
+                        onNewEmotionData(data)
                     })
                     .catch(console.error);
             } else {
-                onNewEmotionData(false);
+                onNewEmotionData(false)
             }
-        });
+        })
 }
 
-function getUserAnswer() {
+function getUserAnswer(){
     return new Promise((resolve, reject) => {
         const recognition = new webkitSpeechRecognition();
 
@@ -34,7 +35,7 @@ function getUserAnswer() {
         // Process the result
         recognition.onresult = (event) => {
             const transcript = event.results[0][0].transcript;
-            console.log('user full is: ' + transcript);
+            console.log('user full is: ' + transcript)
             resolve(transcript.includes("כן"));
         };
 
@@ -73,19 +74,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
         context.drawImage(video, 0, 0, 640, 480);
         const imageData = canvas.toDataURL('image/jpeg');
 
-        fetch('https://oronp2912.pythonanywhere.com/detect_emotion', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+        fetch('https://oronp2912.pythonanywhere.com/detect_emotion', {method: 'POST',
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({ image: imageData })
         }).then(response => {
             if (response.ok) {
                 response.json()
                     .then(data => {
-                        onNewEmotionData(data);
+                        onNewEmotionData(data)
                     })
                     .catch(console.error);
             } else {
-                onNewEmotionData(false);
+                onNewEmotionData(false)
             }
         });
     }
@@ -123,17 +123,16 @@ function fadeOutEffect(callback) {
     }, 50);
 }
 
-let emotionPoints;
+let emotionPoints
 function calculateTargetPoint() {
-    if (!emotionPoints) {
-        emotionPoints = [
-            createVector(1, 0, 0),  // hope
+    if (!emotionPoints){
+        emotionPoints = [createVector(1, 0, 0),  // hope
             createVector(-1, 0, 0), // fear
             createVector(0, 1, 0),  // sad
             createVector(0, -1, 0), // happy
             createVector(0, 0, 1),  // disappointed
             createVector(0, 0, -1)  // surprised
-        ];
+          ];
     }
 
     // Calculate weighted average of the emotion points
@@ -151,22 +150,37 @@ function calculateTargetPoint() {
     // Normalize the target point to keep it on the sphere
     target.normalize();
     return target;
-}
+  }
 
-function rotateTowardsTarget(target) {
-    // Apply continuous rotation
-    rotateX(continuousRotX);
-    rotateY(continuousRotY);
-    rotateZ(continuousRotZ);
-}
+  let rotX,rotY,rotZ
+  function rotateTowardsTarget(target) {
+    // Calculate the rotation needed to move towards the target point
+    let currentPoint = createVector(0, 0, 1); // Assume initial point at (0,0,1)
+    let axis = p5.Vector.cross(currentPoint, target);
+    let angle = acos(p5.Vector.dot(currentPoint, target));
 
-function drawEmotionPoints() {
+    n = noise(frameCount * 0.01)
+    nextRotX = (angle+(n < .33 ? n : 0)) * axis.x;
+    nextRotY = (angle+(n<.66 && n >.33 ? n : 0)) * axis.y;
+    nextRotZ = (angle+(n>.66 ? n : 0)) * axis.z;
+    if (!rotX) {
+     rotX = nextRotX; rotY = nextRotY; rotZ = nextRotZ;
+    }
+    rotX = lerp(rotX,nextRotX,.3)
+    rotY = lerp(rotY,nextRotY,.3)
+    rotZ = lerp(rotZ,nextRotZ,.3)
+    rotateX(rotX);
+    rotateY(rotY);
+    rotateZ(rotZ);
+  }
+
+  function drawEmotionPoints() {
     // Draw the points representing emotions on the sphere
     stroke(255, 0, 0);
     strokeWeight(10);
-    for (let point of emotionPoints) {
-        point(point.x * 200, point.y * 200, point.z * 200);
+    for (let point of points) {
+      point(point.x * 200, point.y * 200, point.z * 200);
     }
-}
+  }
 
-setInterval(runOrNot, 5000);
+setInterval(runOrNot, 5000)
