@@ -281,22 +281,22 @@ function keyPressed() {
 
 function putTexts() {
     const positions = [
-        { text: 'Fear', x: ballRadius, y: 0, z: 0, rotate: [-90, 0, 0] },
-        { text: 'Hope', x: -ballRadius, y: 0, z: 0, rotate: [90, 0, 0] },
-        { text: 'Happy', x: 0, y: ballRadius, z: 0, rotate: [90, 180, 0] },
-        { text: 'Sad', x: 0, y: -ballRadius, z: 0, rotate: [-90, 180, 0] },
-        { text: 'Disappointed', x: 0, y: 0, z: ballRadius, rotate: [0, 180, 0] },
-        { text: 'Surprise', x: 0, y: 0, z: -ballRadius, rotate: [0, 0, 0] },
+        { raw_text: 'Fear', x: ballRadius, y: 0, z: 0, rotate: [-90, 0, 0] },
+        { raw_text: 'Hope', x: -ballRadius, y: 0, z: 0, rotate: [90, 0, 0] },
+        { raw_text: 'Happy', x: 0, y: ballRadius, z: 0, rotate: [90, 180, 0] },
+        { raw_text: 'Sad', x: 0, y: -ballRadius, z: 0, rotate: [-90, 180, 0] },
+        { raw_text: 'Disappointed', x: 0, y: 0, z: ballRadius, rotate: [0, 180, 0] },
+        { raw_text: 'Surprise', x: 0, y: 0, z: -ballRadius, rotate: [0, 0, 0] },
     ];
 
     fill(0);
-    positions.forEach(({ text, x, y, z, rotate }) => {
+    positions.forEach(({ raw_text, x, y, z, rotate }) => {
         push();
         translate(x, y, z);
         rotateY(rotate[0]);
         rotateX(rotate[1]);
         rotateZ(rotate[2]);
-        text(text, 0, 0);
+        text(raw_text, 0, 0);
         pop();
     });
 }
