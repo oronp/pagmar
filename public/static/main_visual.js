@@ -30,7 +30,7 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount % 500 === 0) {
+    if (frameCount % 500 <= 15) {
         console.log('in frameCount loop + ' + frameCount)
         if (!emotionData) {
             emotionData = {hope: 0, disappointment: 0, happy: 0, surprise: 0, sad: 0, fear: 0};
