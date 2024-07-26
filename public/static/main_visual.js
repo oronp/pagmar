@@ -38,14 +38,14 @@ onNewEmotionData = (newData) => {
         });
     }  // make sure the first feeling will be hope
 
-    else if (frameCount % 2000 <= 550 && emotionData) {
+    else if (frameCount % 1500 <= 450 && emotionData) {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
 
         let randomIndex = 0
-        if (frameCount > 1999){randomIndex = 5}
-        if (frameCount > 3999){randomIndex = 3}
-        if (frameCount > 5999){randomIndex = 1}
+        if (frameCount > 1499){randomIndex = 5}
+        if (frameCount > 2999){randomIndex = 4}
+        if (frameCount > 4499){randomIndex = 1}
 
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === randomIndex) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
