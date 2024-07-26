@@ -30,7 +30,10 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount % 1000 === 0 && emotionData) {
+    if (frameCount % 500 === 0) {
+        if (!emotionData) {
+            emotionData = {hope: 0, disappointment: 0, happy: 0, surprise: 0, sad: 0, fear: 0};
+        }
         let emotions = Object.keys(emotionData);
         let validIndices = [0, 3, 4];
         let randomIndex = validIndices[Math.floor(Math.random() * validIndices.length)];

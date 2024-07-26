@@ -40,5 +40,5 @@ class Pagmar:
         # if emotions_json['status']:
         # emotions_json['axis_dots'] = self.plot_emotions_dot(emotions_json['values'])
         # make the emotions be bigger and more aggressive.
-        emotions_json['emotion'] = {key: value * 6 for key, value in emotions_json['emotion'].items()}
+        emotions_json['emotion'] = {key: value * 10 for key, value in emotions_json['emotion'].items()}
         return emotions_json
