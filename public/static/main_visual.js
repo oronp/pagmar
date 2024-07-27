@@ -1,5 +1,4 @@
-let emotionData, data, sound_1, sound_2, sound_3;
-var name
+let emotionData, data, sound_1, sound_2, sound_3, randomIndex;
 let ballRadius = 200;
 let r = 200;
 let holeR = 0;
@@ -36,14 +35,14 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount <= 650 && emotionData){
+    if (frameCount <= 650 && emotionData) {
         let emotions = Object.keys(emotionData);
-        if (frameCount <= 350){
+        if (frameCount <= 350) {
             console.log('Fake emotion + ' + emotions.at(4))
             emotions.forEach((emotion, index) => {
                 emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
-            });}
-        else{
+            });
+        } else {
             console.log('Fake emotion + ' + emotions.at(0))
             emotions.forEach((emotion, index) => {
                 emotionData[emotion] = (index === 0) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
@@ -55,9 +54,9 @@ onNewEmotionData = (newData) => {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
 
-        if (frameCount > 1499){randomIndex = 2}
-        if (frameCount > 2999){randomIndex = 4}
-        if (frameCount > 4499){randomIndex = 1}
+        if (frameCount > 1499) randomIndex = 2;
+        if (frameCount > 2999) randomIndex = 4;
+        if (frameCount > 4499) randomIndex = 1;
 
         emotions.forEach((emotion, index) => {
             emotionData[emotion] = (index === randomIndex) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
@@ -293,7 +292,6 @@ function keyPressed() {
         video1.play();
     }
 }
-
 
 
 function putEmotionsText(label, x, y, z, rotateXDeg, rotateYDeg, rotateZDeg) {
