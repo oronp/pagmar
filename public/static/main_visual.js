@@ -149,167 +149,50 @@ function setup() {
     });
 }
 
+function drawLayer(zTranslation, img, rotation, width, height) {
+    push();
+    translate(0, 0, zTranslation);
+    if (img) texture(img);
+    noStroke();
+    if (rotation) rotateZ(rotation);
+    plane(width, height);
+    resetShader();
+    pop();
+}
+
+function drawText(x, y, z, size, message) {
+    push();
+    translate(x, y, z);
+    textFont(myFont);
+    textSize(size);
+    fill(100, 100, 100);
+    text(message, 0, 0);
+    pop();
+}
+
 function draw() {
     background(220);
 
     if (cameraZ != targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, cameraChangeSpeed);
     translate(0, 0, cameraZ);
 
-    /// ----------------
-    // ----- LAYER 00 -----
-    push();
-    translate(0, 0, -2000);
-    texture(image09);
-    noStroke();
-    //rotateZ(frameCount * 0.07);
-    plane(7669, 4314);
-    resetShader();
-    pop();
+    drawLayer(-2000, image09, null, 7669, 4314);
+    drawLayer(-305, null, null, 1920, 1080);
+    drawLayer(-300, image01, frameCount * 0.028, 7680 / 2.5, 5956 / 2.5);
+    drawLayer(-250, image02, frameCount * 0.04, 7680 / 4, 5956 / 4);
+    drawLayer(-250, image03, frameCount * 0.038, 7680 / 5, 5956 / 5);
+    drawLayer(-250, image04, frameCount * 0.03, 7680 / 5.5, 5956 / 5.5);
+    drawLayer(-250, image05, -frameCount * 0.02, 7680 / 5.5, 5956 / 5.5);
+    drawLayer(-250, image06, -frameCount * 0.015, 7680 / 5.5, 5956 / 5.5);
+    drawLayer(-210, image07, null, 7669 / 3.5, 4314 / 3.5);
+    drawLayer(-210, image08, null, 7669 / 3.5, 4314 / 3.5);
 
-    /// ----------------
-    // ----- LAYER 1 -----
-    push();
-    translate(0, 0, -305);
-    //texture(video1);
-    noStroke();
-    plane(1920, 1080);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 2 -----
-    push();
-    translate(0, 0, -300);
-    texture(image01);
-    noStroke();
-    rotateZ(frameCount * 0.028);
-    plane(7680 / 2.5, 5956 / 2.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 3 -----
-    push();
-    translate(0, 0, -250);
-    texture(image02);
-    noStroke();
-    rotateZ(frameCount * 0.04);
-    plane(7680 / 4, 5956 / 4);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 4 -----
-    push();
-    translate(0, 0, -250);
-    texture(image03);
-    noStroke();
-    rotateZ(frameCount * 0.038);
-    plane(7680 / 5, 5956 / 5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 5 -----
-    push();
-    translate(0, 0, -250);
-    texture(image04);
-    noStroke();
-    rotateZ(frameCount * 0.03);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 6 -----
-    push();
-    translate(0, 0, -250);
-    texture(image05);
-    noStroke();
-    rotateZ(-frameCount * 0.02);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 7 -----
-    push();
-    translate(0, 0, -250);
-    texture(image06);
-    noStroke();
-    rotateZ(-frameCount * 0.015);
-    plane(7680 / 5.5, 5956 / 5.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 8 -----
-    push();
-    translate(0, 0, -210);
-    texture(image07);
-    noStroke();
-    plane(7669 / 3.5, 4314 / 3.5);
-    resetShader();
-    pop();
-
-    // -----------------
-    // ------- LAYER 9 -----
-    push();
-    translate(0, 0, -210);
-    texture(image08);
-    noStroke();
-    plane(7669 / 3.5, 4314 / 3.5);
-    resetShader();
-    pop();
-
-    // Display the "Hertz" in the space
-    push();
-    translate(-200, -120, 200); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(5); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n365-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(50, 50, 500); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(2); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n826-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(-70, -70, 550); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(2); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n728-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(-100, 100, 350); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(3); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n990-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(300, 150, 150); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(6); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n421-HZ", 0, 0);
-    pop();
-
-    push();
-    translate(180, 0, 250); // Center of the canvas
-    textFont(myFont); // Set the custom font
-    textSize(4); // Adjust the size if needed
-    fill(100, 100, 100);
-    text("+\n633-HZ", 0, 0);
-    pop();
+    drawText(-200, -120, 200, 5, "+\n365-HZ");
+    drawText(50, 50, 500, 2, "+\n826-HZ");
+    drawText(-70, -70, 550, 2, "+\n728-HZ");
+    drawText(-100, 100, 350, 3, "+\n990-HZ");
+    drawText(300, 150, 150, 6, "+\n421-HZ");
+    drawText(180, 0, 250, 4, "+\n633-HZ");
 
     rotateY(map(cameraZ, 0, 800, 0, 180));
 
