@@ -1,4 +1,3 @@
-
 function onNewEmotionData(data) {}
 
 function getEmotions() {
@@ -16,7 +15,7 @@ function getEmotions() {
         })
 }
 
-function getUserAnswer(){
+function getUserAnswer() {
     return new Promise((resolve, reject) => {
         const recognition = new webkitSpeechRecognition();
 
@@ -63,7 +62,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // Get access to the webcam
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
+        navigator.mediaDevices.getUserMedia({video: true}).then(function (stream) {
             video.srcObject = stream;
             video.play();
         });
@@ -74,9 +73,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
         context.drawImage(video, 0, 0, 640, 480);
         const imageData = canvas.toDataURL('image/jpeg');
 
-        fetch('https://oronp2912.pythonanywhere.com/detect_emotion', {method: 'POST',
+        fetch('https://oronp2912.pythonanywhere.com/detect_emotion', {
+            method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ image: imageData })
+            body: JSON.stringify({image: imageData})
         }).then(response => {
             if (response.ok) {
                 response.json()
@@ -124,15 +124,16 @@ function fadeOutEffect(callback) {
 }
 
 let emotionPoints
+
 function calculateTargetPoint() {
-    if (!emotionPoints){
+    if (!emotionPoints) {
         emotionPoints = [createVector(1, 0, 0),  // hope
             createVector(-1, 0, 0), // fear
             createVector(0, 1, 0),  // sad
             createVector(0, -1, 0), // happy
             createVector(0, 0, 1),  // disappointed
             createVector(0, 0, -1)  // surprised
-          ];
+        ];
     }
 
     // Calculate weighted average of the emotion points
@@ -150,29 +151,32 @@ function calculateTargetPoint() {
     // Normalize the target point to keep it on the sphere
     target.normalize();
     return target;
-  }
+}
 
-  let rotX,rotY,rotZ
-  function rotateTowardsTarget(target) {
+let rotX, rotY, rotZ
+
+function rotateTowardsTarget(target) {
     // Calculate the rotation needed to move towards the target point
     let currentPoint = createVector(0, 0, 1); // Assume initial point at (0,0,1)
     let axis = p5.Vector.cross(currentPoint, target);
     let angle = acos(p5.Vector.dot(currentPoint, target));
 
     n = noise(frameCount * 0.1)
-    nextRotX = (angle+(n < .33 ? n : 0)) * axis.x;
-    nextRotY = (angle+(n<.66 && n >.33 ? n : 0)) * axis.y;
-    nextRotZ = (angle+(n>.66 ? n : 0)) * axis.z;
+    nextRotX = (angle + (n < .33 ? n : 0)) * axis.x;
+    nextRotY = (angle + (n < .66 && n > .33 ? n : 0)) * axis.y;
+    nextRotZ = (angle + (n > .66 ? n : 0)) * axis.z;
     if (!rotX) {
-     rotX = nextRotX; rotY = nextRotY; rotZ = nextRotZ;
+        rotX = nextRotX;
+        rotY = nextRotY;
+        rotZ = nextRotZ;
     }
-    rotX = lerpAngle(rotX,nextRotX,0.3)
-    rotY = lerpAngle(rotY,nextRotY,0.3)
-    rotZ = lerpAngle(rotZ,nextRotZ,0.3)
+    rotX = lerpAngle(rotX, nextRotX, 0.3)
+    rotY = lerpAngle(rotY, nextRotY, 0.3)
+    rotZ = lerpAngle(rotZ, nextRotZ, 0.3)
     rotateX(rotX);
     rotateY(rotY);
     rotateZ(rotZ);
-  }
+}
 
 setInterval(runOrNot, 5000)
 
