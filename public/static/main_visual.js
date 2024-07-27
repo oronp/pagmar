@@ -40,9 +40,9 @@ onNewEmotionData = (newData) => {
     if (frameCount <= 650 && emotionData) {
         let emotions = Object.keys(emotionData);
         if (frameCount <= 350) {
-            console.log('Fake emotion + ' + emotions.at(4))
+            console.log('Fake emotion + ' + emotions.at(3))
             emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
+                emotionData[emotion] = (index === 3) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
             });
         } else {
             console.log('Fake emotion + ' + emotions.at(0))
@@ -69,16 +69,16 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     const urlParams = new URLSearchParams(window.location.search);
-    sound_to_play = urlParams.get('sound_to_play');
-    // sound_to_play = 'sound/nivi_male';
+    // sound_to_play = urlParams.get('sound_to_play');
+    sound_to_play = 'sound/nivi_male';
 
-    myFont = loadFont('static/font.ttf');
+    myFont = loadFont('font.ttf');
 
     const imageFiles = ['Net1.png', 'Net2.png', 'Net3.png', 'Net4.png', '003-rivers21.png', '004-shake map2.png',
         'herzFront.png', 'herzBack.png', 'backrounds grain.png'];
 
     for (let i = 0; i < imageFiles.length; i++) {
-        images.push(loadImage(`static/${imageFiles[i]}`));
+        images.push(loadImage(`${imageFiles[i]}`));
     }
 
     for (let i = 0; i < 3; i++) {
