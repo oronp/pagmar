@@ -72,13 +72,13 @@ function preload() {
     // sound_to_play = urlParams.get('sound_to_play');
     sound_to_play = 'sound/nivi_male';
 
-    myFont = loadFont('font.ttf');
+    myFont = loadFont('static/font.ttf');
 
     const imageFiles = ['Net1.png', 'Net2.png', 'Net3.png', 'Net4.png', '003-rivers21.png', '004-shake map2.png',
         'herzFront.png', 'herzBack.png', 'backrounds grain.png'];
 
     for (let i = 0; i < imageFiles.length; i++) {
-        images.push(loadImage(`${imageFiles[i]}`));
+        images.push(loadImage(`static/${imageFiles[i]}`));
     }
 
     for (let i = 0; i < 3; i++) {
