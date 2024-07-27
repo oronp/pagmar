@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     // Capture and send an image every second
-    setInterval(captureAndSendImage, 1000);
+    setInterval(captureAndSendImage, 700);
 });
 
 function runOrNot() {
@@ -161,7 +161,7 @@ function rotateTowardsTarget(target) {
     let axis = p5.Vector.cross(currentPoint, target);
     let angle = acos(p5.Vector.dot(currentPoint, target));
 
-    n = noise(frameCount * 0.1)
+    n = noise(frameCount * 0.15)
     nextRotX = (angle + (n < .33 ? n : 0)) * axis.x;
     nextRotY = (angle + (n < .66 && n > .33 ? n : 0)) * axis.y;
     nextRotZ = (angle + (n > .66 ? n : 0)) * axis.z;

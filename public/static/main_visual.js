@@ -45,9 +45,9 @@ onNewEmotionData = (newData) => {
                 emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
             });
         } else {
-            console.log('Fake emotion + ' + emotions.at(0))
+            console.log('Fake emotion + ' + emotions.at(5))
             emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 0) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
+                emotionData[emotion] = (index === 5) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
             });
         }
     }  // make sure the first feeling will be hope
@@ -56,7 +56,7 @@ onNewEmotionData = (newData) => {
         console.log('in frameCount loop + ' + frameCount)
         let emotions = Object.keys(emotionData);
 
-        if (frameCount > 1499) randomIndex = 2;
+        if (frameCount > 1499) randomIndex = 0;
         if (frameCount > 2999) randomIndex = 4;
         if (frameCount > 4499) randomIndex = 1;
 
@@ -219,7 +219,7 @@ function draw() {
 
         newPos = rotateVector(newPos, angleX, angleY, angleZ);
         // this is the new random 'hole' point and its size
-        coords.push({pos: newPos, size: noise(frameCount / 30) * 28});
+        coords.push({pos: newPos, size: noise(frameCount / 1) * 17});
     }
 
     // draw the points
@@ -303,8 +303,8 @@ function putTexts() {
     putEmotionsText('Hope', -ballRadius, 0, 0, 0, 90, 0);
     putEmotionsText('Happy', 0, ballRadius, 0, 90, 0, 180);
     putEmotionsText('Sad', 0, -ballRadius, 0, -90, 0, 180);
-    putEmotionsText('Disappointed', 0, 0, ballRadius, 0, 180, 0);
-    putEmotionsText('Surprise', 0, 0, -ballRadius, 0, 0, 0);
+    putEmotionsText('Surprised', 0, 0, ballRadius, 0, 180, 0);
+    putEmotionsText('Disappointed', 0, 0, -ballRadius, 0, 0, 0);
 
     noFill();
 }
