@@ -1,4 +1,6 @@
-let emotionData, data, sound_1, sound_2, sound_3, randomIndex;
+let emotionData, data, randomIndex, myFont;
+let sounds = []
+let images = []
 let ballRadius = 200;
 let r = 200;
 let holeR = 0;
@@ -67,24 +69,21 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     const urlParams = new URLSearchParams(window.location.search);
-    // sound_to_play = urlParams.get('sound_to_play');
-    sound_to_play = 'sound/nivi_male';
+    sound_to_play = urlParams.get('sound_to_play');
+    // sound_to_play = 'sound/nivi_male';
 
     myFont = loadFont('static/font.ttf');
 
-    image01 = loadImage('static/Net1.png');
-    image02 = loadImage('static/Net2.png');
-    image03 = loadImage('static/Net3.png');
-    image04 = loadImage('static/Net4.png');
-    image05 = loadImage('static/003-rivers21.png');
-    image06 = loadImage('static/004-shake map2.png');
-    image07 = loadImage('static/herzFront.png');
-    image08 = loadImage('static/herzBack.png');
-    image09 = loadImage('static/backrounds grain.png');
+    const imageFiles = ['Net1.png', 'Net2.png', 'Net3.png', 'Net4.png', '003-rivers21.png', '004-shake map2.png',
+        'herzFront.png', 'herzBack.png', 'backrounds grain.png'];
 
-    sound_1 = loadSound(`${sound_to_play}_00.mp3`);
-    sound_2 = loadSound(`${sound_to_play}_01.mp3`);
-    sound_3 = loadSound(`${sound_to_play}_02.mp3`);
+    for (let i = 0; i < imageFiles.length; i++) {
+        images.push(loadImage(`static/${imageFiles[i]}`));
+    }
+
+    for (let i = 0; i < 3; i++) {
+        sounds.push(loadSound(`${sound_to_play}_0${i}.mp3`));
+    }
 }
 
 function setup() {
@@ -98,10 +97,10 @@ function setup() {
 
     let user_answer
 
-    // Play sound_1 at the beginning
-    sound_1.play();
+    // Play first sound at the beginning
+    sounds[0].play();
 
-    const sound_duration = sound_1.duration();
+    const sound_duration = sounds[0].duration();
     setTimeout(async () => {
         try {
             user_answer = await getUserAnswer();
@@ -110,42 +109,35 @@ function setup() {
         }
     }, (sound_duration - 10) * 1000);
 
-    // Play sound_2 or sound_3 when sound_1 ends
-    sound_1.onended(async () => {
+    // Play sound_2 or sound_3 when first sound ends
+    sounds[0].onended(async () => {
         try {
             if (user_answer) {
                 console.log('user said: yes');
-                sound_2.play();
+                sounds[1].play();
             } else {
                 console.log('user said: no');
-                sound_3.play();
+                sounds[2].play();
             }
             targetCameraZ = 100;
         } catch (error) {
             console.error('Speech recognition error:', error);
-            sound_3.play();
+            sounds[2].play();
         }
     });
-    sound_3.onended(() => {
-        fetch('https://oronp2912.pythonanywhere.com/stop_running')
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    });
-    sound_2.onended(() => {
-        fetch('https://oronp2912.pythonanywhere.com/stop_running')
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    });
+    sounds[2].onended(stopRunning);
+    sounds[1].onended(stopRunning);
+}
+
+function stopRunning() {
+    fetch('https://oronp2912.pythonanywhere.com/stop_running')
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 function drawLayer(zTranslation, img, rotation, width, height) {
@@ -175,16 +167,16 @@ function draw() {
     if (cameraZ != targetCameraZ) cameraZ = lerp(cameraZ, targetCameraZ, cameraChangeSpeed);
     translate(0, 0, cameraZ);
 
-    drawLayer(-2000, image09, null, 7669, 4314);
+    drawLayer(-2000, images[8], null, 7669, 4314);
     drawLayer(-305, null, null, 1920, 1080);
-    drawLayer(-300, image01, frameCount * 0.028, 7680 / 2.5, 5956 / 2.5);
-    drawLayer(-250, image02, frameCount * 0.04, 7680 / 4, 5956 / 4);
-    drawLayer(-250, image03, frameCount * 0.038, 7680 / 5, 5956 / 5);
-    drawLayer(-250, image04, frameCount * 0.03, 7680 / 5.5, 5956 / 5.5);
-    drawLayer(-250, image05, -frameCount * 0.02, 7680 / 5.5, 5956 / 5.5);
-    drawLayer(-250, image06, -frameCount * 0.015, 7680 / 5.5, 5956 / 5.5);
-    drawLayer(-210, image07, null, 7669 / 3.5, 4314 / 3.5);
-    drawLayer(-210, image08, null, 7669 / 3.5, 4314 / 3.5);
+    drawLayer(-300, images[0], frameCount * 0.028, 7680 / 2.5, 5956 / 2.5);
+    drawLayer(-250, images[1], frameCount * 0.04, 7680 / 4, 5956 / 4);
+    drawLayer(-250, images[2], frameCount * 0.038, 7680 / 5, 5956 / 5);
+    drawLayer(-250, images[3], frameCount * 0.03, 7680 / 5.5, 5956 / 5.5);
+    drawLayer(-250, images[4], -frameCount * 0.02, 7680 / 5.5, 5956 / 5.5);
+    drawLayer(-250, images[5], -frameCount * 0.015, 7680 / 5.5, 5956 / 5.5);
+    drawLayer(-210, images[6], null, 7669 / 3.5, 4314 / 3.5);
+    drawLayer(-210, images[7], null, 7669 / 3.5, 4314 / 3.5);
 
     drawText(-200, -120, 200, 5, "+\n365-HZ");
     drawText(50, 50, 500, 2, "+\n826-HZ");
