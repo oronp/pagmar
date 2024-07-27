@@ -205,7 +205,6 @@ function draw() {
     rotateY(extraRotation);
 
     putTexts();
-    // drawSphere()
 
     // get the new point
     newPos = calculateFixedPoint(0, 0, r);

@@ -178,6 +178,29 @@ function rotateTowardsTarget(target) {
     rotateZ(rotZ);
 }
 
+// function rotateTowardsTarget(target) {
+//     // Calculate the rotation needed to move towards the target point
+//     let currentPoint = createVector(0, 0, 1); // Assume initial point at (0,0,1)
+//     let axis = p5.Vector.cross(currentPoint, target);
+//     let angle = acos(p5.Vector.dot(currentPoint, target));
+//
+//     n = noise(frameCount * 0.1)
+//     nextRotX = (angle + (n < .33 ? n : 0)) * axis.x;
+//     nextRotY = (angle + (n < .66 && n > .33 ? n : 0)) * axis.y;
+//     nextRotZ = (angle + (n > .66 ? n : 0)) * axis.z;
+//     if (!rotX) {
+//         rotX = nextRotX;
+//         rotY = nextRotY;
+//         rotZ = nextRotZ;
+//     }
+//     rotX = lerpAngle(rotX, nextRotX, 0.3)
+//     rotY = lerpAngle(rotY, nextRotY, 0.3)
+//     rotZ = lerpAngle(rotZ, nextRotZ, 0.3)
+//     rotateX(rotX);
+//     rotateY(rotY);
+//     rotateZ(rotZ);
+// }
+
 setInterval(runOrNot, 5000)
 
 function lerpAngle(a, b, t) {
