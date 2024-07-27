@@ -40,9 +40,9 @@ onNewEmotionData = (newData) => {
     if (frameCount <= 650 && emotionData) {
         let emotions = Object.keys(emotionData);
         if (frameCount <= 350) {
-            console.log('Fake emotion + ' + emotions.at(3))
+            console.log('Fake emotion + ' + emotions.at(4))
             emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 3) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
+                emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
             });
         } else {
             console.log('Fake emotion + ' + emotions.at(0))
