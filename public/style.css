@@ -113,6 +113,15 @@ body, html {
     width: 127px;
     height: 40px;
 }
+.small-text {
+    font-size: 0.8em; /* Adjust the size as needed */
+    color: #8A9AA8;
+    display: block;
+    margin-top: 16px;
+    margin-right: 20px;
+    text-align: right;
+    letter-spacing: 0.015em;
+}
 
 .simple-keyboard {
     margin-top: 20px;
