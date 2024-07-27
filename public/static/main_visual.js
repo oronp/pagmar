@@ -294,45 +294,28 @@ function keyPressed() {
     }
 }
 
+
+
+function putEmotionsText(label, x, y, z, rotateXDeg, rotateYDeg, rotateZDeg) {
+    push();
+    translate(x, y, z);
+    if (rotateXDeg) rotateX(rotateXDeg);
+    if (rotateYDeg) rotateY(rotateYDeg);
+    if (rotateZDeg) rotateZ(rotateZDeg);
+    text(label, 0, 0);
+    pop();
+}
+
 function putTexts() {
     fill(0);
-    push();
-    translate(ballRadius, 0, 0);
-    rotateY(-90);
-    text('Fear', 0, 0);
-    pop();
 
-    push();
-    translate(-ballRadius, 0, 0);
-    rotateY(90);
-    text('Hope', 0, 0);
-    pop();
+    putEmotionsText('Fear', ballRadius, 0, 0, 0, -90, 0);
+    putEmotionsText('Hope', -ballRadius, 0, 0, 0, 90, 0);
+    putEmotionsText('Happy', 0, ballRadius, 0, 90, 0, 180);
+    putEmotionsText('Sad', 0, -ballRadius, 0, -90, 0, 180);
+    putEmotionsText('Disappointed', 0, 0, ballRadius, 0, 180, 0);
+    putEmotionsText('Surprise', 0, 0, -ballRadius, 0, 0, 0);
 
-    push();
-    translate(0, ballRadius, 0);
-    rotateX(90);
-    rotateZ(180);
-    text('Happy', 0, 0);
-    pop();
-
-    push();
-    translate(0, -ballRadius, 0);
-    rotateX(-90);
-    rotateZ(180);
-    text('Sad', 0, 0);
-    pop();
-
-    push();
-    translate(0, 0, ballRadius);
-    rotateY(180);
-    text('Disappointed', 0, 0);
-    pop();
-
-    push();
-    translate(0, 0, -ballRadius);
-    rotateY(0);
-    text('Surprise', 0, 0);
-    pop();
     noFill();
 }
 
