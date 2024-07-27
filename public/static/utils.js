@@ -157,14 +157,27 @@ let rotX, rotY, rotZ
 
 function rotateTowardsTarget(target) {
     // Calculate the rotation needed to move towards the target point
-    let currentPoint = createVector(0, 0, 1); // Assume initial point at (0,0,1)
     let axis = p5.Vector.cross(currentPoint, target);
-    let angle = acos(p5.Vector.dot(currentPoint, target));
-
-    n = noise(frameCount * 0.1)
-    nextRotX = (angle + (n < .33 ? n : 0)) * axis.x;
-    nextRotY = (angle + (n < .66 && n > .33 ? n : 0)) * axis.y;
-    nextRotZ = (angle + (n > .66 ? n : 0)) * axis.z;
+    let axisLength = axis.mag();
+    if (axisLength < 1e-6) {
+        if (p5.Vector.dot(currentPoint, target) > 0) {
+            nextRotX = 0
+            nextRotY = 0
+            nextRotZ = 0
+        } else {
+            let perpAxis = createVector(1, 0, 0);
+            if (abs(p5.Vector.dot(currentPoint, perpAxis)) > 0.9)
+                perpAxis = createVector(0, 1, 0);
+            axis = p5.Vector.cross(currentPoint, perpAxis).normalize();
+            nextRotX = 180 * axis.x
+            nextRotY = 180 * axis.y
+            nextRotZ = 180 * axis.z
+        }
+    }
+    const angle = acos(constrain(p5.Vector.dot(currentPoint, target), -1, 1));
+    nextRotX = angle * axis.x / axisLength
+    nextRotY = angle * axis.y / axisLength
+    nextRotZ = angle * axis.z / axisLength
     if (!rotX) {
         rotX = nextRotX;
         rotY = nextRotY;
