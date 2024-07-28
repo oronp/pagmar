@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     // Capture and send an image every second
-    setInterval(captureAndSendImage, 350);
+    setInterval(captureAndSendImage, 500);
 });
 
 function runOrNot() {
@@ -154,24 +154,6 @@ function calculateTargetPoint() {
 }
 
 let rotX, rotY, rotZ
-
-// function rotateTowardsTarget(target) {
-//     let currentPoint = createVector(0, 0, 1);
-//     let axis = p5.Vector.cross(currentPoint, target);
-//     let angle = acos(p5.Vector.dot(currentPoint, target));
-//
-//     if (axis.mag() > 0) {
-//         axis.normalize();
-//         rotate_draw(angle, axis);
-//     }
-// }
-//
-// function rotate_draw(angle, axis) {
-//     rotateX(angle * axis.x);
-//     rotateY(angle * axis.y);
-//     rotateZ(angle * axis.z);
-// }
-
 function rotateTowardsTarget(target) {
     // Calculate the rotation needed to move towards the target point
     let currentPoint = createVector(0, 0, 1); // Assume initial point at (0,0,1)
@@ -189,9 +171,9 @@ function rotateTowardsTarget(target) {
             rotY = nextRotY;
             rotZ = nextRotZ;
         }
-        rotX = lerpAngle(rotX, nextRotX, 0.4)
-        rotY = lerpAngle(rotY, nextRotY, 0.4)
-        rotZ = lerpAngle(rotZ, nextRotZ, 0.4)
+        rotX = lerpAngle(rotX, nextRotX, 0.5)
+        rotY = lerpAngle(rotY, nextRotY, 0.5)
+        rotZ = lerpAngle(rotZ, nextRotZ, 0.5)
         rotateX(rotX);
         rotateY(rotY);
         rotateZ(rotZ);
