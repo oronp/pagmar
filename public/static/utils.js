@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }
 
     // Capture and send an image every second
-    setInterval(captureAndSendImage, 500);
+    setInterval(captureAndSendImage, 400);
 });
 
 function runOrNot() {
