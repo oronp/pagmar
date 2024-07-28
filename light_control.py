@@ -1,15 +1,21 @@
 import time
+
 import requests
 import schedule
 from yeelight import Bulb, discover_bulbs
 
-# Discover bulbs on the local network
-bulbs = discover_bulbs()
-if not bulbs:
-    raise Exception("No Yeelight bulbs found on the local network.")
 
-# Assuming we are controlling the first bulb discovered
-bulb_ip = bulbs[0]['ip']
+def discover_bulb_with_retry(retries=20, delay=5):
+    for _ in range(retries):
+        bulbs = discover_bulbs()
+        if bulbs:
+            return bulbs[0]['ip']
+        time.sleep(delay)
+    raise Exception("No Yeelight bulbs found on the local network after multiple attempts.")
+
+
+# Discover bulbs on the local network with retry mechanism
+bulb_ip = discover_bulb_with_retry()
 
 python_url = 'https://oronp2912.pythonanywhere.com/get_running'
 
