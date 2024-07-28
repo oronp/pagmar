@@ -9,8 +9,10 @@ def discover_bulb_with_retry(retries=20, delay=5):
     for _ in range(retries):
         bulbs = discover_bulbs()
         if bulbs:
+            print('Got the bulb guys! we got it!')
             return bulbs[0]['ip']
         time.sleep(delay)
+        print('No bulbs found, trying again')
     raise Exception("No Yeelight bulbs found on the local network after multiple attempts.")
 
 
