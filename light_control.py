@@ -43,7 +43,7 @@ class BulbControl:
         self.show_is_on = False
 
     def brightness_up(self):
-        self.set_brightness(40)
+        self.set_brightness(30)
         self.show_is_on = True
 
     def brightness_down(self):

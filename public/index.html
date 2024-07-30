@@ -25,7 +25,7 @@
             <button class="grey-button" id="male-button">אתה</button>
         </div>
         <button class="blue-button" id="start-button">אפשר להתחיל</button>
-         <span class="small-text">* זה הרגע להוריד כובעים ומסכות</span>
+         <span class="small-text">* יש להוריד כובעים ואמצעים שמסתירים את פניך</span>
     </div>
     <div class="simple-keyboard"></div>
 </div>
@@ -111,11 +111,18 @@
         const blackScreen = document.createElement("div");
         blackScreen.classList.add("black-screen");
 
+         // Create text line
+        const textLine = document.createElement("p");
+        textLine.innerText = "ניתן לגשת אל הטלפון." +
+            " או להתחיל שוב";
+        blackScreen.appendChild(textLine);
+
         // Create blue button
         const blueButton = document.createElement("button");
         blueButton.classList.add("blue-button");
         blueButton.innerText = "מהתחלה";
         blackScreen.appendChild(blueButton);
+
 
         // Append black screen to body
         document.body.appendChild(blackScreen);
