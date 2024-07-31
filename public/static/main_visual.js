@@ -37,33 +37,26 @@ onNewEmotionData = (newData) => {
         if (!data) data = e;
     } else emotionData = null;
 
-    if (frameCount <= 650 && emotionData) {
-        let emotions = Object.keys(emotionData);
-        if (frameCount <= 350) {
-            console.log('Fake emotion + ' + emotions.at(4))
+    if (emotionData) {
+        const emotions = Object.keys(emotionData);
+        const setEmotionData = (indexToBoost, boostValue = 0.4, normalValue = 0.4) => {
+            console.log(`Fake emotion + ${emotions.at(indexToBoost)}`);
             emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 4) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
+                emotionData[emotion] = (index === indexToBoost) ? (Math.random() * boostValue + 0.6) : (Math.random() * normalValue);
             });
-        } else {
-            console.log('Fake emotion + ' + emotions.at(5))
-            emotions.forEach((emotion, index) => {
-                emotionData[emotion] = (index === 5) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.4);
-            });
+        };
+
+        if (0 <= frameCount && frameCount <= 350) {
+            setEmotionData(4);
+        } else if (frameCount > 350 && frameCount <= 650) {
+            setEmotionData(5);
+        } else if (frameCount > 1500 && frameCount <= 1950) {
+            setEmotionData(2, 0.4, 0.3);
+        } else if (frameCount > 3350 && frameCount <= 3800) {
+            setEmotionData(1, 0.4, 0.3);
+        } else if (frameCount > 4450 && frameCount <= 4900) {
+            setEmotionData(4, 0.4, 0.3);
         }
-    }  // make sure the first feeling will be hope
-
-    else if (frameCount % 1500 <= 450 && emotionData) {
-        console.log('in frameCount loop + ' + frameCount)
-        let emotions = Object.keys(emotionData);
-
-        if (frameCount > 1499) randomIndex = 2;
-        if (frameCount > 3050) randomIndex = 1;
-        if (frameCount > 4499) randomIndex = 4;
-
-        emotions.forEach((emotion, index) => {
-            emotionData[emotion] = (index === randomIndex) ? (Math.random() * 0.4 + 0.6) : (Math.random() * 0.3);
-        });
-        console.log(emotions.at(randomIndex))
     }
 };
 
