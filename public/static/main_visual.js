@@ -62,8 +62,8 @@ onNewEmotionData = (newData) => {
 
 function preload() {
     const urlParams = new URLSearchParams(window.location.search);
-    // sound_to_play = urlParams.get('sound_to_play');
-    sound_to_play = 'sound/uri_male';
+    sound_to_play = urlParams.get('sound_to_play');
+    // sound_to_play = 'sound/uri_male';
 
     myFont = loadFont('static/font.ttf');
 
@@ -110,7 +110,7 @@ function setup() {
                 sounds[1].play();
             } else {
                 console.log('user said: no');
-                sounds[1].play();
+                sounds[2].play();
             }
             targetCameraZ = 100;
         } catch (error) {
