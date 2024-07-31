@@ -51,7 +51,7 @@ onNewEmotionData = (newData) => {
         } else if (frameCount > 350 && frameCount <= 650) {
             setEmotionData(5);
         } else if (frameCount > 1500 && frameCount <= 1950) {
-            setEmotionData(2, 0.4, 0.3);
+            setEmotionData(0, 0.4, 0.3);
         } else if (frameCount > 3350 && frameCount <= 3800) {
             setEmotionData(1, 0.4, 0.3);
         } else if (frameCount > 4450 && frameCount <= 4900) {
