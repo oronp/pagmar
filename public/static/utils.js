@@ -180,7 +180,7 @@ function rotateTowardsTarget(target) {
     }
 }
 
-setInterval(runOrNot, 5000)
+setInterval(runOrNot, 3000)
 
 function lerpAngle(a, b, t) {
     a = (a + 360) % 360;
